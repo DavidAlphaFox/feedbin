@@ -1,6 +1,4 @@
 class Import < ApplicationRecord
-  mount_uploader :upload, ImportUploader
-
   belongs_to :user
   has_many :import_items, dependent: :delete_all
 

@@ -1,7 +1,5 @@
 require "test_helper"
 
-include CarrierWaveDirect::Test::Helpers
-
 class SettingsControllerTest < ActionController::TestCase
   setup do
     @user = users(:ben)
@@ -74,9 +72,31 @@ class SettingsControllerTest < ActionController::TestCase
 
   test "should import" do
     login_as @user
-    skip "Figure out how to test CarrierWave direct"
-    get :import_export, params: {key: sample_key(ImportUploader.new, base: "test.opml")}
+
+    assert_difference -> { Import.count }, +1 do
+      post :import, params: {
+        import: {
+          upload: fixture_file_upload("subscriptions.xml", "application/xml")
+        }
+      }
+    end
+
     assert_redirected_to settings_import_export_url
+  end
+
+  test "should show import error" do
+    login_as @user
+
+    assert_no_difference -> { Import.count } do
+      post :import, params: {
+        import: {
+          upload: nil
+        }
+      }
+    end
+
+    assert_redirected_to settings_import_export_url
+    assert_equal "No file uploaded.", flash[:alert]
   end
 
   test "should update plan" do

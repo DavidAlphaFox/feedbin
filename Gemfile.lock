@@ -13,15 +13,6 @@ GIT
       ssrf_filter (~> 1.0)
 
 GIT
-  remote: https://github.com/feedbin/carrierwave_direct.git
-  revision: a0bc3230e544c0ea88f35d2bb6b7eb6a1fdb9196
-  ref: a0bc323
-  specs:
-    carrierwave_direct (0.0.15)
-      carrierwave
-      fog-aws
-
-GIT
   remote: https://github.com/feedbin/dalli.git
   revision: 3c92218fadfc20b6fb839f99ac36703ca96167ea
   branch: feedbin
@@ -650,7 +641,6 @@ DEPENDENCIES
   byebug
   capybara
   carrierwave!
-  carrierwave_direct!
   clockwork
   coffee-rails
   connection_pool
