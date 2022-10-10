@@ -64,41 +64,6 @@ class SettingsControllerTest < ActionController::TestCase
     StripeMock.stop
   end
 
-  test "should get import_export" do
-    login_as @user
-    get :import_export
-    assert_response :success
-  end
-
-  test "should import" do
-    login_as @user
-
-    assert_difference -> { Import.count }, +1 do
-      post :import, params: {
-        import: {
-          upload: fixture_file_upload("subscriptions.xml", "application/xml")
-        }
-      }
-    end
-
-    assert_redirected_to settings_import_export_url
-  end
-
-  test "should show import error" do
-    login_as @user
-
-    assert_no_difference -> { Import.count } do
-      post :import, params: {
-        import: {
-          upload: nil
-        }
-      }
-    end
-
-    assert_redirected_to settings_import_export_url
-    assert_equal "No file uploaded.", flash[:alert]
-  end
-
   test "should update plan" do
     StripeMock.start
     stripe_helper = StripeMock.create_test_helper

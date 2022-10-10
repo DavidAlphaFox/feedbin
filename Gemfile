@@ -14,7 +14,6 @@ gem "feedkit",             github: "feedbin/feedkit",             branch: "maste
 gem "grocer-pushpackager", github: "feedbin/grocer-pushpackager", ref: "6b01b4e", require: "grocer/pushpackager"
 gem "html-pipeline",       github: "feedbin/html-pipeline",       branch: "feedbin"
 gem "html_diff",           github: "feedbin/html_diff",           ref: "013e1bb"
-gem "opml_saw",            github: "feedbin/opml_saw",            ref: "61d8c2d"
 gem "elasticsearch-model", github: "feedbin/elasticsearch-rails", branch: "2.x"
 gem "twitter",             github: "feedbin/twitter",             branch: "feedbin"
 gem "down",                github: "feedbin/down",                branch: "normalize"
