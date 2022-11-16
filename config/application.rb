@@ -41,10 +41,5 @@ module Feedbin
     config.assets.css_compressor = ConditionalSassCompressor.new
     config.view_component.default_preview_layout = "component_preview"
     config.view_component.preview_paths << Rails.root.join("app", "components")
-
-    config.lookbook.project_name = "Feedkit"
-    config.lookbook.ui_theme_overrides = {
-      header_bg: "#000000"
-    }
   end
 end

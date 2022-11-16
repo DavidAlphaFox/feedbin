@@ -3,9 +3,9 @@
         <h2>Import & Export</h2>
     </div>
 
-    <%= render(Settings::BoxComponent.new) do |box| %>
-        <% box.header { "Import" } %>
-        <% box.item do %>
+      <%= component "control_group" do |group| %>
+        <% group.header { "Import" } %>
+        <% group.item do %>
             <%= render(Settings::ControlTextComponent.new) do |control| %>
                 <% control.title do %>
                     <%= form_with model: Import.new, url: settings_imports_path do |f| %>
@@ -21,10 +21,10 @@
     <% end %>
 
     <%= form_tag subscriptions_path(format: :xml), method: :get do %>
-        <%= render(Settings::BoxComponent.new) do |box| %>
-            <% box.header { "Export" } %>
-            <% box.item do %>
-                <%= render(Settings::ControlTextComponent.new) do |control| %>
+        <%= component "control_group" do |group| %>
+            <% group.header { "Export" } %>
+            <% group.item do %>
+                <%= component "control_row" do |control| %>
                     <% control.title { "Subscriptions" } %>
                     <% control.control do %>
                         <%= render "shared/input" do %>
@@ -40,7 +40,7 @@
 
             <% if @user.starred_entries.exists? %>
                 <% box.item do %>
-                    <%= render(Settings::ControlTextComponent.new) do |control| %>
+                    <%= component "control_row" do |control| %>
                         <% control.title { "Starred Articles" } %>
                         <% control.description { "A link will be emailed to you." } %>
                         <% control.control do %>
@@ -53,13 +53,13 @@
         <% end %>
     <% end %>
 
-    <%= render(Settings::BoxComponent.new) do |box| %>
-        <% box.header do %>
+    <%= component "control_group" do |group| %>
+        <% group.header do %>
             Import History
         <% end %>
         <% @imports.each do |import| %>
-            <% box.item do %>
-                <%= render(Settings::ControlTextComponent.new) do |control| %>
+            <% group.item do %>
+                <%= component "control_row" do |control| %>
                     <% control.title { import.created_at.to_formatted_s(:date) } %>
                     <% control.description { import.filename } %>
                     <% control.control do %>
