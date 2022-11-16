@@ -6,7 +6,7 @@
       <%= component "control_group" do |group| %>
         <% group.header { "Import" } %>
         <% group.item do %>
-            <%= render(Settings::ControlTextComponent.new) do |control| %>
+                <%= component "control_row" do |control| %>
                 <% control.title do %>
                     <%= form_with model: Import.new, url: settings_imports_path do |f| %>
                         <%= f.file_field :upload, accept: ".xml, .opml, text/xml, application/xml, text/x-opml, text/x-opml+xml" %>
