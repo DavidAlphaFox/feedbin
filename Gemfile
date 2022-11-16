@@ -58,6 +58,7 @@ gem "twitter-text"
 gem "uglifier"
 gem "unicorn"
 gem "view_component"
+gem "view_component-contrib", "~> 0.1.1"
 gem "jwt"
 
 group :development do
