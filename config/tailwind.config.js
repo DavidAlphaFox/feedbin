@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require("tailwindcss/plugin")
 
 module.exports = {
   content: [
@@ -10,9 +11,25 @@ module.exports = {
   theme: {
     extend: {
       borderColor: {
-        DEFAULT: "var(--border-color)"
+        DEFAULT: "var(--border-color)",
+        100: "var(--color-100)",
+        200: "var(--color-200)",
+        300: "var(--color-300)",
+        400: "var(--color-400)",
+        500: "var(--color-500)",
+        600: "var(--color-600)",
+        700: "var(--color-700)",
       },
       textColor: {
+        400: "var(--color-400)",
+        500: "var(--color-500)",
+        600: "var(--color-600)",
+        700: "var(--color-700)",
+      },
+      backgroundColor: {
+        100: "var(--color-100)",
+        200: "var(--color-200)",
+        300: "var(--color-300)",
         400: "var(--color-400)",
         500: "var(--color-500)",
         600: "var(--color-600)",
@@ -78,7 +95,22 @@ module.exports = {
       },
     },
   },
-  plugins: []
+  plugins: [
+    plugin(function ({ addVariant }) {
+      let pseudoVariants = [
+        "checked", "focus", "active", "disabled"
+      ].map((variant) =>
+        Array.isArray(variant) ? variant : [variant, `&:${variant}`],
+      );
+
+      for (let [variantName, state] of pseudoVariants) {
+        addVariant(`pg-${variantName}`, (ctx) => {
+          let result = typeof state === "function" ? state(ctx) : state;
+          return result.replace(/&(\S+)/, ":merge(.peer)$1 ~ .group &");
+        });
+      }
+    }),
+  ]
 }
 
 

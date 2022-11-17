@@ -63,6 +63,9 @@
     padding: 0;
     list-style: none;
   }
+  input[type=radio] {
+    @apply sr-only;
+  }
 }
 
 @layer utilities {

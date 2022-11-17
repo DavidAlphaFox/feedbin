@@ -3,23 +3,24 @@
         <div class="settings-outer">
             <h2>Settings</h2>
         </div>
-        <div class="inset">
-            <h4 class="group-header">Unread Sort</h4>
-            <ul class="control-group">
-                <li>
-                    <%= f.radio_button(:entry_sort, "DESC", checked: @user.entry_sort.nil? || @user.entry_sort === 'DESC', data: {behavior: "auto_submit"}) %>
-                    <%= f.label :entry_sort_desc do %>
-                        Newest First <%= radio_button_control %>
-                    <% end %>
-                </li>
-                <li>
-                    <%= f.radio_button(:entry_sort, "ASC", data: {behavior: "auto_submit"}) %>
-                    <%= f.label :entry_sort_asc do %>
-                        Oldest First <%= radio_button_control %>
-                    <% end %>
-                </li>
-            </ul>
-        </div>
+
+        <%= component "control_group" do |group| %>
+          <% group.header do %>
+            Unread Sort
+          <% end %>
+          <% group.item do %>
+            <%= f.radio_button(:entry_sort, "DESC", checked: @user.entry_sort.nil? || @user.entry_sort === 'DESC', class: "peer", data: {behavior: "auto_submit"}) %>
+            <%= f.label :entry_sort_desc, class: "group" do %>
+              <%= component "radio_button", title: "Newest First" %>
+            <% end %>
+          <% end %>
+          <% group.item do %>
+            <%= f.radio_button(:entry_sort, "ASC", class: "peer", data: {behavior: "auto_submit"}) %>
+            <%= f.label :entry_sort_asc, class: "group" do %>
+              <%= component "radio_button", title: "Oldest First" %>
+            <% end %>
+          <% end %>
+        <% end %>
 
         <div class="inset">
             <h4 class="group-header">Collections</h4>
