@@ -22,79 +22,95 @@
           <% end %>
         <% end %>
 
-        <div class="inset">
-            <h4 class="group-header">Collections</h4>
-            <ul class="control-group">
-                <li>
-                    <%= f.check_box :hide_updated, {checked: @user.hide_updated.nil? || !@user.setting_on?(:hide_updated), data: {behavior: "auto_submit"}}, "0", "1" %>
-                    <%= f.label :hide_updated do %>
-                        Updated <%= toggle_switch %>
-                    <% end %>
-                </li>
-                <li>
-                    <%= f.check_box :hide_recently_read, {checked: @user.hide_recently_read.nil? || !@user.setting_on?(:hide_recently_read), data: {behavior: "auto_submit"}}, "0", "1" %>
-                    <%= f.label :hide_recently_read do %>
-                        Recently Read <%= toggle_switch %>
-                    <% end %>
-                </li>
-                <% if @user.recently_played_entries.exists? %>
-                <li>
-                    <%= f.check_box :hide_recently_played, {checked: @user.hide_recently_played.nil? || !@user.setting_on?(:hide_recently_played), data: {behavior: "auto_submit"}}, "0", "1" %>
-                    <%= f.label :hide_recently_played do %>
-                        Recently Played <%= toggle_switch %>
-                    <% end %>
-                </li>
-                <% end %>
+        <%= component "control_group" do |group| %>
+          <% group.header do %>
+            Collections
+          <% end %>
 
-                <% if @user.queued_entries.exists? %>
-                  <li>
-                      <%= f.check_box :hide_airshow, {checked: @user.hide_airshow.nil? || !@user.setting_on?(:hide_airshow), data: {behavior: "auto_submit"}}, "0", "1" %>
-                      <%= f.label :hide_airshow do %>
-                          Airshow <%= toggle_switch %>
-                      <% end %>
-                  </li>
-                <% end %>
-            </ul>
-        </div>
+          <% group.item do %>
+            <%= f.check_box :hide_updated, {checked: @user.hide_updated.nil? || !@user.setting_on?(:hide_updated), class: "peer", data: {behavior: "auto_submit"}}, "0", "1" %>
+            <%= f.label :hide_updated, class: "group" do %>
+              <%= component "switch", title: "Updated" %>
+            <% end %>
+          <% end %>
 
-        <div class="inset">
-            <h4 class="group-header">Features</h4>
-            <ul class="control-group">
-                <li>
-                    <%= f.check_box :mark_as_read_confirmation, data: {behavior: "auto_submit"} %>
-                    <%= f.label :mark_as_read_confirmation do %>
-                        Ask before marking all as read <%= toggle_switch %>
-                    <% end %>
-                </li>
-                <li>
-                    <%= f.check_box :show_unread_count, data: {behavior: "auto_submit"} %>
-                    <%= f.label :show_unread_count do %>
-                        Unread count in title <%= toggle_switch %>
-                    <% end %>
-                </li>
-                <li>
-                    <%= f.check_box :sticky_view_inline, data: {behavior: "auto_submit"} %>
-                    <%= f.label :sticky_view_inline do %>
-                        Sticky Full Content <%= toggle_switch %></span>
-                        <p class="control-group-description">
-                            Always attempt to load the full content from the original site
-                        </p>
-                    <% end %>
-                </li>
-                <li>
-                    <%= f.check_box :starred_feed_enabled, data: {behavior: "auto_submit"} %>
-                    <%= f.label :starred_feed_enabled do %>
-                        Starred article feed
-                        <%= toggle_switch %>
-                        <p class="control-group-description">
-                            <span data-behavior="starred_feed_url">
-                                <%= render partial: 'shared/starred_feed_url', locals: {user: @user} %>
-                            </span>
-                        </p>
-                    <% end %>
-                </li>
-            </ul>
-        </div>
+          <% group.item do %>
+            <%= f.check_box :hide_recently_read, {checked: @user.hide_recently_read.nil? || !@user.setting_on?(:hide_recently_read), class: "peer", data: {behavior: "auto_submit"}}, "0", "1" %>
+            <%= f.label :hide_recently_read, class: "group" do %>
+              <%= component "switch", title: "Recently Read" %>
+            <% end %>
+          <% end %>
+
+          <% if @user.recently_played_entries.exists? %>
+            <% group.item do %>
+              <%= f.check_box :hide_recently_played, {checked: @user.hide_recently_played.nil? || !@user.setting_on?(:hide_recently_played), class: "peer", data: {behavior: "auto_submit"}}, "0", "1" %>
+              <%= f.label :hide_recently_played, class: "group" do %>
+                <%= component "switch", title: "Recently Played" %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+
+          <% if @user.queued_entries.exists? %>
+            <% group.item do %>
+              <%= f.check_box :hide_airshow, {checked: @user.hide_airshow.nil? || !@user.setting_on?(:hide_airshow), class: "peer", data: {behavior: "auto_submit"}}, "0", "1" %>
+              <%= f.label :hide_airshow, class: "group" do %>
+                <%= component "switch", title: "Airshow" %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+        <% end %>
+
+
+
+
+        <%= component "control_group" do |group| %>
+          <% group.header do %>
+            Features
+          <% end %>
+
+          <% group.item do %>
+            <%= f.check_box :mark_as_read_confirmation, class: "peer", data: {behavior: "auto_submit"} %>
+            <%= f.label :mark_as_read_confirmation, class: "group" do %>
+              <%= component "switch", title: "Ask before marking all as read" do |switch| %>
+                <%= switch.description { "Always attempt to load the full content from the original site" } %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% group.item do %>
+            <%= f.check_box :show_unread_count, class: "peer", data: {behavior: "auto_submit"} %>
+            <%= f.label :show_unread_count, class: "group" do %>
+              <%= component "switch", title: "Unread count in title" %>
+            <% end %>
+          <% end %>
+
+          <% group.item do %>
+            <%= f.check_box :sticky_view_inline, class: "peer", data: {behavior: "auto_submit"} %>
+            <%= f.label :sticky_view_inline, class: "group" do %>
+              <%= component "switch", title: "Sticky Full Content" %>
+            <% end %>
+          <% end %>
+
+
+          <% group.item do %>
+            <%= f.check_box :starred_feed_enabled, class: "peer", data: {behavior: "auto_submit"} %>
+            <%= f.label :starred_feed_enabled, class: "group" do %>
+              <%= component "switch", title: "Starred article feed" do |switch| %>
+                <% switch.description do %>
+                  <span data-behavior="starred_feed_url">
+                      <%= render partial: 'shared/starred_feed_url', locals: {user: @user} %>
+                  </span>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+        <% end %>
+
+
+
         <div class="inset">
             <h4 class="group-header">Advanced</h4>
             <ul class="control-group">

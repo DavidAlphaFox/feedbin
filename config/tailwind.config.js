@@ -34,6 +34,7 @@ module.exports = {
         500: "var(--color-500)",
         600: "var(--color-600)",
         700: "var(--color-700)",
+        "light-100": "var(--color-light-100)",
       },
       colors: {
         "day": {
