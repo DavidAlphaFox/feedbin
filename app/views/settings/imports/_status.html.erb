@@ -1,0 +1,50 @@
+<div class="inset">
+    <div class="pill-block">
+        <div class="toolbar baseline">
+            <h4 class="group-header">Progress</h4>
+            <div class="last-control">
+                <h4 class="group-header" style="font-size: 14px;"><%= number_with_delimiter(@import.import_items.where.not(status: :pending).count) %> of <%= number_with_delimiter(@import.import_items.count) %></h4>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <%= content_tag :div, "", class: "progress-bar-inner complete", style: "width: #{number_to_percentage(@import.percentage_complete)};", title: "#{number_with_delimiter(@import.import_items.complete.count)} imported" %>
+            <%= content_tag :div, "", class: "progress-bar-inner failed", style: "width: #{number_to_percentage(@import.percentage_failed)};", title: "#{number_with_delimiter(@failed_items.count)} missing" %>
+        </div>
+
+        <div class="toolbar extra-muted large ">
+          <div>
+            <%= @import.filename %>
+          </div>
+
+          <div class="last-control">
+            <span class="icon-box">
+              <% if @import.percentage == 100 %>
+                <%= svg_tag "icon-check", class: "green-icon" %>
+              <% end %>
+              <span><%= number_to_percentage(@import.percentage, precision: 0) %></span>
+            </span>
+
+          </div>
+        </div>
+    </div>
+</div>
+
+<% if @failed_items.present? %>
+<div class="inset">
+    <div class="toolbar baseline" style="margin-bottom: 16px;">
+      <h4 class="group-header">
+        Missing Feeds
+      </h4>
+      <div class="extra-muted large last-control">
+        <%= number_with_delimiter(@failed_items.count) %>
+      </div>
+    </div>
+
+    <ul class="sharing-services">
+      <% @failed_items.each do |import_item| %>
+        <%= render import_item %>
+      <% end %>
+    </ul>
+</div>
+<% end %>

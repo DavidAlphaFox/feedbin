@@ -1150,6 +1150,7 @@ table {
 
 .pill-block {
   display: block;
+  border-width: 2px;
 }
 
 .pill-list {
@@ -5878,6 +5879,12 @@ Settings
       margin-bottom: 0;
     }
   }
+  .subhead {
+    font-size: 14px;
+    @include color($color-contrast-500);
+    margin-top: -24px;
+    margin-bottom: 32px;
+  }
   .starred-feed-wrap {
     width: 100%;
     max-width: 480px;
@@ -6016,15 +6023,18 @@ Settings
     }
   }
   .progress-bar {
-    margin: 16px 0 32px;
+    margin: 16px 0;
     @include background-color($color-contrast-100);
-    border-radius: 4px;
-    display: block;
+    border-radius: 6px;
+    display: flex;
     width: 100%;
     overflow: hidden;
     .progress-bar-inner {
       background-color: $color-accent-green-600;
-      height: 8px;
+      height: 26px;
+      &.failed {
+        background-color: $color-accent-red-600;
+      }
     }
   }
   .subscribe-email {
@@ -7852,6 +7862,22 @@ input[type="text"].hide {
 
 a:hover.danger {
   color: $color-accent-red-600;
+}
+
+a.plain {
+  @include color($color-contrast-600);
+  text-decoration: none !important;
+}
+
+.icon-box {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.green-icon {
+  @include fill($color-accent-green-600)
 }
 
 .xs-hide {

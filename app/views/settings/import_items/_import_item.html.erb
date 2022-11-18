@@ -1,0 +1,27 @@
+<li>
+  <div class="service-header">
+    <div>
+      <div class="header">
+        <div class="icon-wrap" style="margin-right: 8px;">
+          <%= favicon_with_host(import_item.host, generated: true) %>
+        </div>
+        <p class="service-title">
+          <%= link_to import_item.details[:title] || "Untitled", import_item.details[:html_url], target: "_blank", class: "plain" %>
+        </p>
+      </div>
+      <p class="control-group-description" style="margin-left: 33px;">
+        <%= short_url(import_item.details[:xml_url]) %>
+        <br>
+        <span class="danger"><%= import_item.human_error %></span>
+      </p>
+    </div>
+    <div class="last-control button-wrap-inline">
+      <button class="button button-tertiary" data-behavior="toggle_service_options">Edit</button>
+    </div>
+  </div>
+  <div class="service-options-wrap">
+    <div class="service-options">
+      options
+    </div>
+  </div>
+</li>

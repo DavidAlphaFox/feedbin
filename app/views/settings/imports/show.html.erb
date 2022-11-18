@@ -1,0 +1,10 @@
+<div class="settings-content-inner">
+    <div class="settings-outer">
+        <h2>Import Status</h2>
+        <p class="subhead truncated"><%= @import.created_at.to_formatted_s(:date) %></p>
+        <%= content_tag :div, data: {content_src: settings_import_path(@import)} do %>
+            <%= render partial: "status" %>
+        <% end %>
+
+    </div>
+</div>
