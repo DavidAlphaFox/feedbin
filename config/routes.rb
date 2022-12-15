@@ -115,12 +115,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :icons, only: [] do
-    collection do
-      get "profile/:signature/:url", action: :profile
-    end
-  end
-
   resources :users, id: /.*/ do
     member do
       patch :settings_update, controller: :settings
@@ -259,6 +253,14 @@ Rails.application.routes.draw do
     namespace :api, path: nil do
       namespace :v1 do
         match "*path", to: "api#gone", via: :all
+      end
+    end
+  end
+
+  constraints subdomain: "icons" do
+    namespace :icons, path: nil do
+      namespace :v1 do
+        get ":signature/:url", controller: :icons, action: :show
       end
     end
   end

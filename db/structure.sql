@@ -627,6 +627,39 @@ ALTER SEQUENCE public.feeds_id_seq OWNED BY public.feeds.id;
 
 
 --
+-- Name: icons; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.icons (
+    id bigint NOT NULL,
+    fingerprint uuid NOT NULL,
+    original_url text,
+    storage_url text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: icons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.icons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: icons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.icons_id_seq OWNED BY public.icons.id;
+
+
+--
 -- Name: import_items; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1508,6 +1541,13 @@ ALTER TABLE ONLY public.feeds ALTER COLUMN id SET DEFAULT nextval('public.feeds_
 
 
 --
+-- Name: icons id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.icons ALTER COLUMN id SET DEFAULT nextval('public.icons_id_seq'::regclass);
+
+
+--
 -- Name: import_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1787,6 +1827,14 @@ ALTER TABLE ONLY public.feed_stats
 
 ALTER TABLE ONLY public.feeds
     ADD CONSTRAINT feeds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: icons icons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.icons
+    ADD CONSTRAINT icons_pkey PRIMARY KEY (id);
 
 
 --
@@ -2201,6 +2249,13 @@ CREATE INDEX index_feeds_on_push_expiration ON public.feeds USING btree (push_ex
 --
 
 CREATE INDEX index_feeds_on_standalone_request_at ON public.feeds USING btree (standalone_request_at DESC) WHERE (standalone_request_at IS NOT NULL);
+
+
+--
+-- Name: index_icons_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_icons_on_fingerprint ON public.icons USING btree (fingerprint);
 
 
 --
@@ -2946,6 +3001,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220916104628'),
 ('20220926154041'),
 ('20221004142045'),
-('20221208231846');
+('20221208231846'),
+('20221215200606');
 
 
