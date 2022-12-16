@@ -1,22 +1,22 @@
-class IconsController < ApplicationController
+class RemoteFilesController < ApplicationController
   skip_before_action :authorize
 
   AUTH_HEADER     = "X-Pull"
-  URL_HEADER      = "X-Image-URL".freeze
+  URL_HEADER      = "X-File-URL".freeze
   SIZE_HEADER     = "X-Image-Size".freeze
-  PROXY_PATH      = "/remote"
+  PROXY_PATH      = "/remote_image"
   SENDFILE_HEADER = Rails.application.config.action_dispatch.x_sendfile_header
 
-  def show
+  def icon
     size = params[:size]
     signature = params[:signature]
-    url = Icon.decode(params[:url])
+    url = RemoteFile.decode(params[:url])
 
     unless ENV["ICON_AUTH_KEY"] == request.headers[AUTH_HEADER]
       head :not_found and return
     end
 
-    unless Icon.signature_valid?(params[:signature], url)
+    unless RemoteFile.signature_valid?(params[:signature], url)
       head :not_found and return
     end
 
@@ -24,7 +24,7 @@ class IconsController < ApplicationController
       head :not_found and return
     end
 
-    unless Icon::BUCKET
+    unless RemoteFile::BUCKET
       redirect_to url and return
     end
 
@@ -32,11 +32,11 @@ class IconsController < ApplicationController
     response.headers[SIZE_HEADER] = size
     response.headers[SENDFILE_HEADER] = PROXY_PATH
 
-    if icon = Icon.find_by(fingerprint: Icon.fingerprint(url))
+    if icon = RemoteFile.find_by(fingerprint: RemoteFile.fingerprint(url))
       response.headers[URL_HEADER] = icon.storage_url
     else
       response.headers[URL_HEADER] = camo_url
-      ImageCrawler::CacheIcon.schedule(url)
+      ImageCrawler::CacheRemoteFile.schedule(url)
     end
 
     head :ok

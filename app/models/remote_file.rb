@@ -1,4 +1,4 @@
-class Icon < ApplicationRecord
+class RemoteFile < ApplicationRecord
   BUCKET = ENV["AWS_S3_BUCKET_ICONS"]
   HOST = ENV["ICONS_HOST"]
 
@@ -12,9 +12,9 @@ class Icon < ApplicationRecord
 
     if HOST
       host = URI(HOST)
-      Rails.application.routes.url_helpers.icon_icons_url(signature, url, protocol: host.scheme, host: host.host)
+      Rails.application.routes.url_helpers.icon_remote_files_url(signature, url, protocol: host.scheme, host: host.host)
     else
-      Rails.application.routes.url_helpers.icon_icons_path(signature, url)
+      Rails.application.routes.url_helpers.icon_remote_files_path(signature, url)
     end
   end
 

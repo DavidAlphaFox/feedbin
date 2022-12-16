@@ -627,39 +627,6 @@ ALTER SEQUENCE public.feeds_id_seq OWNED BY public.feeds.id;
 
 
 --
--- Name: icons; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.icons (
-    id bigint NOT NULL,
-    fingerprint uuid NOT NULL,
-    original_url text,
-    storage_url text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: icons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.icons_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: icons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.icons_id_seq OWNED BY public.icons.id;
-
-
---
 -- Name: import_items; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -967,6 +934,41 @@ CREATE SEQUENCE public.recently_read_entries_id_seq
 --
 
 ALTER SEQUENCE public.recently_read_entries_id_seq OWNED BY public.recently_read_entries.id;
+
+
+--
+-- Name: remote_files; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.remote_files (
+    id bigint NOT NULL,
+    fingerprint uuid NOT NULL,
+    original_url text NOT NULL,
+    storage_url text NOT NULL,
+    data jsonb DEFAULT '{}'::jsonb,
+    settings jsonb DEFAULT '{}'::jsonb,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: remote_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.remote_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: remote_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.remote_files_id_seq OWNED BY public.remote_files.id;
 
 
 --
@@ -1541,13 +1543,6 @@ ALTER TABLE ONLY public.feeds ALTER COLUMN id SET DEFAULT nextval('public.feeds_
 
 
 --
--- Name: icons id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.icons ALTER COLUMN id SET DEFAULT nextval('public.icons_id_seq'::regclass);
-
-
---
 -- Name: import_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1608,6 +1603,13 @@ ALTER TABLE ONLY public.recently_played_entries ALTER COLUMN id SET DEFAULT next
 --
 
 ALTER TABLE ONLY public.recently_read_entries ALTER COLUMN id SET DEFAULT nextval('public.recently_read_entries_id_seq'::regclass);
+
+
+--
+-- Name: remote_files id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.remote_files ALTER COLUMN id SET DEFAULT nextval('public.remote_files_id_seq'::regclass);
 
 
 --
@@ -1830,14 +1832,6 @@ ALTER TABLE ONLY public.feeds
 
 
 --
--- Name: icons icons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.icons
-    ADD CONSTRAINT icons_pkey PRIMARY KEY (id);
-
-
---
 -- Name: import_items import_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1907,6 +1901,14 @@ ALTER TABLE ONLY public.recently_played_entries
 
 ALTER TABLE ONLY public.recently_read_entries
     ADD CONSTRAINT recently_read_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: remote_files remote_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.remote_files
+    ADD CONSTRAINT remote_files_pkey PRIMARY KEY (id);
 
 
 --
@@ -2252,13 +2254,6 @@ CREATE INDEX index_feeds_on_standalone_request_at ON public.feeds USING btree (s
 
 
 --
--- Name: index_icons_on_fingerprint; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_icons_on_fingerprint ON public.icons USING btree (fingerprint);
-
-
---
 -- Name: index_import_items_on_import_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2417,6 +2412,13 @@ CREATE UNIQUE INDEX index_recently_read_entries_on_user_id_and_entry_id ON publi
 --
 
 CREATE INDEX index_recently_read_entries_on_user_id_and_id ON public.recently_read_entries USING btree (user_id, id DESC);
+
+
+--
+-- Name: index_remote_files_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_remote_files_on_fingerprint ON public.remote_files USING btree (fingerprint);
 
 
 --

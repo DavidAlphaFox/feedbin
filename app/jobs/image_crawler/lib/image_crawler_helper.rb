@@ -61,9 +61,9 @@ module ImageCrawler
         height: 400,
         minimum_size: nil,
         crop: :limit_crop,
-        bucket: Icon::BUCKET,
+        bucket: RemoteFile::BUCKET,
         validate: false,
-        job_class: CacheIcon
+        job_class: CacheRemoteFile
       }
     }
 

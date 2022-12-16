@@ -244,9 +244,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :icons, only: [] do
+  resources :remote_files, path: :files, only: [] do
     collection do
-      get ":signature/:url", action: :show, as: :icon
+      get "icons/:signature/:url", action: :icon, as: :icon
     end
   end
 
