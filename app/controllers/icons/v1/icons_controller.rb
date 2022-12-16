@@ -6,8 +6,7 @@ module Icons
       AUTH_HEADER     = "X-Pull"
       URL_HEADER      = "X-Image-URL".freeze
       SIZE_HEADER     = "X-Image-Size".freeze
-      PROXY_PATH      = "/remote_proxy"
-      STORAGE_PATH    = "/remote_storage"
+      PROXY_PATH      = "/remote"
       SENDFILE_HEADER = Rails.application.config.action_dispatch.x_sendfile_header
 
       def show
@@ -33,15 +32,13 @@ module Icons
 
         size = %w(32 64 128 200 400).include?(params[:size]) ? params[:size] : "400"
         response.headers[SIZE_HEADER] = size
-
+        response.headers[SENDFILE_HEADER] = PROXY_PATH
 
         if icon = Icon.find_by(fingerprint: Icon.fingerprint(url))
           response.headers[URL_HEADER] = icon.storage_url
-          response.headers[SENDFILE_HEADER] = STORAGE_PATH
         else
           response.headers[URL_HEADER] = camo_url
-          response.headers[SENDFILE_HEADER] = PROXY_PATH
-          ImageCrawler::CacheIcon.perform_in(5.seconds, "#{Icon.fingerprint(url)}-#{url}")
+          ImageCrawler::CacheIcon.schedule(url)
         end
 
         head :ok

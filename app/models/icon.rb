@@ -1,32 +1,36 @@
 class Icon < ApplicationRecord
   BUCKET = ENV["AWS_S3_BUCKET_ICONS"]
+  HOST = ENV["ICONS_HOST"]
 
   def self.fingerprint(data)
     Digest::MD5.hexdigest(data)
   end
 
-  def self.signed_path(url)
-    signature = OpenSSL::HMAC.hexdigest("sha1", secret_key, url)
-    hex = url.to_enum(:each_byte).map { |byte| "%02x" % byte }.join
-    "/#{signature}/#{hex}"
-  end
-
   def self.signed_url(url)
-    URI::HTTPS.build(
-      host: ENV["ICONS_HOST"],
-      path: signed_path(url)
-    )
-  end
+    signature = OpenSSL::HMAC.hexdigest("sha1", secret_key, url)
+    url = url.to_enum(:each_byte).map { |byte| "%02x" % byte }.join
 
-  def self.secret_key
-    ENV.fetch("CAMO_KEY", "secret")
+    if HOST
+      host = URI(HOST)
+      Rails.application.routes.url_helpers.icons_v1_url(signature, url, protocol: host.scheme, host: host.host)
+    else
+      Rails.application.routes.url_helpers.icons_v1_path(signature, url)
+    end
   end
 
   def self.decode(string)
     string.scan(/../).map { |x| x.hex.chr }.join
   end
 
+  def self.secret_key
+    ENV.fetch("CAMO_KEY", "secret")
+  end
+
   def self.signature_valid?(signature, data)
     signature == OpenSSL::HMAC.hexdigest("sha1", secret_key, data)
+  end
+
+  def signed_url
+    self.class.signed_url(original_url)
   end
 end

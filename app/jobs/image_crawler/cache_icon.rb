@@ -3,16 +3,15 @@ module ImageCrawler
     include Sidekiq::Worker
     sidekiq_options retry: false
 
-    def perform(url, image = nil)
-      @fingerprint, @url = url.split("-")
-      @image = image
-      @image ? receive : schedule
+    def self.schedule(url)
+      fingerprint = Icon.fingerprint(url)
+      FindImage.perform_async("#{fingerprint}-icon", "icon", [url])
     end
 
-    def schedule
-      unless Icon.where(fingerprint: @fingerprint).exists?
-        FindImage.perform_async("#{@fingerprint}-#{@fingerprint}", "icon", [@url])
-      end
+    def perform(url, image = nil)
+      @fingerprint = url.split("-").first
+      @image = image
+      receive
     end
 
     def receive
