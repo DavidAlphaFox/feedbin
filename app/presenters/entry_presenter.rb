@@ -678,7 +678,7 @@ class EntryPresenter < BasePresenter
   end
 
   # Sizes: normal, bigger
-  def tweet_profile_image_uri(tweet, size = :bigger)
+  def tweet_profile_image_uri(tweet, size = :original)
     if tweet.user.profile_image_uri? && tweet.user.profile_image_uri_https(size)
       @template.camo_link(tweet.user.profile_image_uri_https(size))
     else
