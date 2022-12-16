@@ -39,7 +39,9 @@ class RemoteFilesController < ApplicationController
       ImageCrawler::CacheRemoteFile.schedule(url)
     end
 
-    head :ok
+    http_cache_forever(public: true) do
+      head :ok
+    end
   end
 
   private

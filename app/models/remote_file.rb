@@ -7,6 +7,7 @@ class RemoteFile < ApplicationRecord
   end
 
   def self.signed_url(url)
+    url = url.to_s
     signature = OpenSSL::HMAC.hexdigest("sha1", secret_key, url)
     url = url.to_enum(:each_byte).map { |byte| "%02x" % byte }.join
 
