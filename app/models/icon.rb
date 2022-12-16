@@ -12,9 +12,9 @@ class Icon < ApplicationRecord
 
     if HOST
       host = URI(HOST)
-      Rails.application.routes.url_helpers.icons_v1_url(signature, url, protocol: host.scheme, host: host.host)
+      Rails.application.routes.url_helpers.icon_icons_url(signature, url, protocol: host.scheme, host: host.host)
     else
-      Rails.application.routes.url_helpers.icons_v1_path(signature, url)
+      Rails.application.routes.url_helpers.icon_icons_path(signature, url)
     end
   end
 

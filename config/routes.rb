@@ -244,6 +244,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :icons, only: [] do
+    collection do
+      get ":signature/:url", action: :show, as: :icon
+    end
+  end
+
   match "pages",          to: "pages#create",          via: :post
   match "pages",          to: "pages#options",         via: :options
   match "pages",          to: "pages#fallback",        via: :get
@@ -253,14 +259,6 @@ Rails.application.routes.draw do
     namespace :api, path: nil do
       namespace :v1 do
         match "*path", to: "api#gone", via: :all
-      end
-    end
-  end
-
-  constraints subdomain: "icons" do
-    namespace :icons, path: nil do
-      namespace :v1 do
-        get ":signature/:url", controller: :icons, action: :show
       end
     end
   end

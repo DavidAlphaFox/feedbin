@@ -6,7 +6,7 @@ class TldLength
    def call(env)
      if Rails.env.development? && host = env["HTTP_X_FORWARDED_HOST"] || env["HTTP_HOST"]
        parts = host.split(".")
-       if parts[0] == "api" || parts[0] == "icons"
+       if parts[0] == "api"
          ActionDispatch::Http::URL.tld_length = parts.length - 2
        end
      end

@@ -34,7 +34,6 @@ require "support/login_helper"
 require "support/factory_helper"
 require "support/assertions"
 require "support/api_controller_test_case"
-require "support/icons_controller_test_case"
 require "support/push_server_mock"
 
 ActiveRecord::FixtureSet.context_class.send :include, LoginHelper
