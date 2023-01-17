@@ -11,15 +11,18 @@ module.exports = {
   ],
   theme: {
     data: {
-      selected: 'ui~="selected"',
+      selected: "ui~='selected'",
     },
     screens: {
-      'sm': '480px',
-      'md': '700px',
-      'lg': '992px',
-      'xl': '1100px',
+      "sm": "480px",
+      "md": "700px",
+      "lg": "992px",
+      "xl": "1100px",
     },
     extend: {
+      boxShadow: {
+        "one": "0 1px 1px 0 var(--color-shadow-100)",
+      },
       borderColor: {
         DEFAULT: "var(--border-color)",
       },

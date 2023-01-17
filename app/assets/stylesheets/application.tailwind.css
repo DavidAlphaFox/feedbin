@@ -16,6 +16,7 @@
     --color-sidebar:   var(--color-100);
 
     --color-green-600: theme("colors.green.600");
+    --color-shadow-100: rgba(0,0,0,0.1);
 }
 
 .theme-sunset {
@@ -30,6 +31,8 @@
     --border-color:    var(--color-200);
     --color-light-100: var(--color-100);
     --color-sidebar:   var(--color-100);
+
+    --color-shadow-100: rgba(theme("colors.sunset.700"), 0.1);
 }
 
 .theme-dusk, .theme-auto.prefers-dark {
@@ -44,6 +47,8 @@
     --border-color:     black;
     --color-light-100:  var(--color-600);
     --color-sidebar:    var(--color-base);
+
+    --color-shadow-100: rgba(0,0,0,1);
 }
 
 .theme-midnight {
@@ -104,5 +109,8 @@
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  .input-shadow {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 1px 0 transparent;
   }
 }
