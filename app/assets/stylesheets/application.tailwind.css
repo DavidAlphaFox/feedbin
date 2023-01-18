@@ -15,7 +15,6 @@
     --color-light-100: var(--color-100);
     --color-sidebar:   var(--color-100);
 
-    --color-green-600: theme("colors.green.600");
     --color-shadow-100: rgba(0,0,0,0.1);
 }
 
@@ -32,7 +31,6 @@
     --color-light-100: var(--color-100);
     --color-sidebar:   var(--color-100);
 
-    --color-shadow-100: rgba(theme("colors.sunset.700"), 0.1);
 }
 
 .theme-dusk, .theme-auto.prefers-dark {
@@ -65,6 +63,13 @@
     --color-sidebar:    var(--color-base);
 }
 
+:root, .theme-day, .theme-sunset, .theme-auto.prefers-light {
+  --color-blue-600: #0867E2;
+}
+
+.theme-dusk, .theme-midnight, .theme-auto.prefers-dark {
+  --color-blue-600: #0974FF;
+}
 
 @layer base {
   *,
@@ -84,15 +89,17 @@
   }
   textarea,
   select,
-  input[type="text"],
-  input[type="password"],
-  input[type="email"],
-  input[type="url"],
-  input[type="search"] {
-    @apply py-[8px] px-[7px] max-w-full text-sm bg-200 rounded text-600 ring-0 block grow appearance-none border-0
-    disabled:bg-300 disabled:text-200
-    focus:outline-none focus:outline-transparent focus:bg-100 focus:text-700;
-    line-height: normal !important;
+  .text-input {
+    @apply leading-[42px] py-0 px-[8px] shadow-one bg-transparent max-w-full text-sm rounded-md text-600 ring-0 block grow appearance-none border border-400 transition-[border,box_shadow] duration-200
+    disabled:bg-100 disabled:text-400 disabled:border-200 disabled:shadow-none
+    focus:outline-none focus:outline-transparent focus:text-700 focus:border-blue-600 focus:shadow-[0_0_0_1px_theme(colors.blue.600)];
+  }
+  textarea:focus,
+  select:focus,
+  .text-input:focus {
+    outline: 0;
+    outline-color: transparent;
+    outline-style: none;
   }
 }
 

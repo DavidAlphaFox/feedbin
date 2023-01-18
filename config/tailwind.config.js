@@ -79,7 +79,7 @@ module.exports = {
         },
         "blue": {
           400: "#619EEC",
-          600: "#0867E2",
+          600: "var(--color-blue-600)",
           700: "#0755B9",
         },
         "orange": {
