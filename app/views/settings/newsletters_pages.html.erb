@@ -30,11 +30,8 @@
           Sign in to enable <a href="/blog/2018/01/11/feedbin-is-the-best-way-to-read-twitter/">Twitter subscriptions</a>.
         <% end %>
         <% row.control do %>
-          <%= render "shared/input", class: "last-control accessory-left" do %>
-            <%= link_to "Sign In", new_twitter_authentication_path({mode: "settings"}), class: "button button-secondary" %>
-            <span class="accessory">
-              <%= svg_tag "icon-twitter-logo" %>
-            </span>
+          <%= link_to new_twitter_authentication_path({mode: "settings"}), class: "button button-secondary" do %>
+            <%= svg_tag "icon-twitter-logo" %> Sign In
           <% end %>
         <% end %>
       <% end %>
@@ -47,20 +44,25 @@
       Newsletters
     <% end %>
     <% group.item do %>
-      <%= component "settings/control_row" do |row| %>
-        <% row.title { "Newsletter Address" } %>
-        <% row.description do %>
+      <div class="py-4">
+        <div class="text-600">
+          Newsletter Address
+        </div>
+        <div class="text-500 text-sm mb-2">
           Use this address to <a href="/blog/2016/02/03/subscribe-to-email-newsletters-in-feedbin/">receive emails</a> in Feedbin.
-        <% end %>
-        <% row.control do %>
-          <%= render "shared/input", class: "accessory-right" do %>
-            <input type="text" value="<%= @user.newsletter_address %>" readonly />
-            <button class="accessory right icon" data-behavior="copy" title="Copy to clipboard" data-toggle="tooltip">
-              <%= svg_tag "icon-clipboard" %>
-            </button>
+        </div>
+
+        <%= component "form/text_input" do |text| %>
+          <% text.input do %>
+            <input type="text" value="<%= @user.newsletter_address %>" readonly class="text-input" />
+          <% end %>
+          <% text.accessory_trailing_cap position: "trailing" do %>
+            <%= button_tag data: {controller: "copyable", copyable_data_value: @user.newsletter_address } do %>
+              Copy
+            <% end %>
           <% end %>
         <% end %>
-      <% end %>
+      </div>
     <% end %>
     <% group.item do %>
       <%= component "settings/control_row" do |row| %>

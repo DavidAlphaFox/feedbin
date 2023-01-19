@@ -30,10 +30,10 @@
                     <% end %>
                 </div>
             </div>
-            <div class="button-wrap">
+            <%= component "settings/button_row" do %>
                 <%= button_tag "Cancel", type: "button", class: "button button-secondary", data: {behavior: "close_entry_basement"} %>
                 <%= button_tag "Send", type: "submit", class: "button" %>
-            </div>
+            <% end %>
         <% end %>
     </div>
 </div>

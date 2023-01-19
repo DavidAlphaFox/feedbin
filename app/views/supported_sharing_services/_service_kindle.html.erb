@@ -5,13 +5,8 @@
       <% row.icon do %>
         <%= render "icon", sharing_service: sharing_service %>
       <% end %>
-      <% row.title { sharing_service.label } %>
 
-      <% if status == :active %>
-        <% row.description do %>
-          Articles will be sent to <%= sharing_service.kindle_address %>
-        <% end %>
-      <% end %>
+      <% row.title { sharing_service.label } %>
 
       <% row.control do %>
         <% if status == :active %>
@@ -36,14 +31,14 @@
             <%= f.label :kindle_address, "Kindle Email Address" %>
           <% end %>
           <% text.input do %>
-            <%= f.text_field :kindle_address, class: "peer" %>
+            <%= f.text_field :kindle_address, class: "peer text-input" %>
           <% end %>
         <% end %>
 
-        <div class="button-wrap">
+        <%= component "settings/button_row" do %>
           <%= button_tag "Cancel", type: "button", class: "button button-tertiary", data: {action: "expandable#toggle"} %>
           <%= button_tag "Save", type: "submit", class: "button button-primary-plain" %>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>

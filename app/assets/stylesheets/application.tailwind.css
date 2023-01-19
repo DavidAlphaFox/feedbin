@@ -98,13 +98,14 @@
   select:focus,
   .text-input:focus,
   .button:focus,
-  .button-secondary:focus {
+  .button-secondary:focus,
+  .button-tertiary:focus {
     outline: 0;
     outline-color: transparent;
     outline-style: none;
   }
-  .button, .button-secondary {
-    @apply text-sm font-medium relative border border-blue-600 leading-[42px] px-6 rounded-md text-white bg-blue-600 transition transition-[box_shadow]
+  .button, .button-secondary, .button-tertiary, .button-huge {
+    @apply text-sm font-medium relative inline-flex items-center justify-center gap-2 border border-blue-600 leading-[42px] px-6 rounded-md text-white bg-blue-600 transition transition-[box_shadow]
            before:content-[''] before:opacity-0 before:block before:border-2 before:border-blue-400 before:absolute before:pointer-events-none before:top-[-4px] before:right-[-4px] before:bottom-[-4px] before:left-[-4px] before:rounded-[8px] before:transition before:duration-200
            focus:before:opacity-100;
   }
@@ -118,8 +119,22 @@
   .button-secondary {
     @apply border border-400 bg-transparent !text-700;
   }
-  .button-secondary:active  {
+  .button-secondary:active, .button-huge:active  {
     @apply bg-100 border-400;
+  }
+
+  .button-tertiary {
+    @apply border-transparent bg-transparent !text-700 px-2;
+  }
+  .button-tertiary:hover {
+    @apply shadow-none;
+  }
+  .button-tertiary:active  {
+    @apply bg-transparent border-transparent;
+  }
+
+  .button-huge {
+    @apply border border-400 border-dashed bg-transparent !text-700 w-full;
   }
 }
 
