@@ -5263,14 +5263,6 @@ label.text-field {
   }
 }
 
-#card-element {
-  flex: 1;
-  border-radius: 4px;
-  padding: 6px 8px 7px 8px;
-  @include background-color($color-contrast-200);
-  @include border(transparent);
-}
-
 .settings-feeds {
   .alert {
     display: none;
