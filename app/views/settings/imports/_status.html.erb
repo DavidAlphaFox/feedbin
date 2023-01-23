@@ -2,7 +2,7 @@
   <% group.item do %>
     <div class="py-3 px-4">
       <div class="flex justify-between">
-        <strong class="text-bold">Progress</strong>
+        <strong class="font-bold">Progress</strong>
         <div class="text-500"><%= number_with_delimiter(@import.import_items.where.not(status: :pending).count) %> of <%= number_with_delimiter(@import.import_items.count) %></div>
       </div>
 

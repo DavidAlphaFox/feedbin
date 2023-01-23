@@ -75,6 +75,16 @@
   @apply border-blue-600 shadow-[0_0_0_1px_theme(colors.blue.600)];
 }
 
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+:focus {
+  outline-color: transparent;
+  outline-style: none;
+}
+
 @layer base {
   *,
   ::before,
@@ -94,7 +104,8 @@
   textarea,
   select,
   .text-input {
-    @apply leading-[42px] py-0 px-2 shadow-one bg-transparent max-w-full text-sm rounded-md text-600 ring-0 block grow appearance-none border border-400 transition-[border,box_shadow] duration-200
+    @apply leading-[42px] py-0 px-2 shadow-one bg-transparent w-full text-sm rounded-md text-600 ring-0 block grow appearance-none border border-400 transition-[border,box_shadow] duration-200
+    placeholder:text-500
     disabled:bg-100 disabled:text-400 disabled:border-200 disabled:shadow-none
     focus:outline-none focus:outline-transparent focus:text-700 focus:border-blue-600 focus:shadow-[0_0_0_1px_theme(colors.blue.600)];
   }
@@ -107,6 +118,9 @@
     outline: 0;
     outline-color: transparent;
     outline-style: none;
+  }
+  textarea, textarea.text-input {
+    @apply leading-normal py-2;
   }
   .button, .button-secondary, .button-tertiary, .button-huge {
     @apply text-sm font-medium relative inline-flex items-center justify-center gap-2 border border-blue-600 whitespace-nowrap leading-[42px] px-6 rounded-md text-white bg-blue-600 transition transition-[box_shadow]

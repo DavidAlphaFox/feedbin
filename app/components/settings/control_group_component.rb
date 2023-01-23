@@ -23,7 +23,7 @@ class Settings::ControlGroupComponent < BaseComponent
     private
 
     def classes
-      "border-b last:border-b-0"
+      "border-b last:border-b-0 group-data-[borderless=true]:border-b-0"
     end
 
     def data

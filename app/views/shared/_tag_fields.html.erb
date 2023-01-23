@@ -1,15 +1,16 @@
-<%= content_tag :ul, class: "control-group no-margin" do  -%>
-    <li class="text">
-        <%= render "shared/input", class: "tag-input" do %>
-            <input placeholder="+ New Tag" type="text" name="tag_name[]">
-        <% end %>
-    </li>
+<input placeholder="+ New Tag" type="text" name="tag_name[]" class="text-input mb-4 cursor-pointer placeholder:font-bold placeholder:text-center placeholder:text-700 focus:placeholder:text-500 focus:placeholder:text-left focus:placeholder:font-normal">
+
+<div class="group" data-stacked="true">
+  <%= component "settings/control_group", class: "group", data: {borderless: true} do |group| %>
     <% tag_editor.tags.each do |tag| %>
-    <li>
-        <%= check_box_tag "tag_id[#{tag.id}]", tag.name, tag_editor.checked?(tag) %>
-        <%= label_tag "tag_id[#{tag.id}]" do %>
-            <%= tag.name %> <%= toggle_switch %>
+      <% group.item do %>
+        <%= check_box_tag "tag_id[#{tag.id}]", tag.name, tag_editor.checked?(tag), class: "peer" %>
+        <%= label_tag "tag_id[#{tag.id}]", class: "group" do %>
+          <%= component "settings/control_row_switch" do |row| %>
+            <% row.title { tag.name } %>
+          <% end %>
         <% end %>
-    </li>
+      <% end %>
     <% end %>
-<%- end -%>
+  <% end %>
+</div>

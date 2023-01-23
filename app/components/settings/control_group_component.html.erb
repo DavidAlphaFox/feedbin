@@ -2,7 +2,7 @@
   <div <%= tag.attributes(@options) %>>
     <%= header %>
     <% if items? %>
-      <div class="border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg">
+      <div class="border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg group-data-[borderless=true]:border-0">
         <% items.each do |item| %>
           <%= item %>
         <% end %>
