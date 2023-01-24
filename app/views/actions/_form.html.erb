@@ -28,11 +28,11 @@
       <%= component "settings/h2" do %>
         Article is in Tag
       <% end %>
-      <ul class="rounded-lg border max-h-[240px] overflow-scroll resize-y">
+      <ul class="border-y max-h-[240px] overflow-scroll resize-y">
         <%= form.collection_check_boxes(:tag_ids, @user.feed_tags, :id, :name) do |builder| %>
           <li class="group">
             <%= builder.check_box class: "peer" %>
-            <%= builder.label class: "group flex gap-2 items-center py-3 px-4 border-b group-last:border-b-0" do %>
+            <%= builder.label class: "group flex gap-2 items-center py-3 border-b group-last:border-b-0" do %>
               <%= component "form/check_box" %>
               <%= builder.text %>
             <% end %>
@@ -47,7 +47,7 @@
       Article is in Feed
     <% end %>
 
-    <div class="flex py-3 px-4 rounded-t-lg border border-b-0">
+    <div class="flex py-3 border-y border-b-0">
       <%= form.check_box :all_feeds, id: "include_all_feeds", class: "peer", data: {behavior: 'check_feeds'} %>
       <label class="group flex items-center gap-2" for="include_all_feeds">
         <%= component "form/check_box" %> Include all
@@ -57,11 +57,11 @@
         <input type="text" class="text-input" data-behavior="feed_search" placeholder="Filter" />
       <% end %>
     </div>
-    <ul class="rounded-b-lg border max-h-[240px] overflow-scroll resize-y" data-behavior="search_results">
+    <ul class="border-y max-h-[240px] overflow-scroll resize-y" data-behavior="search_results">
       <%= form.collection_check_boxes(:feed_ids, @user.feeds.include_user_title, :string_id, :title) do |builder| %>
         <li class="group" data-sort-name="<%= builder.text.downcase %>">
           <%= builder.check_box feed_checkbox_options(form).merge(class: "peer") %>
-          <%= builder.label title: builder.object.feed_url, class: "group flex gap-2 items-center py-3 px-4 border-b group-last:border-b-0" do %>
+          <%= builder.label title: builder.object.feed_url, class: "group flex gap-2 items-center py-3 border-b group-last:border-b-0" do %>
             <%= component "form/check_box" %>
             <%= builder.text %>
           <% end %>

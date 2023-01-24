@@ -7558,27 +7558,6 @@ button.close {
 
 .modal-wrapper {
   transition: height 0.15s ease;
-  .modal-content *:not(.modal-header) {
-    transition: opacity 0.15s linear;
-  }
-  &.loading {
-    overflow: hidden;
-    .modal-content * {
-      opacity: 0;
-    }
-    .modal-header,
-    .modal-header * {
-      opacity: 1;
-    }
-    .modal-footer {
-      position: static;
-    }
-  }
-  &.loaded {
-    .modal-content *:not(.icon-check) {
-      opacity: 1;
-    }
-  }
 }
 
 .modal {

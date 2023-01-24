@@ -51,7 +51,10 @@
                     <label for="toggle_full_screen" class="group">
                       <%= component "settings/control_row_switch" do |row| %>
                         <% row.title do %>
-                          Full screen <span class="info">shift&nbsp;&nbsp;F</span>
+                          <span class="flex items-center">
+                            Full screen <span class="ml-auto text-500 text-sm">shift&nbsp;&nbsp;F</span>
+                          </span>
+
                         <% end %>
                       <% end %>
                     </label>
