@@ -1,7 +1,7 @@
 <%= component "settings/h1" do %>
   Sources
 <% end %>
-<%= component "settings/control_group" do |group| %>
+<%= component "settings/control_group", class: "mb-14" do |group| %>
   <% group.header do %>
     Twitter
   <% end %>
@@ -36,7 +36,7 @@
   <% end %>
 <% end %>
 <%= form_for @user, remote: true, url: settings_update_user_path(@user) do |f| %>
-  <%= component "settings/control_group" do |group| %>
+  <%= component "settings/control_group", class: "mb-14" do |group| %>
     <% group.header do %>
       Newsletters
     <% end %>
@@ -82,7 +82,7 @@
     <% end %>
   <% end %>
 <% end %>
-<%= component "settings/control_group" do |group| %>
+<%= component "settings/control_group", class: "mb-14" do |group| %>
   <% group.header do %>
     Pages
   <% end %>
@@ -96,7 +96,7 @@
         <%= link_to bookmarklet, onclick: "return false;", class: "button-secondary cursor-move" do %>
           <%= svg_tag "favicon-saved", class: "fill-500" %>
           Send to Feedbin
-          <%= svg_tag "icon-grabber", class: "ml-6" %>
+          <%= svg_tag "icon-grabber", class: "ml-6 fill-700" %>
         <% end %>
       <% end %>
     <% end %>

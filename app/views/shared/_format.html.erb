@@ -44,8 +44,8 @@
 
             <div class="mobile-hide">
               <h3>Display</h3>
-              <div class="control group" data-stacked="true">
-                <%= component "settings/control_group" do |group| %>
+              <div class="control">
+                <%= component "settings/control_group", class: "mb-4" do |group| %>
                   <% group.item do %>
                     <input type="checkbox" id="toggle_full_screen" data-behavior="toggle_full_screen" class="peer">
                     <label for="toggle_full_screen" class="group">

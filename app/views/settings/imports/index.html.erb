@@ -3,7 +3,7 @@
 <% end %>
 
 <%= form_with model: Import.new, url: settings_imports_path do |f| %>
-  <%= component "settings/control_group" do |group| %>
+  <%= component "settings/control_group", class: "mb-14" do |group| %>
     <% group.header do %>
       Import
     <% end %>
@@ -23,7 +23,7 @@
   <% end %>
 <% end %>
 
-<%= component "settings/control_group" do |group| %>
+<%= component "settings/control_group", class: "mb-14" do |group| %>
   <% group.header do %>
     Export
   <% end %>
@@ -56,7 +56,7 @@
 <% end %>
 
 <% if @imports.present? %>
-  <%= component "settings/control_group" do |group| %>
+  <%= component "settings/control_group", class: "mb-14" do |group| %>
     <% group.header do %>
       Import History
     <% end %>

@@ -26,7 +26,7 @@
   <% if @migration.started? %>
       Initializing…
   <% else %>
-    <%= component "settings/control_group" do |group| %>
+    <%= component "settings/control_group", class: "mb-14" do |group| %>
       <% group.header do %>
         Stats
       <% end %>
@@ -80,9 +80,8 @@
       </div>
     </div>
 
-    <div data-stacked="true" class="group">
       <% @migration.account_migration_items.failed.order(updated_at: :asc).each do |item| %>
-        <%= component "settings/expandable", capsule: true do |expandable| %>
+        <%= component "settings/expandable", class: "mb-4", data: {capsule: true} do |expandable| %>
           <% expandable.description do %>
             <%= component "settings/control_row" do |row| %>
               <% row.title { item.fw_feed.safe_dig("title") } %>
@@ -95,6 +94,5 @@
           <% end %>
         <% end %>
       <% end %>
-    </div>
   <% end %>
 <% end %>

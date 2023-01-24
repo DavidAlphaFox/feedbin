@@ -30,7 +30,7 @@
         </div>
 
         <% if feed.twitter_feed? %>
-          <%= component "settings/control_group", class: "group", data: {borderless: true} do |group| %>
+          <%= component "settings/control_group", class: "group [&_[data-item-container]]:!border-0 [&_[data-item]]:!border-0" do |group| %>
             <% group.item do %>
               <%= pf.check_box :media_only, checked: false, class: "peer" %>
               <%= pf.label :media_only, class: "group text-right" do %>

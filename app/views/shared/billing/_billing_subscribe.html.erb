@@ -12,7 +12,7 @@
   <%= f.hidden_field :stripe_token, id: 'stripe_token' %>
   <%= hidden_field_tag :redirect_to, settings_billing_url %>
 
-  <%= component "settings/control_group" do |group| %>
+  <%= component "settings/control_group", class: "mb-14" do |group| %>
     <% group.header do %>
       <%= subscribe_title %>
     <% end %>

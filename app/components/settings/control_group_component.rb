@@ -7,6 +7,12 @@ class Settings::ControlGroupComponent < BaseComponent
     @options = options
   end
 
+  def options
+    {
+      class: [@options.delete(:class)].reject(&:blank?).join(" "),
+    }.merge(@options)
+  end
+
   class ItemComponent < BaseComponent
     def initialize(options = {})
       @options = options
@@ -23,7 +29,7 @@ class Settings::ControlGroupComponent < BaseComponent
     private
 
     def classes
-      "border-b last:border-b-0 group-data-[borderless=true]:border-b-0"
+      "border-b last:border-b-0"
     end
 
     def data

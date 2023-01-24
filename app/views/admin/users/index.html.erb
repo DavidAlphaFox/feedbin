@@ -15,7 +15,7 @@
   <% end %>
 </div>
 
-<%= component "settings/control_group" do |group| %>
+<%= component "settings/control_group", class: "mb-14" do |group| %>
   <% @users.each do |user| %>
     <% group.item do %>
       <div data-behavior="<%= user.customer_id %>">
