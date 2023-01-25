@@ -74,6 +74,6 @@
   <% end %>
 
   <div class="settings">
-    <%= will_paginate @subscriptions, previous_label: "Previous", next_label: "Next" %>
+    <%= will_paginate @subscriptions, previous_label: "Previous", next_label: "Next", inner_window: 1 %>
   </div>
 </div>
