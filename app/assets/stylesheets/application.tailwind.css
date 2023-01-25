@@ -65,10 +65,16 @@
 
 :root, .theme-day, .theme-sunset, .theme-auto.prefers-light {
   --color-blue-600: #0867E2;
+  --color-green-600: #07AC47;
+  --color-red-600: #BB0B2F;
+  --color-link: var(--color-blue-600);
 }
 
 .theme-dusk, .theme-midnight, .theme-auto.prefers-dark {
   --color-blue-600: #0974FF;
+  --color-green-600: #08C451;
+  --color-red-600: #D40C35;
+  --color-link: white;
 }
 
 .StripeElement--focus {
@@ -98,7 +104,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .pagination em, .pagination a:not(.next_page, .previous_page), .pagination .gap {
-  @apply border border-l-0 px-3 not-italic min-w-[44px] text-center;
+  @apply border border-400 border-l-0 px-3 not-italic min-w-[44px] text-center;
 }
 
 .pagination [aria-label]:nth-child(2) {
@@ -187,6 +193,9 @@ input[type="search"]::-webkit-search-cancel-button {
   }
   .button-huge {
     @apply border border-400 border-dashed bg-transparent !text-700 w-full;
+  }
+  .button-text {
+    @apply text-link;
   }
 }
 

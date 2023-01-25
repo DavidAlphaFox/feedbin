@@ -159,8 +159,8 @@ $color-selected: (
   debug: color-selected,
   day: $color-accent-blue-600,
   sunset: $color-accent-blue-600,
-  dusk: $color-accent-blue-600,
-  midnight: $color-accent-blue-600,
+  dusk: #0974FF,
+  midnight: #0974FF,
 );
 
 $color-selected-hover: (
@@ -4942,34 +4942,9 @@ Settings
 
 
 .chart-wrap {
-  line-height: 1;
-  display: flex;
-  margin-bottom: 32px;
-  padding: 0 0 21px 0;
   .graph-wrap {
-    flex: 1 1 auto;
-    padding-top: 20%;
-    @include border-bottom($color-borders);
-    margin-right: 5px;
-    position: relative;
     .graph-lines {
-      display: flex;
-      flex: 0 0 auto;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: right;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 2px;
-      right: 0;
       div {
-        width: 100%;
-        @include border-top($color-contrast-200);
-        border-top-style: dashed;
-        &:last-child {
-          visibility: hidden;
-        }
       }
     }
     .graph {
@@ -5606,6 +5581,7 @@ img[height="1"][width="1"] {
   margin-bottom: 20px;
   @include background-color($color-selected);
   color: white;
+  border-radius: 4px;
 }
 
 .alert:empty {
@@ -5631,7 +5607,7 @@ img[height="1"][width="1"] {
 .alert-info,
 .alert-danger,
 .alert-error {
-  background-color: $color-accent-red-600;
+  @include background-color($color-accent-red-600);
 }
 
 .alert-block {
@@ -7776,39 +7752,4 @@ $tooltip-arrow-height: 6px;
 
 .spacer {
   margin-left: base-units(1);
-}
-
-.badge-failed,
-.badge-pending,
-.badge-complete {
-  padding: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include color($color-contrast-700);
-  font-style: normal;
-  border-radius: 4px;
-  font-family: $font-stack;
-  line-height: 1;
-  font-size: 14px;
-  text-transform: capitalize !important;
-  font-weight: bold;
-  color: #fff !important;
-  &.wide {
-    width: 72px;
-  }
-}
-
-.badge-failed {
-  @include background-color($color-accent-red-600);
-}
-.badge-pending {
-  @include background-color($color-accent-blue-400);
-}
-.badge-complete {
-  @include background-color($color-accent-green-600);
-}
-
-.horizontal-stack {
-  display: flex;
 }

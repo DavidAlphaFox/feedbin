@@ -37,6 +37,7 @@ module.exports = {
         "light-100": "var(--color-light-100)",
         "sidebar": "var(--color-sidebar)",
         "selected-muted": "rgba(255,255,255, 0.7)",
+        "link": "var(--color-link)",
         "day": {
           DEFAULT: "#FFFFFF",
           100:     "#f5f5f7",
@@ -86,12 +87,12 @@ module.exports = {
           600: "#E96A0E",
         },
         "green": {
-          600: "#07AC47",
+          600: "var(--color-green-600)",
           700: "#068D3B",
         },
         "red": {
           200: "#F8E7EA",
-          600: "#BB0B2F",
+          600: "var(--color-red-600)",
         },
       },
     },
