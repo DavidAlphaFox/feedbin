@@ -2825,7 +2825,7 @@ $.extend feedbin,
         target = event.currentTarget
         controller = $(target).closest('[data-behavior~=tooltip_controller]')
         tooltipTarget = $('[data-behavior~=tooltip_target]', controller)
-        tooltipTarget.addClass("hide")
+        tooltipTarget.attr("data-visible", "false")
 
       $(document).on 'mouseover', '[data-behavior~=show_tooltip]', (event) ->
         bar = event.currentTarget
@@ -2836,7 +2836,7 @@ $.extend feedbin,
         dayTarget = $('[data-behavior~=tooltip_day]', tooltipTarget)
         countTarget = $('[data-behavior~=tooltip_count]', tooltipTarget)
 
-        tooltipTarget.removeClass('hide')
+        tooltipTarget.attr("data-visible", "true")
         dayTarget.text(bar.dataset.day)
         countTarget.text(bar.dataset.count)
 
@@ -2848,10 +2848,11 @@ $.extend feedbin,
           left: 'auto'
 
         if bar.offsetLeft < parentWidth / 2
-          tooltipTarget.removeClass("right")
+          tooltipTarget.attr("data-position", "left")
           tooltipTarget.css
             left: "#{bar.offsetLeft - 14}px"
         else
+          tooltipTarget.attr("data-position", "right")
           tooltipTarget.addClass("right")
           tooltipTarget.css
             right: "#{parentWidth - bar.offsetLeft - 18}px"
