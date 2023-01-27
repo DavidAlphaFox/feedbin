@@ -2240,11 +2240,11 @@ $.extend feedbin,
 
     formProcessing: ->
       $(document).on 'submit', '[data-behavior~=spinner], [data-behavior~=subscription_form], [data-behavior~=search_form], [data-behavior~=feeds_search]', ->
-        $(@).find('input').addClass('processing')
+        $(@).attr('data-processing', 'true')
         return
 
       $(document).on 'ajax:complete', '[data-behavior~=spinner], [data-behavior~=subscription_form], [data-behavior~=search_form], [data-behavior~=feeds_search]', ->
-        $(@).find('input').removeClass('processing')
+        $(@).attr('data-processing', 'false')
         if feedbin.closeSubcription
           setTimeout ( ->
             feedbin.hideSubscribe()

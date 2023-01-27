@@ -10,7 +10,7 @@
     <% feeds.each_with_index do |feed, index| %>
       <%= fields_for "feeds[]", feed do |pf| %>
 
-        <div class="mb-4">
+        <div class="mb-4" data-behavior="subscription_option">
           <div class="flex items-center gap-4 mb-1">
             <div class="grow">
               <%= component "form/text_input" do |input| %>
