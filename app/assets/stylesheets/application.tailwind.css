@@ -30,7 +30,6 @@
     --border-color:    var(--color-200);
     --color-light-100: var(--color-100);
     --color-sidebar:   var(--color-100);
-
 }
 
 .theme-dusk, .theme-auto.prefers-dark {
