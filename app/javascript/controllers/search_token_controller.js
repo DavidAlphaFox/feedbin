@@ -14,12 +14,17 @@ export default class extends Controller {
   }
 
   search(event) {
-    this.autocompleteVisibleValue = false
+    this.hideAutocomplete()
     this.queryTarget.blur()
   }
 
+  hideAutocomplete() {
+    this.currentFocusable = this.focusableTargets[0]
+    this.autocompleteVisibleValue = false
+  }
+
   deleteToken() {
-    console.log("deleteTOken?");
+    this.currentFocusable = this.focusableTargets[0]
     this.tokenVisibleValue = false
     this.tokenTextTarget.innerHTML = ""
     this.tokenIconTarget.innerHTML = ""
@@ -30,7 +35,7 @@ export default class extends Controller {
     if (event && this.element.contains(event.target)) {
       return
     }
-    this.autocompleteVisibleValue = false
+    this.hideAutocomplete()
   }
 
   setText(element, selector, value) {
@@ -55,7 +60,7 @@ export default class extends Controller {
   tokenSelected(event) {
     let item = this.jumpableItems[event.params.index]
     feedbin.jumpTo($(item.element))
-    this.autocompleteVisibleValue = false
+    this.hideAutocomplete()
     this.tokenTextTarget.textContent = item.title
     this.tokenIconTarget.innerHTML = ""
     if ("icon" in item) {
@@ -118,11 +123,10 @@ export default class extends Controller {
   }
 
   keyup(event) {
-    console.log(this.queryTarget.value);
     if (this.queryTarget.value.length > 0) {
       this.autocompleteVisibleValue = true
     } else {
-      this.autocompleteVisibleValue = false
+      this.hideAutocomplete()
     }
     this.previewTarget.textContent = this.queryTarget.value
 
@@ -141,7 +145,7 @@ export default class extends Controller {
   }
 
   escapeKey(event) {
-    this.autocompleteVisibleValue = false
+    this.hideAutocomplete()
     this.focusableTargets.forEach((element) => element.blur())
   }
 

@@ -10,12 +10,14 @@
   <%= submit_tag("Submit", class: "visually-hidden", tabindex: "-1") %>
   <%= content_tag :div, class: "text-sm text-600 group" do %>
     <div class="border-b bg-base z-10">
-      <div class="flex items-center rounded pl-2 border border-transparent [&:has(input:focus)]:border-blue-600 transition-[border] duration-200">
-        <button class="flex items-center text-left gap-1 rounded-full bg-100 px-3 py-2 max-w-[40%] group/token group-data-[search-token-token-visible-value=false]:tw-hidden" data-action="search-token#deleteToken:prevent" title="Remove filter">
-          <div class="shrink-0 w-[20px] h-[20px] bg-white rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
-          <div class="truncate grow" data-search-token-target="tokenText"></div>
-          <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
-        </button>
+      <div class="flex items-center rounded pl-2 border border-transparent [&:has(input:focus)]:border-blue-600 transition-[border]">
+        <div class="grid min-w-0 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
+          <button class="flex min-w-0 items-center text-left gap-1 rounded-full bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:py-2 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
+            <div class="shrink-0 w-[20px] h-[20px] bg-white rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
+            <div class="truncate grow" data-search-token-target="tokenText"></div>
+            <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
+          </button>
+        </div>
         <div class="h-[16px] w-[17px] shrink-0 group-data-[search-token-token-visible-value=true]:tw-hidden">
           <%= svg_tag "icon-search", class: "fill-400" %>
         </div>
