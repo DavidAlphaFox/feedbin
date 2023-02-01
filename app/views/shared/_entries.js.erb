@@ -24,7 +24,11 @@ var callback = function() {
     <% if @search %>
         feedbin.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
     <% else %>
-        feedbin.hideSearch()
+        if (feedbin.retainSearch) {
+          feedbin.retainSearch = false
+        } else {
+          feedbin.hideSearch()
+        }
     <% end %>
 
     <% if @all_unread %>

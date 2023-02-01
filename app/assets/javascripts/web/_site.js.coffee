@@ -27,6 +27,7 @@ $.extend feedbin,
   scrollStarted: false
   loadingMore: false
   remoteContentIntervals: {}
+  retainSearch: false
 
   hideFormatMenu: (event) ->
     menu = $('.format-palette')
@@ -162,13 +163,15 @@ $.extend feedbin,
   showSearch: (val = '') ->
     $('body').addClass('search')
     $('body').removeClass('hide-search')
-    field = $('[data-behavior~=search_form] input[type=search]')
-    field.focus()
-    field.val(val)
+    setTimeout ( ->
+      $('body').addClass('search-foreground')
+      field = $('[data-behavior~=search_form] input[type=search]')
+      field.focus()
+      field.val(val)
+    ), 150
 
   hideSearch: ->
-    $('body').removeClass('search')
-    $('body').removeClass('show-search-options')
+    $('body').removeClass('search show-search-options search-foreground')
     $('body').addClass('hide-search')
     field = $('[data-behavior~=search_form] input[type=search]')
     field.blur()

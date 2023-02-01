@@ -1,0 +1,70 @@
+<%= form_tag search_entries_path, class: "search-form group", remote: true, method: :get, data: {
+    behavior: "search_form",
+    controller: "search-token",
+    action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate keydown.esc->search-token#escapeKey search-token#search",
+    search_token_token_visible_value: "false",
+    search_token_autocomplete_visible_value: "false",
+    search_token_result_outlet: "[data-controller=result]"
+  } do
+%>
+  <%= submit_tag("Submit", class: "visually-hidden", tabindex: "-1") %>
+  <%= content_tag :div, class: "text-sm text-600 group" do %>
+    <div class="border-b bg-base z-10">
+      <div class="flex items-center rounded pl-2 border border-transparent [&:has(input:focus)]:border-blue-600 transition-[border] duration-200">
+        <button class="flex items-center text-left gap-1 rounded-full bg-100 px-3 py-2 max-w-[40%] group/token group-data-[search-token-token-visible-value=false]:tw-hidden" data-action="search-token#deleteToken:prevent" title="Remove filter">
+          <div class="shrink-0 w-[20px] h-[20px] bg-white rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
+          <div class="truncate grow" data-search-token-target="tokenText"></div>
+          <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
+        </button>
+        <div class="h-[16px] w-[17px] shrink-0 group-data-[search-token-token-visible-value=true]:tw-hidden">
+          <%= svg_tag "icon-search", class: "fill-400" %>
+        </div>
+
+        <%=
+          search_field_tag :query,
+            params[:query],
+            placeholder: "Search",
+            autocorrect: "off",
+            autocapitalize: "off",
+            spellcheck: false ,
+            class: "leading-[44px] grow px-2 rounded min-w-0",
+            data: {
+              search_token_target: "query focusable",
+              action: <<~EOT
+                keyup->search-token#keyup
+                keydown.backspace->search-token#backspaceKey
+                focus->search-token#focused
+              EOT
+            }
+        %>
+      </div>
+    </div>
+
+    <div class="absolute z-50 left-0 top-[46px] z-10 w-full origin-top-left p-1 rounded-b bg-white shadow-one focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
+      <%= component "app/search_token_result" do |item| %>
+        <% item.icon do %>
+          <%= svg_tag "icon-search", class: "fill-400" %>
+        <% end %>
+        <% item.text do %>
+          Search for <span class="font-bold" data-search-token-target="preview"></span> <span class="font-bold before:content-['_in_'] before:font-normal empty:before:tw-hidden" data-search-token-target="previewSource"></span>
+        <% end %>
+      <% end %>
+
+      <div data-search-token-target="results"></div>
+    </div>
+
+    <template data-search-token-target="resultTemplate">
+      <%= component "app/search_token_result" do |item| %>
+        <% item.icon do %>
+          <%= svg_tag "favicon-tag", class: "fill-400" %>
+        <% end %>
+      <% end %>
+    </template>
+
+    <template data-search-token-target="headerTemplate">
+      <h2 class="font-bold mx-2 uppercase mb-2 mt-4 text-500 text-xs" data-template="text"></h2>
+    </template>
+  <% end %>
+
+  <%= component "app/spinner" %>
+<% end %>
