@@ -46,25 +46,9 @@
                         <%= svg_tag "icon-arrow", size: "9x15" %>
                     </button>
                     <span class="feed-title-wrap"><span data-behavior="user_title"></span></span>
-                    <button class="search-button" data-behavior="toggle_search"><%= svg_tag "icon-search", size: "16x16" %></button>
+                    <button class="search-button"  data-action="search-form#toggle"><%= svg_tag "icon-search", size: "16x16" %></button>
                 </div>
-                <div class="search-wrap">
-                    <%= render partial: "shared/search_form" %>
-                    <div class="search-control">
-                        <div class="search-toolbar">
-                            <div class="dropdown-wrap">
-                                <span class="sort-order" data-behavior="toggle_dropdown">Sort by date</span>
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li data-sort-option="desc"><span>Sort by date</span></li>
-                                        <li data-sort-option="relevance"><span>Sort by relevance</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <%= link_to "Save Search", new_saved_search_path, remote: true, class: "save-search", data: {behavior: "new_saved_search open_settings_modal"} %>
-                        </div>
-                    </div>
-                </div>
+                <%= render partial: "shared/search_form" %>
                 <div class="entries">
                     <ul data-behavior="entries_target" class="entries-target"></ul>
                 </div>

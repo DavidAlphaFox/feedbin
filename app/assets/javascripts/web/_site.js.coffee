@@ -129,9 +129,11 @@ $.extend feedbin,
       element.setAttribute('rel', 'noopener noreferrer')
 
   reveal: (element, callback = null) ->
+    parent = element.closest('li')
+    if parent.hasClass('selected')
+      return
     hideFeed = false
     hideTag = false
-    parent = element.closest('li')
     if parent.is('.zero-count')
       feedbin.data.viewMode = 'view_all'
       parent.removeClass('zero-count')
@@ -159,28 +161,6 @@ $.extend feedbin,
 
   isRelated: (selector, element) ->
     !!($(element).is(selector) || $(element).closest(selector).length)
-
-  showSearch: (val = '') ->
-    $('body').addClass('search')
-    $('body').removeClass('hide-search')
-    setTimeout ( ->
-      $('body').addClass('search-foreground')
-      field = $('[data-behavior~=search_form] input[type=search]')
-      field.focus()
-      field.val(val)
-    ), 150
-
-  hideSearch: ->
-    $('body').removeClass('search show-search-options search-foreground')
-    $('body').addClass('hide-search')
-    field = $('[data-behavior~=search_form] input[type=search]')
-    field.blur()
-
-  toggleSearch: ->
-    if $('body').hasClass('search')
-      feedbin.hideSearch()
-    else
-      feedbin.showSearch()
 
   timeago: ->
     strings =
@@ -1203,23 +1183,6 @@ $.extend feedbin,
 
     a - b
 
-  showSearchControls: (sort, query, savedSearchPath, message) ->
-    text = null
-    if sort
-      text = $("[data-sort-option=#{sort}]").text()
-    if !text
-      text = $("[data-sort-option=desc]").text()
-    $('body').addClass('show-search-options')
-    $('body').addClass('feed-selected').removeClass('nothing-selected entry-selected')
-    $('.sort-order').text(text)
-    $('.search-control').removeClass('edit')
-    $('.saved-search-wrap').removeClass('show')
-    $('[data-behavior~=save_search_link]').removeAttr('disabled')
-    $('[data-behavior~=new_saved_search]').attr('href', savedSearchPath)
-    feedbin.markReadData =
-      type: "search"
-      data: query
-      message: message
 
   readabilityActive: ->
     $('[data-behavior~=toggle_extract]').find('.active').length > 0
@@ -1686,15 +1649,6 @@ $.extend feedbin,
           $('[data-behavior~=rename_input]').each ->
             $(@).blur()
 
-    changeSearchSort: (sort) ->
-      $(document).on 'click', '[data-sort-option]', ->
-        sortOption = $(@).data('sort-option')
-        searchField = $('#query')
-        query = searchField.val()
-        query = query.replace(/\s*?(sort:\s*?asc|sort:\s*?desc|sort:\s*?relevance)\s*?/, '')
-        query = "#{query} sort:#{sortOption}"
-        searchField.val(query)
-        searchField.parents('form').submit()
 
     markRead: ->
       $(document).on 'click', '[data-mark-read]', ->
@@ -2635,10 +2589,6 @@ $.extend feedbin,
         target = $(@).data('target')
         $("[data-container~=#{target}]").slideToggle("fast")
         event.preventDefault()
-
-    toggleSearch: ->
-      $(document).on 'click', '[data-behavior~=toggle_search]', (event) ->
-        feedbin.toggleSearch()
 
     showApp: ->
       $('.app-wrap').addClass('show')

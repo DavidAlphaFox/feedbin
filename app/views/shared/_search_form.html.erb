@@ -1,72 +1,198 @@
-<%= form_tag search_entries_path, class: "search-form group", remote: true, method: :get, data: {
-    behavior: "search_form",
-    controller: "search-token",
-    action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate keydown.esc->search-token#escapeKey search-token#search",
-    search_token_token_visible_value: "false",
-    search_token_autocomplete_visible_value: "false",
-    search_token_result_outlet: "[data-controller=result]"
-  } do
+<!-- $search-height: 47px;
+.search-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  z-index: 0;
+  display: none;
+  .search & {
+    display: flex;
+  }
+  .search-foreground & {
+    z-index: 10;
+  }
+  .has-offscreen-panels & {
+    top: $search-height;
+  }
+}
+
+.search-form {
+  display: none;
+  height: $search-height;
+  .search & {
+    opacity: 1;
+    display: block;
+  }
+}
+
+.search-control {
+  @include background-color($color-contrast-100);
+  @include border-bottom($color-borders);
+  @include font-size(12);
+  line-height: 14px;
+  height: $search-height;
+  position: absolute;
+  top: $search-height;
+  left: 0;
+  right: 0;
+  display: none;
+  .show-search-options & {
+    display: block;
+  }
+  .search-toolbar {
+    height: $search-height;
+    display: flex;
+    justify-content: center;
+    transition: opacity 0.3s ease-in;
+    opacity: 0;
+    .show-search-options & {
+      opacity: 1;
+    }
+  }
+  .save-search {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    @include color($color-contrast-700);
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .dropdown-wrap {
+    margin-right: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .sort-order {
+    @include background-color($color-contrast-100);
+    border-radius: 12px;
+    margin: 0 0 0 8px;
+    @include color($color-contrast-700);
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    &:after {
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 5px 4px 0 4px;
+      border-color: black transparent transparent transparent;
+      @include theme("border-top-color", $color-contrast-700);
+      content: "";
+      position: absolute;
+      right: -13px;
+      bottom: 4px;
+    }
+  }
+  .dropdown-wrap {
+    .dropdown-content {
+      top: 35px;
+      left: 8px;
+    }
+  }
+} -->
+
+<%=
+  content_tag :div, class: "search-wrap grid overflow-hidden min-h-0 group [grid-template-rows:0fr] data-[search-form-visible-value=true]:[grid-template-rows:1fr] data-[search-form-foreground-value=true]:overflow-visible transition-[grid-template-rows]",
+    data: {
+      controller: "search-form",
+      search_form_visible_value: "false",
+      search_form_foreground_value: "false"
+    } do
 %>
-  <%= submit_tag("Submit", class: "visually-hidden", tabindex: "-1") %>
-  <%= content_tag :div, class: "text-sm text-600 group" do %>
-    <div class="border-b bg-base z-10">
-      <div class="flex items-center rounded pl-2 border border-transparent [&:has(input:focus)]:border-blue-600 transition-[border]">
-        <div class="grid min-w-0 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
-          <button class="flex min-w-0 items-center text-left gap-1 rounded-full bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:py-2 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
-            <div class="shrink-0 w-[20px] h-[20px] bg-white rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
-            <div class="truncate grow" data-search-token-target="tokenText"></div>
-            <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
-          </button>
-        </div>
-        <div class="h-[16px] w-[17px] shrink-0 group-data-[search-token-token-visible-value=true]:tw-hidden">
-          <%= svg_tag "icon-search", class: "fill-400" %>
-        </div>
+  <%= form_tag search_entries_path, class: "search-form group min-h-0", remote: true, method: :get, data: {
+      behavior: "search_form",
+      controller: "search-token",
+      action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate keydown.esc->search-token#escapeKey search-token#search",
+      search_token_token_visible_value: "false",
+      search_token_autocomplete_visible_value: "false",
+      search_token_result_outlet: "[data-controller=result]"
+    } do
+  %>
+    <%= submit_tag("Submit", class: "visually-hidden", tabindex: "-1") %>
+    <%= content_tag :div, class: "text-sm text-600 group relative" do %>
+      <div class="border-b bg-base z-10">
+        <div class="flex items-stretch rounded pl-2 border border-transparent [&:has(input:focus)]:border-blue-600 transition-[border]">
+          <div class="grid items-center min-h-0 min-w-0 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
+            <button class="flex min-w-0 items-center text-left gap-1 rounded-full bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:py-2 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
+              <div class="shrink-0 w-[20px] h-[20px] bg-white rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
+              <div class="truncate grow" data-search-token-target="tokenText"></div>
+              <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
+            </button>
+          </div>
+          <div class="shrink-0 flex items-center w-[17px] group-data-[search-token-token-visible-value=true]:tw-hidden">
+            <%= svg_tag "icon-search", class: "fill-400" %>
+          </div>
 
-        <%=
-          search_field_tag :query,
-            params[:query],
-            placeholder: "Search",
-            autocorrect: "off",
-            autocapitalize: "off",
-            spellcheck: false ,
-            class: "leading-[44px] grow px-2 rounded min-w-0",
-            data: {
-              search_token_target: "query focusable",
-              action: <<~EOT
-                keyup->search-token#keyup
-                keydown.backspace->search-token#backspaceKey
-                focus->search-token#focused
-              EOT
-            }
-        %>
+          <%=
+            search_field_tag :query,
+              params[:query],
+              placeholder: "Search",
+              autocorrect: "off",
+              autocapitalize: "off",
+              spellcheck: false ,
+              class: "leading-[44px] grow px-2 rounded min-w-0",
+              data: {
+                search_token_target: "query focusable",
+                action: <<~EOT
+                  keyup->search-token#keyup
+                  keydown.backspace->search-token#backspaceKey
+                  focus->search-token#focused
+                EOT
+              }
+          %>
+        </div>
+        <%= component "app/spinner" %>
       </div>
-    </div>
 
-    <div class="absolute z-50 left-0 top-[46px] z-10 w-full origin-top-left p-1 rounded-b bg-white shadow-one focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
-      <%= component "app/search_token_result" do |item| %>
-        <% item.icon do %>
-          <%= svg_tag "icon-search", class: "fill-400" %>
+      <div class="absolute z-50 inset-x-0 top-full w-full origin-top-left p-1 rounded-b bg-white shadow-one focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
+        <%= component "app/search_token_result" do |item| %>
+          <% item.icon do %>
+            <%= svg_tag "icon-search", class: "fill-400" %>
+          <% end %>
+          <% item.text do %>
+            Search for <span class="font-bold" data-search-token-target="preview"></span> <span class="font-bold before:content-['_in_'] before:font-normal empty:before:tw-hidden" data-search-token-target="previewSource"></span>
+          <% end %>
         <% end %>
-        <% item.text do %>
-          Search for <span class="font-bold" data-search-token-target="preview"></span> <span class="font-bold before:content-['_in_'] before:font-normal empty:before:tw-hidden" data-search-token-target="previewSource"></span>
+
+        <div data-search-token-target="results"></div>
+      </div>
+
+      <template data-search-token-target="resultTemplate">
+        <%= component "app/search_token_result" do |item| %>
+          <% item.icon do %>
+            <%= svg_tag "favicon-tag", class: "fill-400" %>
+          <% end %>
         <% end %>
-      <% end %>
+      </template>
 
-      <div data-search-token-target="results"></div>
-    </div>
+      <template data-search-token-target="headerTemplate">
+        <h2 class="font-bold mx-2 uppercase mb-2 mt-4 text-500 text-xs" data-template="text"></h2>
+      </template>
+    <% end %>
 
-    <template data-search-token-target="resultTemplate">
-      <%= component "app/search_token_result" do |item| %>
-        <% item.icon do %>
-          <%= svg_tag "favicon-tag", class: "fill-400" %>
-        <% end %>
-      <% end %>
-    </template>
-
-    <template data-search-token-target="headerTemplate">
-      <h2 class="font-bold mx-2 uppercase mb-2 mt-4 text-500 text-xs" data-template="text"></h2>
-    </template>
   <% end %>
-
-  <%= component "app/spinner" %>
 <% end %>
+
+<div class="border-b flex gap-2 text-sm px-4 items-center">
+  <div class="dropdown-wrap">
+    <button class="flex gap-2 fill-500 items-center py-3" data-behavior="toggle_dropdown">
+      Sort by date
+      <%= svg_tag "icon-caret" %>
+    </button>
+    <div class="dropdown-content">
+      <ul>
+        <li data-sort-option="desc"><span>Sort by date</span></li>
+        <li data-sort-option="relevance"><span>Sort by relevance</span></li>
+      </ul>
+    </div>
+  </div>
+  <%= link_to "Save Search", new_saved_search_path, remote: true, class: "ml-auto !text-600 font-bold hover:no-underline text-xs", data: {behavior: "new_saved_search open_settings_modal"} %>
+</div>
