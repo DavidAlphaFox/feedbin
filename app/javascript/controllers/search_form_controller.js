@@ -4,6 +4,7 @@ import { afterTransition } from "helpers"
 // Connects to data-controller="search-form"
 export default class extends Controller {
   static targets = ["query", "sortLabel", "sortOption", "saveSearch"]
+  static outlets = ["search-token"]
   static values = {
     visible: Boolean,
     foreground: Boolean,
@@ -14,34 +15,45 @@ export default class extends Controller {
     this.element[this.identifier] = this
   }
 
-  error(event) {
-    console.log('--------------------');
-    console.log(event);
-    console.log('--------------------');
+  show(event) {
+    this.toggle(event, true)
   }
 
-  toggle(event) {
-    this.visibleValue = !this.visibleValue
+  hide(event) {
+    this.toggle(event, false)
+  }
+
+  toggle(event, visible) {
+    visible = (typeof(visible) === "undefined") ? !this.visibleValue : visible
+    this.visibleValue = visible
     if (!this.visibleValue) {
       this.optionsVisibleValue = false
+    } else {
+      this.queryTarget.focus()
     }
+
+    if (!this.visibleValue && this.hasSearchTokenOutlet) {
+      this.searchTokenOutlet.hideSearch(event)
+    }
+
     afterTransition(this.element, this.visibleValue, () => {
-		  this.foregroundValue = this.visibleValue
-		})
+      this.foregroundValue = this.visibleValue
+    })
   }
 
-  showSearchControls(sort, query, savedSearchPath, message) {
-    document.body.classList.remove("nothing-selected", "entry-selected")
-    document.body.classList.add("feed-selected")
+  showSearchControls(event) {
+    let {sort, query, savedSearchPath, message} = event.detail
+    sort = (sort === "") ? "desc" : sort
+    let selected = this.sortOptionTargets.find((element) => {
+      return element.dataset.sortOption === sort
+    })
+
+    this.sortLabelTarget.textContent = selected.textContent
     this.optionsVisibleValue = true
     this.saveSearchTarget.setAttribute("href", savedSearchPath)
 
-    sort = (sort === "") ? "desc" : sort
-    let selected = this.sortOptionTargets.find((element) => {
-      element.dataset.sortOption === sort
-    })
-    sortLabelTarget.textContent = selected.textContent
-
+    document.body.classList.remove("nothing-selected", "entry-selected")
+    document.body.classList.add("feed-selected")
 
     window.feedbin.markReadData = {
       type: "search",

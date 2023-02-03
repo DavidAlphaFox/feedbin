@@ -6,7 +6,7 @@
             data: {
                 behavior: 'selectable show_entries open_item feed_link renamable has_settings',
                 mark_read: {type: 'tag', data: tag.id, message: "Mark #{tag.name} as read?"}.to_json,
-                jumpable: {title: tag.name, section: "Tags"},
+                jumpable: {title: tag.name, type: "tag", id: tag.id, section: "Tags"},
                 settings_path: edit_tag_path(tag)
             } do
         %>

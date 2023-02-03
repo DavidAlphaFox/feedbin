@@ -1643,11 +1643,6 @@ li.selected > a .favicon-wrap,
   @include background-color($color-base);
   flex: 1;
   z-index: 4;
-  .search & {
-    transform: translateY($search-height);
-    padding-bottom: $search-height;
-    @include border-color($color-borders);
-  }
   .has-offscreen-panels &.loading {
     .entries-target {
       display: none;
@@ -4453,16 +4448,6 @@ img.responsive {
   }
 }
 
-.jump-search-empty {
-  .modal-purpose-search {
-    .modal-body {
-      display: none;
-    }
-    .modal-header-input input {
-      border-radius: 8px;
-    }
-  }
-}
 .modal-purpose-search {
   .modal-body {
     overflow-y: scroll;
@@ -4481,14 +4466,6 @@ img.responsive {
   }
   .feed-list {
     padding-bottom: 22px;
-  }
-}
-.jump-options {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  li {
-    padding-left: 16px;
   }
 }
 
@@ -6315,9 +6292,6 @@ Media Queries
     top: -1px;
     transform: translateY($toolbar-height);
     z-index: 0;
-  }
-  &.hide-search .entries {
-    transform: translateY(0);
   }
   .entry-basement {
     top: $toolbar-height;

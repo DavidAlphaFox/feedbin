@@ -22,17 +22,22 @@ var callback = function() {
     <% end %>
 
     <% if @search %>
-        const controller = document.querySelector("[data-controller=search-form]")['search-form']
-        if (controller) {
-          controller.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
-        } else {
+        const custom = new CustomEvent("show-search-controls", {detail: {
+          sort: "<%= params[:sort] %>",
+          query: "<%= @escaped_query %>",
+          savedSearchPath: "<%= @saved_search_path %>",
+          message: "<%= @search_message %>"
+        }})
+        window.dispatchEvent(custom)
+
+        if ("showSearchControls" in feedbin) {
           feedbin.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
         }
     <% else %>
         if (feedbin.retainSearch) {
           feedbin.retainSearch = false
         } else {
-          feedbin.hideSearch()
+          window.dispatchEvent(new CustomEvent("hide-search"))
         }
     <% end %>
 

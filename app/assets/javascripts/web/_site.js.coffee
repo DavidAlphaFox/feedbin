@@ -18,7 +18,6 @@ $.extend feedbin,
   notificationTimeout: null
   panel: 1
   panelScrollComplete: true
-  jumpResultTemplate: null
   extractCache: {}
   previousContentView: 'default'
   formatMenu: null
@@ -155,9 +154,6 @@ $.extend feedbin,
       feedbin.scrollTo(element, $('.feeds'))
       callback() if typeof(callback) == 'function'
     ), 250
-
-  jumpOpen: ->
-    ($(".modal.modal-purpose-search").data('bs.modal') || {})._isShown
 
   isRelated: (selector, element) ->
     !!($(element).is(selector) || $(element).closest(selector).length)
@@ -406,46 +402,12 @@ $.extend feedbin,
             "-webkit-overflow-scrolling": "touch"
       }
 
-  jumpTemplate: ->
-    if feedbin.jumpResultTemplate == null
-      feedbin.jumpResultTemplate = $($('.modal [data-behavior~=result_template]').html())
-    feedbin.jumpResultTemplate
-
-  jumpResultItem: (title, icon, index = null) ->
-    markup = feedbin.jumpTemplate().clone()
-    markup.find('.text-wrap').html(title)
-    markup.find('.icon-wrap').replaceWith(icon)
-    markup.attr('data-index', index)
-    markup
-
   jumpTo: (element) ->
     parent = element.closest('li')
     viewMode = feedbin.data.viewMode
 
     feedbin.reveal element, ->
       feedbin.data.viewMode = viewMode
-
-  jumpMenu: ->
-    feedbin.showModal("search", "Search")
-    $("body").addClass("jump-search-empty")
-    setTimeout ( ->
-      $(".modal [data-behavior~=autofocus]").focus()
-    ), 150
-
-    options = []
-    $('[data-jumpable]').each (index, element)->
-      element = $(element)
-      jumpable = element.data('jumpable')
-      icon = element.find('.favicon-wrap').prop('outerHTML')
-      markup = feedbin.jumpResultItem(jumpable.title, icon, index)
-      options.push
-        element: element
-        jumpable: jumpable
-        markup: markup
-        action: () ->
-          feedbin.jumpTo(element)
-
-    feedbin.jumpOptions = options
 
   replaceModal: (target, body) ->
     modal = $(".#{target}")
@@ -2598,81 +2560,6 @@ $.extend feedbin,
       $('.loading-app').addClass('hide')
       $('.feeds').addClass('show')
 
-    jumpTo: ->
-      $(document).on 'submit', '[data-behavior~=jump_search]', (event) ->
-        target = $('.modal [data-behavior~=results_target]')
-        selected = $('.selected', target)
-        if selected.length > 0
-          selected.click()
-        else
-          $('[data-behavior~=jump_to]', target).first().click()
-
-        event.preventDefault()
-
-      $(document).on 'mouseleave', '[data-behavior~=jump_to]', (event) ->
-        $(@).removeClass('selected')
-
-      $(document).on 'mouseenter', '[data-behavior~=jump_to]', (event) ->
-        target = $('.modal [data-behavior~=results_target]')
-        $('.selected', target).removeClass('selected')
-        $(@).addClass('selected')
-
-      $(document).on 'click', '[data-behavior~=jump_to]', (event) ->
-        $('.modal').modal('hide')
-        if action = $(@).data('action')
-          action()
-        else
-          index = $(@).data('index')
-          feedbin.jumpOptions[index].action()
-
-    jumpMenu: ->
-      $(document).on 'keyup', '[data-behavior~=jump_menu]', (event) ->
-
-        # Don't run on arrow up or down
-        return if event.keyCode == 38 || event.keyCode == 40
-
-        template = feedbin.jumpTemplate()
-
-        query = $(@).val()
-        target = $('.modal [data-behavior~=results_target]')
-
-        if query.length > 0
-          $('body').removeClass('jump-search-empty')
-
-          results = _.filter feedbin.jumpOptions, (option) ->
-            titleFolded = option.jumpable.title.foldToASCII()
-            queryFolded = query.foldToASCII()
-            option.score = titleFolded.score(queryFolded)
-            option.score > 0
-
-          results = _.sortBy results, (option) ->
-            -option.score
-
-          results = _.groupBy results, (option) ->
-            option.jumpable.section
-
-          output = []
-          _.each results, (value, key) ->
-            output.push $("<li class='source-section'>#{key}</li>")
-            output = output.concat(_.pluck(value, 'markup'))
-
-          search = feedbin.jumpResultItem("#{query}", '<span class="favicon-wrap collection-favicon"><svg width="16" height="16" class="icon-search"><use xlink:href="#icon-search"></use></svg></span>')
-          search.data 'action', () ->
-            feedbin.showSearch(query)
-            $('[data-behavior~=search_form]').submit()
-
-          output.unshift search
-          output.unshift $("<li class='source-section'>Search</li>")
-
-          target.html(output)
-
-          if target.find('.selected').length == 0
-            target.find('[data-behavior~=jump_to]').first().addClass('selected')
-
-        else
-          $('body').addClass('jump-search-empty')
-          target.html('')
-
     subscribe: ->
       $(document).on 'shown.bs.modal', (event) ->
         className = "modal-purpose-subscribe"
@@ -2708,7 +2595,7 @@ $.extend feedbin,
         feedbin.showPanel(1)
         feedbin.updateEntryContent('');
         feedbin.disableMarkRead()
-        feedbin.hideSearch()
+        window.dispatchEvent(new CustomEvent("hide-search"))
         $('[data-behavior~=feed_settings]').attr('disabled', 'disabled')
         $('body').addClass('nothing-selected').removeClass('feed-selected entry-selected')
 

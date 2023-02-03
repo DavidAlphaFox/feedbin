@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
-import { templateText, templateHTML, hydrate } from "helpers"
+import { hydrate } from "helpers"
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
-  static targets = ["query", "focusable", "preview", "previewSource", "results", "resultTemplate", "headerTemplate", "tokenText", "tokenIcon"]
+  static targets = ["query", "queryExtra", "focusable", "preview", "previewSource", "results", "resultTemplate", "headerTemplate", "tagIconTemplate", "tokenText", "tokenIcon"]
   static values = {
     tokenVisible: Boolean,
     autocompleteVisible: Boolean
@@ -14,9 +14,16 @@ export default class extends Controller {
     this.buildJumpable()
   }
 
-  search(event) {
+  search() {
     this.hideAutocomplete()
-    this.queryTarget.blur()
+    this.skipFocus = true
+  }
+
+  hideSearch(event) {
+    this.queryTarget.value = ""
+    this.deleteToken()
+    this.hideAutocomplete()
+    this.focusableTargets.forEach((element) => element.blur())
   }
 
   hideAutocomplete() {
@@ -30,6 +37,8 @@ export default class extends Controller {
     this.tokenTextTarget.innerHTML = ""
     this.tokenIconTarget.innerHTML = ""
     this.queryTarget.focus()
+    this.queryExtraTarget.value = ""
+
     this.updatePreview()
   }
 
@@ -41,19 +50,26 @@ export default class extends Controller {
   }
 
   tokenSelected(event) {
-    let item = this.jumpableItems[event.params.index]
-    feedbin.jumpTo($(item.element))
-    this.hideAutocomplete()
-    this.tokenTextTarget.textContent = item.title
-    this.tokenIconTarget.innerHTML = ""
-    if ("icon" in item) {
-      this.tokenIconTarget.append(item.icon.cloneNode(true))
+    let index = event.params.index
+    if (index === "") {
+      let form = this.queryTarget.closest("form")
+      $(form).submit()
+    } else {
+      let item = this.jumpableItems[event.params.index]
+      feedbin.jumpTo($(item.element))
+      this.tokenTextTarget.textContent = item.title
+      this.tokenIconTarget.innerHTML = ""
+      if ("icon" in item) {
+        this.tokenIconTarget.append(item.icon.cloneNode(true))
+      }
+      this.tokenVisibleValue = true
+      this.queryTarget.value = ""
+      this.queryTarget.focus()
+      this.queryExtraTarget.value = `${item.type}_id:${item.id}`
+      window.feedbin.retainSearch = true
     }
-    this.tokenVisibleValue = true
+    this.hideAutocomplete()
     this.resultsTarget.innerHTML = ""
-    this.queryTarget.value = ""
-    this.queryTarget.focus()
-    window.feedbin.retainSearch = true
     event.preventDefault()
   }
 
@@ -131,11 +147,13 @@ export default class extends Controller {
   }
 
   keyup(event) {
-    if (this.queryTarget.value.length > 0) {
+    if (!this.skipFocus && this.queryTarget.value.length > 0) {
       this.autocompleteVisibleValue = true
     } else {
       this.hideAutocomplete()
     }
+
+    this.skipFocus = false
     this.updatePreview()
     this.buildAutocomplete()
   }
@@ -144,11 +162,6 @@ export default class extends Controller {
     if (this.queryTarget.value.length === 0) {
       this.deleteToken()
     }
-  }
-
-  escapeKey(event) {
-    this.hideAutocomplete()
-    this.focusableTargets.forEach((element) => element.blur())
   }
 
   focused(event) {
@@ -187,13 +200,11 @@ export default class extends Controller {
 
   buildJumpable() {
     const jumpable = document.querySelectorAll("[data-jumpable]")
-
+    const tagIconTemplate = this.tagIconTemplateTarget.content
     const items = Array.from(jumpable).map((element, index) => {
       let data = JSON.parse(element.dataset.jumpable)
-      const icon = element.querySelector(".favicon-wrap")
-      if (icon) {
-        data["icon"] = icon.cloneNode(true)
-      }
+      const icon = element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true)
+      data["icon"] = icon.cloneNode(true)
       data["element"] = element
       data["index"] = index
 

@@ -111,23 +111,6 @@ class feedbin.Keyboard
           $("[data-feed-id=#{feedbin.feedCandidates[0]}]").find('[data-behavior~=open_item]').click()
           feedbin.feedCandidates = []
 
-  navigateJumpMenu: (combo) ->
-
-    target = $('.modal [data-behavior~=results_target]')
-    selected = $('.selected', target)
-
-    if selected.length == 0
-      next = $('[data-behavior~=jump_to]', target).first()
-    else
-      next = []
-      if combo == 'up'
-        next = selected.prevAll('[data-behavior~=jump_to]').first()
-      else if combo == 'down'
-        next = selected.nextAll('[data-behavior~=jump_to]').first()
-
-    if next.length > 0
-      next.trigger('mouseenter')
-
   navigateEntryContent: (combo) ->
     @selectColumn('entries')
     @setEnvironment()
@@ -151,9 +134,7 @@ class feedbin.Keyboard
       return
 
     Mousetrap.bind ['pageup', 'pagedown', 'up', 'down', 'left', 'right', 'j', 'k', 'h', 'l', 'shift+j', 'shift+k'], (event, combo) =>
-      if feedbin.jumpOpen()
-        @navigateJumpMenu(combo)
-      else if feedbin.shareOpen()
+      if feedbin.shareOpen()
         @navigateShareMenu(combo)
       else if feedbin.isFullScreen()
         @navigateEntryContent(combo)
@@ -226,11 +207,6 @@ class feedbin.Keyboard
       $('[data-behavior~=show_subscribe]').click()
       event.preventDefault()
 
-    # Add subscription
-    Mousetrap.bind ';', (event, combo) =>
-      feedbin.jumpMenu()
-      event.preventDefault()
-
     # Show Keyboard shortcuts
     Mousetrap.bind '?', (event, combo) =>
       if $('.modal-purpose-help').hasClass('show')
@@ -242,7 +218,7 @@ class feedbin.Keyboard
     # Focus search
     Mousetrap.bind '/', (event, combo) =>
       $('body').removeClass('full-screen')
-      feedbin.showSearch()
+      window.dispatchEvent(new CustomEvent("show-search"))
       event.preventDefault()
 
     # Open original article
@@ -302,7 +278,7 @@ class feedbin.Keyboard
       $('.dropdown-wrap.open').removeClass('open')
       $('.modal').modal('hide')
       feedbin.hideFormatMenu()
-      feedbin.hideSearch()
+      window.dispatchEvent(new CustomEvent("hide-search"))
       feedbin.closeEntryBasement()
       if $('[name="subscription[feeds][feed_url]"]').is(':focus')
         $('[name="subscription[feeds][feed_url]"]').blur()
@@ -329,15 +305,6 @@ class feedbin.Keyboard
             console.log error
       event.preventDefault()
 
-    $(document).on 'keydown', '[data-behavior~=jump_menu]', (event) =>
-      keys = {
-        38: "up"
-        40: "down"
-      }
-      if keys[event.keyCode]
-        @navigateJumpMenu(keys[event.keyCode])
-        event.preventDefault()
-
     $(window).on 'keydown', (event) =>
       keys = {
         UIKeyInputUpArrow: "up",
@@ -347,9 +314,7 @@ class feedbin.Keyboard
       }
 
       if keys[event.key]
-        if feedbin.jumpOpen()
-          @navigateJumpMenu(keys[event.key])
-        else if feedbin.shareOpen()
+        if feedbin.shareOpen()
           @navigateShareMenu(keys[event.key])
         else if feedbin.isFullScreen()
           @navigateEntryContent(keys[event.key])
