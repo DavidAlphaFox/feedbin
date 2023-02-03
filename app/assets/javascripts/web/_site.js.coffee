@@ -2211,6 +2211,9 @@ $.extend feedbin,
 
     searchError: ->
       $(document).on 'ajax:error', '[data-behavior~=search_form]', (event, xhr) ->
+        window.xhrEvent = xhr
+        console.log event
+        console.log xhr
         feedbin.showNotification('Search error.', true);
         return
 

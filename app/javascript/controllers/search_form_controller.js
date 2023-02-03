@@ -3,7 +3,7 @@ import { afterTransition } from "helpers"
 
 // Connects to data-controller="search-form"
 export default class extends Controller {
-  static targets = []
+  static targets = ["query", "sortLabel", "sortOption", "saveSearch"]
   static values = {
     visible: Boolean,
     foreground: Boolean,
@@ -12,6 +12,12 @@ export default class extends Controller {
 
   connect() {
     this.element[this.identifier] = this
+  }
+
+  error(event) {
+    console.log('--------------------');
+    console.log(event);
+    console.log('--------------------');
   }
 
   toggle(event) {
@@ -25,29 +31,37 @@ export default class extends Controller {
   }
 
   showSearchControls(sort, query, savedSearchPath, message) {
-    var text;
-    text = null;
-    if (sort) {
-      text = $("[data-sort-option=" + sort + "]").text();
-    }
-    if (!text) {
-      text = $("[data-sort-option=desc]").text();
-    }
-
+    document.body.classList.remove("nothing-selected", "entry-selected")
+    document.body.classList.add("feed-selected")
     this.optionsVisibleValue = true
+    this.saveSearchTarget.setAttribute("href", savedSearchPath)
 
-    $('body').addClass('feed-selected').removeClass('nothing-selected entry-selected');
-    $('.sort-order').text(text);
-    $('.search-control').removeClass('edit');
-    $('.saved-search-wrap').removeClass('show');
-    $('[data-behavior~=save_search_link]').removeAttr('disabled');
-    $('[data-behavior~=new_saved_search]').attr('href', savedSearchPath);
-    return feedbin.markReadData = {
+    sort = (sort === "") ? "desc" : sort
+    let selected = this.sortOptionTargets.find((element) => {
+      element.dataset.sortOption === sort
+    })
+    sortLabelTarget.textContent = selected.textContent
+
+
+    window.feedbin.markReadData = {
       type: "search",
       data: query,
       message: message
-    };
+    }
   }
+
+  changeSearchSort(event) {
+    let sortOption = event.target.dataset.sortOption
+    let value = this.queryTarget.value
+    value = value.replace(/\s*?(sort:\s*?asc|sort:\s*?desc|sort:\s*?relevance)\s*?/, '')
+    value = `${value} sort:${sortOption}`
+    this.queryTarget.value = value
+
+    let form = this.queryTarget.closest("form")
+
+    $(form).submit()
+  }
+
 }
 
 
