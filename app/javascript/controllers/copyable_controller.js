@@ -1,18 +1,19 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="expandable"
 export default class extends Controller {
   static values = {
     data: String,
-    success: Boolean
-  }
+    success: Boolean,
+  };
 
   copy(event) {
-    navigator.clipboard.writeText(this.dataValue).then(() => {
-        this.successValue = true
+    navigator.clipboard.writeText(this.dataValue).then(
+      () => {
+        this.successValue = true;
         setTimeout(() => {
-          this.successValue = false
-        }, 1000)
+          this.successValue = false;
+        }, 1000);
       },
       () => {
         console.log("failed");
