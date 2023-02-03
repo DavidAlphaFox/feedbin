@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { templateText, templateHTML } from "helpers"
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -36,25 +37,6 @@ export default class extends Controller {
       return
     }
     this.hideAutocomplete()
-  }
-
-  setText(element, selector, value) {
-    let result = element.querySelector(`[data-template=${selector}]`)
-    if (result) {
-      result.textContent = value
-    } else {
-      console.log(`setText missing selector: ${selector}`);
-    }
-  }
-
-  setHTML(element, selector, value) {
-    let result = element.querySelector(`[data-template=${selector}]`)
-    if (result) {
-      result.innerHTML = ""
-      result.append(value)
-    } else {
-      console.log(`setText missing selector: ${selector}`);
-    }
   }
 
   tokenSelected(event) {
@@ -100,11 +82,11 @@ export default class extends Controller {
     sections.sort()
     sections.forEach((section) => {
       let header = headerTemplate.cloneNode(true)
-      this.setText(header, "text", section)
+      templateText(header, "text", section)
       elements.push(header)
       items[section].slice(0, 5).forEach((item) => {
         let result = resultTemplate.cloneNode(true)
-        this.setText(result, "text", item.title)
+        templateText(result, "text", item.title)
 
         let indexAttribute = `data-${this.identifier}-index-param`
         let index = result.querySelector(`[${indexAttribute}]`)
@@ -112,7 +94,7 @@ export default class extends Controller {
           index.setAttribute(indexAttribute, item.index)
         }
         if ("icon" in item) {
-          this.setHTML(result, "icon", item.icon.cloneNode(true))
+          templateHTML(result, "icon", item.icon.cloneNode(true))
         }
         elements.push(result)
       })

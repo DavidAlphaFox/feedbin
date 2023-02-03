@@ -99,12 +99,14 @@
   }
 } -->
 
+
 <%=
-  content_tag :div, class: "search-wrap grid overflow-hidden min-h-0 group [grid-template-rows:0fr] data-[search-form-visible-value=true]:[grid-template-rows:1fr] data-[search-form-foreground-value=true]:overflow-visible transition-[grid-template-rows]",
+  content_tag :div, class: "search-wrap grid overflow-hidden min-h-0 group opacity-0 [grid-template-rows:0fr] data-[search-form-visible-value=true]:[grid-template-rows:1fr] data-[search-form-visible-value=true]:opacity-100 data-[search-form-foreground-value=true]:overflow-visible transition-[grid-template-rows]",
     data: {
       controller: "search-form",
       search_form_visible_value: "false",
-      search_form_foreground_value: "false"
+      search_form_foreground_value: "false",
+      search_form_options_visible_value: "false"
     } do
 %>
   <%= form_tag search_entries_path, class: "search-form group min-h-0", remote: true, method: :get, data: {
@@ -152,7 +154,7 @@
         <%= component "app/spinner" %>
       </div>
 
-      <div class="absolute z-50 inset-x-0 top-full w-full origin-top-left p-1 rounded-b bg-white shadow-one focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
+      <div class="absolute z-50 inset-x-0 top-full w-full origin-top-left p-1 rounded-b bg-white shadow-two focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
         <%= component "app/search_token_result" do |item| %>
           <% item.icon do %>
             <%= svg_tag "icon-search", class: "fill-400" %>
@@ -179,20 +181,27 @@
     <% end %>
 
   <% end %>
-<% end %>
 
-<div class="border-b flex gap-2 text-sm px-4 items-center">
-  <div class="dropdown-wrap">
-    <button class="flex gap-2 fill-500 items-center py-3" data-behavior="toggle_dropdown">
-      Sort by date
-      <%= svg_tag "icon-caret" %>
-    </button>
-    <div class="dropdown-content">
-      <ul>
-        <li data-sort-option="desc"><span>Sort by date</span></li>
-        <li data-sort-option="relevance"><span>Sort by relevance</span></li>
-      </ul>
+  <div class="grid overflow-hidden min-h-0 opacity-0 transition-[grid-template-rows] [grid-template-rows:0fr] group-data-[search-form-options-visible-value=true]:[grid-template-rows:1fr] group-data-[search-form-options-visible-value=true]:opacity-100 group-data-[search-form-options-visible-value=true]:overflow-visible">
+    <div class="min-h-0">
+      <div class="border-b flex gap-2 text-sm pr-4 items-center">
+        <div class="dropdown-wrap">
+          <button class="flex gap-2 fill-500 items-center py-3 pl-4" data-behavior="toggle_dropdown">
+            Sort by date
+            <%= svg_tag "icon-caret" %>
+          </button>
+          <div class="dropdown-content">
+            <ul>
+              <li data-sort-option="desc"><span>Sort by date</span></li>
+              <li data-sort-option="relevance"><span>Sort by relevance</span></li>
+            </ul>
+          </div>
+        </div>
+        <%= link_to "Save Search", new_saved_search_path, remote: true, class: "ml-auto !text-600 font-bold hover:no-underline text-xs", data: {behavior: "new_saved_search open_settings_modal"} %>
+      </div>
     </div>
   </div>
-  <%= link_to "Save Search", new_saved_search_path, remote: true, class: "ml-auto !text-600 font-bold hover:no-underline text-xs", data: {behavior: "new_saved_search open_settings_modal"} %>
-</div>
+
+
+<% end %>
+

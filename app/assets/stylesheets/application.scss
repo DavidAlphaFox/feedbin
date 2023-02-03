@@ -2836,11 +2836,11 @@ $feed-title-width: 115px;
   }
   ul {
     margin: 0;
-    padding: base-units(1) 0;
+    padding: base-units(0.5) 0;
     list-style: none;
     li {
       margin: 0;
-      padding: 0 base-units(1);
+      padding: 0 base-units(0.5);
       > a,
       > span,
       > button {

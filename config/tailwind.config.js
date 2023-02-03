@@ -21,7 +21,8 @@ module.exports = {
     },
     extend: {
       boxShadow: {
-        "one": "0 1px 1px 0 var(--color-shadow-100)"
+        "one": "0 1px 1px 0 var(--color-shadow-100)",
+        "two": "0px 4px 6px 2px var(--color-shadow-100)",
       },
       borderColor: {
         DEFAULT: "var(--border-color)",

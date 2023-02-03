@@ -22,7 +22,12 @@ var callback = function() {
     <% end %>
 
     <% if @search %>
-        feedbin.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
+        const controller = document.querySelector("[data-controller=search-form]")['search-form']
+        if (controller) {
+          controller.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
+        } else {
+          feedbin.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
+        }
     <% else %>
         if (feedbin.retainSearch) {
           feedbin.retainSearch = false

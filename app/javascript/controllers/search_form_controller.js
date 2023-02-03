@@ -1,29 +1,53 @@
 import { Controller } from "@hotwired/stimulus"
+import { afterTransition } from "helpers"
 
 // Connects to data-controller="search-form"
 export default class extends Controller {
   static targets = []
   static values = {
     visible: Boolean,
-    foreground: Boolean
+    foreground: Boolean,
+    optionsVisible: Boolean
   }
 
   connect() {
-    console.log(this.identifier);
     this.element[this.identifier] = this
   }
 
   toggle() {
     this.visibleValue = !this.visibleValue
+    if (!this.visibleValue) {
+      this.optionsVisibleValue = false
+    }
+    afterTransition(this.element, this.visibleValue, () => {
+		  this.foregroundValue = this.visibleValue
+		})
+  }
 
-    let timeout = 0
-    if (this.visibleValue) {
-      timeout = parseFloat(getComputedStyle(this.element).transitionDuration) * 1000
+  showSearchControls(sort, query, savedSearchPath, message) {
+    console.log('showSearchControls');
+    var text;
+    text = null;
+    if (sort) {
+      text = $("[data-sort-option=" + sort + "]").text();
+    }
+    if (!text) {
+      text = $("[data-sort-option=desc]").text();
     }
 
-		setTimeout(() => {
-		  this.foregroundValue = this.visibleValue
-		}, timeout);
+    this.optionsVisibleValue = true
+
+    $('body').addClass('feed-selected').removeClass('nothing-selected entry-selected');
+    $('.sort-order').text(text);
+    $('.search-control').removeClass('edit');
+    $('.saved-search-wrap').removeClass('show');
+    $('[data-behavior~=save_search_link]').removeAttr('disabled');
+    $('[data-behavior~=new_saved_search]').attr('href', savedSearchPath);
+    return feedbin.markReadData = {
+      type: "search",
+      data: query,
+      message: message
+    };
   }
 }
 
