@@ -104,6 +104,7 @@
   content_tag :div, class: "search-wrap grid overflow-hidden min-h-0 group opacity-0 [grid-template-rows:0fr] data-[search-form-visible-value=true]:[grid-template-rows:1fr] data-[search-form-visible-value=true]:opacity-100 data-[search-form-foreground-value=true]:overflow-visible transition-[grid-template-rows]",
     data: {
       controller: "search-form",
+      action: "toggle-search@window->search-form#toggle",
       search_form_visible_value: "false",
       search_form_foreground_value: "false",
       search_form_options_visible_value: "false"
@@ -184,9 +185,9 @@
 
   <div class="grid overflow-hidden min-h-0 opacity-0 transition-[grid-template-rows] [grid-template-rows:0fr] group-data-[search-form-options-visible-value=true]:[grid-template-rows:1fr] group-data-[search-form-options-visible-value=true]:opacity-100 group-data-[search-form-options-visible-value=true]:overflow-visible">
     <div class="min-h-0">
-      <div class="border-b flex gap-2 text-sm pr-4 items-center">
+      <div class="border-b flex gap-2 text-sm pr-2 items-center">
         <div class="dropdown-wrap">
-          <button class="flex gap-2 fill-500 items-center py-3 pl-4" data-behavior="toggle_dropdown">
+          <button class="flex gap-2 fill-500 items-center py-3 pl-2" data-behavior="toggle_dropdown">
             Sort by date
             <%= svg_tag "icon-caret" %>
           </button>

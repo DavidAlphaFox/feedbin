@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { templateText, templateHTML } from "helpers"
+import { templateText, templateHTML, hydrate } from "helpers"
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -30,6 +30,7 @@ export default class extends Controller {
     this.tokenTextTarget.innerHTML = ""
     this.tokenIconTarget.innerHTML = ""
     this.queryTarget.focus()
+    this.updatePreview()
   }
 
   clickOff(event) {
@@ -82,26 +83,51 @@ export default class extends Controller {
     sections.sort()
     sections.forEach((section) => {
       let header = headerTemplate.cloneNode(true)
-      templateText(header, "text", section)
-      elements.push(header)
+      let element = hydrate(header, [{
+        type: "text",
+        name: "text",
+        value: section
+      }])
+      elements.push(element)
       items[section].slice(0, 5).forEach((item) => {
-        let result = resultTemplate.cloneNode(true)
-        templateText(result, "text", item.title)
+        let element = resultTemplate.cloneNode(true)
+        let updates = [
+          {
+            type: "text",
+            name: "text",
+            value: item.title
+          },
+          {
+            type: "attribute",
+            name: `data-${this.identifier}-index-param`,
+            value: item.index
+          }
+        ]
 
-        let indexAttribute = `data-${this.identifier}-index-param`
-        let index = result.querySelector(`[${indexAttribute}]`)
-        if (index) {
-          index.setAttribute(indexAttribute, item.index)
-        }
         if ("icon" in item) {
-          templateHTML(result, "icon", item.icon.cloneNode(true))
+          updates.push({
+            type: "html",
+            name: "icon",
+            value: item.icon.cloneNode(true)
+          })
         }
-        elements.push(result)
+
+        elements.push(hydrate(element, updates))
       })
     })
 
     this.resultsTarget.innerHTML = ""
     this.resultsTarget.append(...elements)
+  }
+
+  updatePreview() {
+    this.previewTarget.textContent = this.queryTarget.value
+
+    let sourceText = ""
+    if (this.tokenTextTarget.textContent != "") {
+      sourceText = this.tokenTextTarget.textContent
+    }
+    this.previewSourceTarget.textContent = sourceText
   }
 
   keyup(event) {
@@ -110,13 +136,7 @@ export default class extends Controller {
     } else {
       this.hideAutocomplete()
     }
-    this.previewTarget.textContent = this.queryTarget.value
-
-    let sourceText = ""
-    if (this.tokenTextTarget.textContent != "") {
-      sourceText = this.tokenTextTarget.textContent
-    }
-    this.previewSourceTarget.textContent = sourceText
+    this.updatePreview()
     this.buildAutocomplete()
   }
 

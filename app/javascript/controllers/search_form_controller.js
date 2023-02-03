@@ -14,7 +14,7 @@ export default class extends Controller {
     this.element[this.identifier] = this
   }
 
-  toggle() {
+  toggle(event) {
     this.visibleValue = !this.visibleValue
     if (!this.visibleValue) {
       this.optionsVisibleValue = false
@@ -25,7 +25,6 @@ export default class extends Controller {
   }
 
   showSearchControls(sort, query, savedSearchPath, message) {
-    console.log('showSearchControls');
     var text;
     text = null;
     if (sort) {
