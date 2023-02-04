@@ -11,7 +11,7 @@ Variables
 
 $small-breakpoint: 700px;
 
-$toolbar-height: 41px;
+$toolbar-height: 44px;
 $font-stack: -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial,
   sans-serif;
 $audio-player-height: 115px;
@@ -2173,7 +2173,7 @@ $feed-title-width: 115px;
 }
 
 .basement-panel {
-  max-height: calc(100vh - 41px);
+  max-height: calc(100vh - $toolbar-height);
   overflow-y: scroll;
 }
 
@@ -6290,7 +6290,6 @@ Media Queries
   }
   .entries {
     top: -1px;
-    transform: translateY($toolbar-height);
     z-index: 0;
   }
   .entry-basement {
@@ -6433,7 +6432,7 @@ button.close {
           background-color: transparent;
         }
       }
-      .twitter-profile-image {
+      .twitter-profile-image:not(.icon-format-square) {
         height: 34px;
         width: 34px;
         img {
@@ -6643,7 +6642,7 @@ button.close {
   .subscribe-tags-autocomplete {
     z-index: 2;
     position: absolute;
-    top: 41px;
+    top: $toolbar-height;
     left: 0;
     width: 200px;
   }

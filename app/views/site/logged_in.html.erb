@@ -46,7 +46,9 @@
                         <%= svg_tag "icon-arrow", size: "9x15" %>
                     </button>
                     <span class="feed-title-wrap"><span data-behavior="user_title"></span></span>
-                    <button class="search-button"  data-action="search-form#toggle"><%= svg_tag "icon-search", size: "16x16" %></button>
+                    <div class="search-button">
+                      <%= component "app/search_button" %>
+                    </div>
                 </div>
                 <%= render partial: "shared/search_form" %>
                 <div class="entries">

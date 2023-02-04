@@ -21,44 +21,34 @@ export default class extends Controller {
     autocompleteVisible: Boolean,
   };
 
-  connect() {
-    this.currentFocusable = this.focusableTargets[0];
-    this.buildJumpable();
-  }
-
   search() {
-    this.hideAutocomplete();
+    this.autocompleteVisibleValue = false;
     this.skipFocus = true;
   }
 
   hideSearch() {
     this.queryTarget.value = "";
-    this.deleteToken();
-    this.hideAutocomplete();
+    this.deleteToken(false);
+    this.autocompleteVisibleValue = false;
     this.focusableTargets.forEach((element) => element.blur());
   }
 
-  hideAutocomplete() {
-    this.currentFocusable = this.focusableTargets[0];
-    this.autocompleteVisibleValue = false;
-  }
-
-  deleteToken() {
-    this.currentFocusable = this.focusableTargets[0];
+  deleteToken(focusQuery = true) {
     this.tokenVisibleValue = false;
     this.tokenTextTarget.innerHTML = "";
     this.tokenIconTarget.innerHTML = "";
-    this.queryTarget.focus();
     this.queryExtraTarget.value = "";
-
     this.updatePreview();
+    if (focusQuery) {
+      this.queryTarget.focus();
+    }
   }
 
   clickOff(event) {
     if (event && this.element.contains(event.target)) {
       return;
     }
-    this.hideAutocomplete();
+    this.autocompleteVisibleValue = false;
   }
 
   tokenSelected(event) {
@@ -80,7 +70,7 @@ export default class extends Controller {
       this.queryExtraTarget.value = `${item.type}_id:${item.id}`;
       window.feedbin.retainSearch = true;
     }
-    this.hideAutocomplete();
+    this.autocompleteVisibleValue = false;
     this.resultsTarget.innerHTML = "";
     event.preventDefault();
   }
@@ -89,7 +79,7 @@ export default class extends Controller {
     if (this.tokenVisibleValue) {
       return;
     }
-
+    this.currentFocusable = this.focusableTargets[0];
     const resultTemplate = this.resultTemplateTarget.content;
     const headerTemplate = this.headerTemplateTarget.content;
 
@@ -164,7 +154,7 @@ export default class extends Controller {
     if (!this.skipFocus && this.queryTarget.value.length > 0) {
       this.autocompleteVisibleValue = true;
     } else {
-      this.hideAutocomplete();
+      this.autocompleteVisibleValue = false;
     }
 
     this.skipFocus = false;
@@ -172,8 +162,16 @@ export default class extends Controller {
     this.buildAutocomplete();
   }
 
-  backspaceKey() {
-    if (this.queryTarget.value.length === 0) {
+  checkToken(event) {
+    if (event.key !== "Backspace") {
+      return
+    }
+    this.updatePreview();
+
+    // command + delete
+    if (event.metaKey) {
+      this.deleteToken();
+    } else if (this.queryTarget.value.length === 0) {
       this.deleteToken();
     }
   }
@@ -218,8 +216,12 @@ export default class extends Controller {
   buildJumpable() {
     const jumpable = document.querySelectorAll("[data-jumpable]");
     const tagIconTemplate = this.tagIconTemplateTarget.content;
-    const items = Array.from(jumpable).map((element, index) => {
+    let items = Array.from(jumpable).map((element, index) => {
       let data = JSON.parse(element.dataset.jumpable);
+      let title = window.feedbin.data.user_titles[data.id];
+      if (data.type == "feed" && title) {
+        data["title"] = title;
+      }
       const icon =
         element.querySelector(".favicon-wrap") ||
         tagIconTemplate.cloneNode(true);
@@ -229,7 +231,9 @@ export default class extends Controller {
 
       return data;
     });
-
+    items = window._.uniq(items, (item) => {
+      return `${item.type}${item.id}`
+    });
     this.jumpableItems = items;
   }
 }
