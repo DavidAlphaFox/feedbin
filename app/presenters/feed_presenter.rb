@@ -11,6 +11,9 @@ class FeedPresenter < BasePresenter
         settings_path: @template.edit_subscription_path(feed, app: true),
         feed_id: feed.id,
         jumpable: {title: feed.title, type: "feed", id: feed.id, section: "Feeds"},
+        controller: "jumpable",
+        jumpable_params_value: {title: feed.title, type: "feed", id: feed.id, section: "Feeds"},
+        action: "click->jumpable#selected",
         mark_read: {
           type: "feed",
           data: feed.id,

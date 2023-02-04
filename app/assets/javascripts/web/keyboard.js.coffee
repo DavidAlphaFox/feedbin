@@ -108,7 +108,7 @@ class feedbin.Keyboard
         if @columns['feeds'].find('.selected').length > 0
           @selectColumn('feeds')
         else
-          $("[data-feed-id=#{feedbin.feedCandidates[0]}]").find('[data-behavior~=open_item]').click()
+          $("[data-feed-id=#{feedbin.feedCandidates[0]}]").find('[data-behavior~=open_item]')[0]?.click()
           feedbin.feedCandidates = []
 
   navigateEntryContent: (combo) ->
@@ -173,21 +173,21 @@ class feedbin.Keyboard
     # Go to unread
     Mousetrap.bind ['g 1', 'g u'], (event, combo) =>
       $('body').removeClass('full-screen')
-      $('[data-behavior~=change_view_mode][data-view-mode=view_unread]').click()
+      $('[data-behavior~=change_view_mode][data-view-mode=view_unread]')[0]?.click()
       $('.dropdown-wrap').removeClass('open')
       event.preventDefault()
 
     # Go to starred
     Mousetrap.bind ['g 2', 'g s'], (event, combo) =>
       $('body').removeClass('full-screen')
-      $('[data-behavior~=change_view_mode][data-view-mode=view_starred]').click()
+      $('[data-behavior~=change_view_mode][data-view-mode=view_starred]')[0]?.click()
       $('.dropdown-wrap').removeClass('open')
       event.preventDefault()
 
     # Go to all
     Mousetrap.bind ['g 3', 'g a'], (event, combo) =>
       $('body').removeClass('full-screen')
-      $('[data-behavior~=change_view_mode][data-view-mode=view_all]').click()
+      $('[data-behavior~=change_view_mode][data-view-mode=view_all]')[0]?.click()
       $('.dropdown-wrap').removeClass('open')
       event.preventDefault()
 
@@ -198,13 +198,13 @@ class feedbin.Keyboard
       @alternateEntryCandidates.push currentEntry.next() if currentEntry.next().length
       @alternateEntryCandidates.push currentEntry.prev() if currentEntry.prev().length
 
-      $('[data-behavior~=mark_all_as_read]').first().click()
+      $('[data-behavior~=mark_all_as_read]').first()[0]?.click()
       event.preventDefault()
 
     # Add subscription
     Mousetrap.bind 'a', (event, combo) =>
       $('body').removeClass('full-screen')
-      $('[data-behavior~=show_subscribe]').click()
+      $('[data-behavior~=show_subscribe]')[0]?.click()
       event.preventDefault()
 
     # Show Keyboard shortcuts
@@ -238,7 +238,7 @@ class feedbin.Keyboard
 
     # Edit
     Mousetrap.bind 'shift+e', (event, combo) =>
-      $('[data-behavior~=feed_settings]').click()
+      $('[data-behavior~=feed_settings]')[0]?.click()
       event.preventDefault()
 
     # refresh
@@ -250,7 +250,7 @@ class feedbin.Keyboard
     Mousetrap.bind 'f', (event, combo) =>
       shareButton = $("[data-behavior~=toggle_share_menu]")
       if shareButton.length > 0
-        shareButton.click()
+        shareButton[0]?.click()
         event.preventDefault()
 
     # sharing hotkeys
@@ -264,7 +264,7 @@ class feedbin.Keyboard
     # Full Screen
     Mousetrap.bind 'F', (event, combo) =>
       if $('[data-behavior~=entry_content_target]').html().length > 0
-        $('[data-behavior~=toggle_full_screen]').click()
+        $('[data-behavior~=toggle_full_screen]')[0]?.click()
       event.preventDefault()
 
     Mousetrap.bind 'enter', (event, combo) =>
@@ -331,7 +331,9 @@ class feedbin.Keyboard
     @scrollTop = @selectedColumn.prop('scrollTop')
 
   clickItem: _.debounce( ->
-    @item.find('[data-behavior~=open_item]:first').click()
+    element = @item.find('[data-behavior~=open_item]:first')
+    element[0]?.click()
+
   50)
 
   selectItem: ->
@@ -352,7 +354,7 @@ class feedbin.Keyboard
     @selectColumn('entries')
     selectedEntry = @columns['entries'].find('.selected')
     unless selectedEntry.length > 0
-      @selectedColumn.find('li:first-child [data-behavior~=open_item]').click()
+      @selectedColumn.find('li:first-child [data-behavior~=open_item]')[0]?.click()
 
   selectedColumnName: ->
     if @selectedColumn.hasClass 'feeds'

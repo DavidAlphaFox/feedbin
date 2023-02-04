@@ -146,7 +146,7 @@ $.extend feedbin,
         tagParent.removeClass('zero-count')
         hideTag = true
 
-    element.click()
+    element[0]?.click()
     feedbin.hideQueue.push(tagParent.data('feed-id')) if hideTag
     feedbin.hideQueue.push(parent.data('feed-id')) if hideFeed
 
@@ -1752,7 +1752,7 @@ $.extend feedbin,
           if nextScreenshot.length == 0
             nextScreenshot = $('li:last-child', $('[data-behavior~=screenshot_nav]'))
 
-        nextScreenshot.find('a').click()
+        nextScreenshot.find('a')[0]?.click()
         event.preventDefault()
         return
 
@@ -2079,7 +2079,7 @@ $.extend feedbin,
 
     fullscreen: ->
       $(document).on 'click', '[data-behavior~=full_screen]', (event) ->
-        $('[data-behavior~=toggle_full_screen]').click()
+        $('[data-behavior~=toggle_full_screen]')[0]?.click()
 
       $(document).on 'change', '[data-behavior~=toggle_full_screen]', (event) ->
         feedbin.fullScreen()
@@ -2571,7 +2571,7 @@ $.extend feedbin,
 
       subscription = feedbin.queryString('subscribe')
       if subscription?
-        $('[data-behavior~=show_subscribe]').click()
+        $('[data-behavior~=show_subscribe]')[0]?.click()
         field = $('.modal-purpose-subscribe [data-behavior~=feeds_search_field]')
         field.val(subscription)
         field.closest("form").submit()
