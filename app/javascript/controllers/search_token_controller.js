@@ -164,7 +164,7 @@ export default class extends Controller {
 
   checkToken(event) {
     if (event.key !== "Backspace") {
-      return
+      return;
     }
     this.updatePreview();
 
@@ -232,7 +232,7 @@ export default class extends Controller {
       return data;
     });
     items = window._.uniq(items, (item) => {
-      return `${item.type}${item.id}`
+      return `${item.type}${item.id}`;
     });
     this.jumpableItems = items;
   }
