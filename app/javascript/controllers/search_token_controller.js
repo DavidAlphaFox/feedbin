@@ -25,15 +25,19 @@ export default class extends Controller {
   static outlets = ["sourceable"];
 
   initialize() {
-    this.sourceableOutletConnected = debounce(this.sourceableOutletConnected.bind(this))
-    this.sourceableOutletDisconnected = debounce(this.sourceableOutletDisconnected.bind(this))
+    this.sourceableOutletConnected = debounce(
+      this.sourceableOutletConnected.bind(this)
+    );
+    this.sourceableOutletDisconnected = debounce(
+      this.sourceableOutletDisconnected.bind(this)
+    );
   }
 
-  sourceableOutletConnected(outlet, element) {
+  sourceableOutletConnected() {
     this.buildJumpable();
   }
 
-  sourceableOutletDisconnected(outlet, element) {
+  sourceableOutletDisconnected() {
     this.buildJumpable();
     this.deleteToken();
   }
@@ -76,7 +80,7 @@ export default class extends Controller {
       this.queryTarget.focus();
     } else {
       let item = this.jumpableItems[index];
-      this.fillToken(item)
+      this.fillToken(item);
       this.queryTarget.focus();
     }
     this.autocompleteVisibleValue = false;
@@ -96,14 +100,14 @@ export default class extends Controller {
   }
 
   updateToken(event) {
-    const detail = event.detail
+    const detail = event.detail;
     if (detail.jumpable) {
-      let item = this.buildItem(detail, event.target, null)
+      let item = this.buildItem(detail, event.target);
       setTimeout(() => {
-        this.fillToken(item)
-      }, 150)
+        this.fillToken(item);
+      }, 150);
     } else {
-      this.deleteToken(false)
+      this.deleteToken(false);
     }
   }
 
@@ -245,12 +249,13 @@ export default class extends Controller {
     event.stopPropagation();
   }
 
-  buildItem(data, element, index) {
+  buildItem(data, element) {
     const tagIconTemplate = this.tagIconTemplateTarget.content;
     if (data.type === "feed") {
       data["title"] = userTitle(data.id, data.title);
     }
-    const icon = element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true);
+    const icon =
+      element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true);
     data["icon"] = icon.cloneNode(true);
     data["element"] = element;
     data["queryFilter"] = `${data.type}_id:${data.id}`;
@@ -259,18 +264,19 @@ export default class extends Controller {
   }
 
   buildJumpable() {
-    let uniqueSources = new Set
-    this.jumpableItems = this.sourceableOutlets.reduce((filtered, source) => {
-      let data = source.paramsValue;
-      let item = this.buildItem(source.paramsValue, source.element, null)
-      if (item.jumpable && !uniqueSources.has(item.queryFilter)) {
-        filtered.push(item)
-        uniqueSources.add(item.queryFilter)
-      }
-      return filtered
-    }, []).map((item, index) => {
-      item.index = index
-      return item
-    })
+    let uniqueSources = new Set();
+    this.jumpableItems = this.sourceableOutlets
+      .reduce((filtered, source) => {
+        let item = this.buildItem(source.paramsValue, source.element);
+        if (item.jumpable && !uniqueSources.has(item.queryFilter)) {
+          filtered.push(item);
+          uniqueSources.add(item.queryFilter);
+        }
+        return filtered;
+      }, [])
+      .map((item, index) => {
+        item.index = index;
+        return item;
+      });
   }
 }
