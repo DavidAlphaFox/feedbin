@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import { hydrate, userTitle } from "helpers";
+import { hydrate, userTitle, debounce } from "helpers";
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -23,6 +23,19 @@ export default class extends Controller {
   };
 
   static outlets = ["sourceable"];
+
+  initialize() {
+    this.sourceableOutletConnected = debounce(this.sourceableOutletConnected.bind(this))
+  }
+
+  sourceableOutletConnected(outlet, element) {
+    this.buildJumpable();
+  }
+
+  sourceableOutletDisconnected(outlet, element) {
+    this.buildJumpable();
+    this.deleteToken();
+  }
 
   search() {
     this.autocompleteVisibleValue = false;
@@ -201,7 +214,6 @@ export default class extends Controller {
     if (this.queryTarget.value.length > 0) {
       this.autocompleteVisibleValue = true;
     }
-    this.buildJumpable();
   }
 
   navigate(event) {

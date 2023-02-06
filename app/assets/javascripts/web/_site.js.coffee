@@ -758,10 +758,6 @@ $.extend feedbin,
           element.data('title', newTitle)
         else
           element.html(newTitle)
-      if element.is('[data-jumpable]')
-        jumpable = element.data('jumpable')
-        jumpable["title"] = newTitle
-        element.data('jumpable', jumpable)
       element.addClass('renamed')
 
   queryString: (name) ->

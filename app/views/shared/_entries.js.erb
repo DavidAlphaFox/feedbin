@@ -35,10 +35,8 @@ var callback = function() {
         }
     <% else %>
         if (feedbin.retainSearch) {
-          console.log("retainSearch");
           feedbin.retainSearch = false
         } else {
-          console.log("not retainSearch");
           window.dispatchEvent(new CustomEvent("hide-search"))
         }
     <% end %>
