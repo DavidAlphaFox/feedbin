@@ -9,7 +9,7 @@
       search_form_search_token_outlet: "[data-controller=search-token]"
     } do
 %>
-  <%= form_with url: search_entries_path, class: "search-form group min-h-0", remote: true, method: :get, data: {
+  <%= form_with url: search_entries_path, class: "search-form group min-h-0", remote: true, method: :get, autocomplete: "off", novalidate: true, data: {
       remote: true,
       behavior: "search_form",
       controller: "search-token",
@@ -49,8 +49,8 @@
             <%= svg_tag "icon-search", class: "fill-400 pg-focus:fill-blue-600" %>
           </div>
 
-          <div class="grid items-stretch min-h-0 min-w-0 p-1 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
-            <button class="flex min-w-0 items-center text-left gap-2 rounded bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:py-2 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
+          <div class="grid items-stretch min-h-0 min-w-0 p-1 pr-0 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
+            <button class="flex min-w-0 items-center text-left gap-2 rounded bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
               <div class="shrink-0 w-[20px] h-[20px] rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
               <div class="truncate grow" data-search-token-target="tokenText"></div>
               <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
@@ -95,9 +95,9 @@
     <div class="min-h-0">
       <div class="border-b flex gap-2 text-sm pr-2 items-stretch">
         <div class="dropdown-wrap">
-          <button class="flex gap-2 fill-500 items-center py-3 pl-2" data-behavior="toggle_dropdown">
+          <button class="flex gap-1 fill-500 items-center py-3 pl-2" data-behavior="toggle_dropdown">
             <span data-search-form-target="sortLabel">Sort by date</span>
-            <%= svg_tag "icon-caret-small" %>
+            <%= svg_tag "icon-caret-small", class: "relative bottom-[-1px]" %>
           </button>
           <div class="dropdown-content">
             <ul>
