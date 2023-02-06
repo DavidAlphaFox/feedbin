@@ -91,7 +91,7 @@ export default class extends Controller {
     }
     this.tokenVisibleValue = true;
     this.queryTarget.value = "";
-    this.queryExtraTarget.value = `${item.type}_id:${item.id}`;
+    this.queryExtraTarget.value = item.queryFilter;
   }
 
   updateToken(event) {
@@ -251,27 +251,24 @@ export default class extends Controller {
     const icon = element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true);
     data["icon"] = icon.cloneNode(true);
     data["element"] = element;
-    data["index"] = index;
+    data["queryFilter"] = `${data.type}_id:${data.id}`;
 
     return data;
   }
 
   buildJumpable() {
-    let items = this.sourceableOutlets.map((source, index) => {
-      const element = source.element;
+    let uniqueSources = new Set
+    this.jumpableItems = this.sourceableOutlets.reduce((filtered, source) => {
       let data = source.paramsValue;
-      return this.buildItem(data, element, null);
+      let item = this.buildItem(source.paramsValue, source.element, null)
+      if (item.jumpable && !uniqueSources.has(item.queryFilter)) {
+        filtered.push(item)
+        uniqueSources.add(item.queryFilter)
+      }
+      return filtered
+    }, []).map((item, index) => {
+      item.index = index
+      return item
     })
-
-    items = window._.uniq(items, (item) => {
-      return `${item.type}${item.id}`;
-    });
-
-    items = items.map((source, index) => {
-      source.index = index
-      return source
-    });
-
-    this.jumpableItems = items;
   }
 }
