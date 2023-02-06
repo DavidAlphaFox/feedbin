@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="event"
 // data-event-identifier-param
@@ -8,7 +8,7 @@ export default class extends Controller {
     const custom = new CustomEvent(
       event.params.identifier,
       event.params.payload
-    );
-    window.dispatchEvent(custom);
+    )
+    window.dispatchEvent(custom)
   }
 }

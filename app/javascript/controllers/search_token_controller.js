@@ -1,5 +1,5 @@
-import { Controller } from "@hotwired/stimulus";
-import { hydrate, userTitle, debounce } from "helpers";
+import { Controller } from "@hotwired/stimulus"
+import { hydrate, userTitle, debounce } from "helpers"
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -15,138 +15,138 @@ export default class extends Controller {
     "tagIconTemplate",
     "tokenText",
     "tokenIcon",
-  ];
+  ]
 
   static values = {
     tokenVisible: Boolean,
     autocompleteVisible: Boolean,
-  };
+  }
 
-  static outlets = ["sourceable"];
+  static outlets = ["sourceable"]
 
   initialize() {
     this.sourceableOutletConnected = debounce(
       this.sourceableOutletConnected.bind(this)
-    );
+    )
     this.sourceableOutletDisconnected = debounce(
       this.sourceableOutletDisconnected.bind(this)
-    );
+    )
   }
 
   sourceableOutletConnected() {
-    this.buildJumpable();
+    this.buildJumpable()
   }
 
   sourceableOutletDisconnected() {
-    this.buildJumpable();
-    this.deleteToken();
+    this.buildJumpable()
+    this.deleteToken()
   }
 
   search() {
-    this.autocompleteVisibleValue = false;
-    this.skipAfterFocus = true;
+    this.autocompleteVisibleValue = false
+    this.skipAfterFocus = true
   }
 
   hideSearch() {
-    this.queryTarget.value = "";
-    this.autocompleteVisibleValue = false;
-    this.focusableTargets.forEach((element) => element.blur());
+    this.queryTarget.value = ""
+    this.autocompleteVisibleValue = false
+    this.focusableTargets.forEach((element) => element.blur())
   }
 
   deleteToken(focusQuery = true) {
-    this.tokenVisibleValue = false;
-    this.tokenTextTarget.innerHTML = "";
-    this.tokenIconTarget.innerHTML = "";
-    this.queryExtraTarget.value = "";
-    this.updatePreview();
+    this.tokenVisibleValue = false
+    this.tokenTextTarget.innerHTML = ""
+    this.tokenIconTarget.innerHTML = ""
+    this.queryExtraTarget.value = ""
+    this.updatePreview()
     if (focusQuery) {
-      this.queryTarget.focus();
+      this.queryTarget.focus()
     }
   }
 
   clickOff(event) {
     if (event && this.element.contains(event.target)) {
-      return;
+      return
     }
-    this.autocompleteVisibleValue = false;
+    this.autocompleteVisibleValue = false
   }
 
   tokenSelected(event) {
-    let index = event.params.index;
+    let index = event.params.index
     if (index === "") {
-      let form = this.queryTarget.closest("form");
-      this.skipAfterFocus = true;
-      window.$(form).submit();
-      this.queryTarget.focus();
+      let form = this.queryTarget.closest("form")
+      this.skipAfterFocus = true
+      window.$(form).submit()
+      this.queryTarget.focus()
     } else {
-      let item = this.jumpableItems[index];
-      this.fillToken(item);
-      this.queryTarget.focus();
+      let item = this.jumpableItems[index]
+      this.fillToken(item)
+      this.queryTarget.focus()
     }
-    this.autocompleteVisibleValue = false;
-    this.resultsTarget.innerHTML = "";
-    event.preventDefault();
+    this.autocompleteVisibleValue = false
+    this.resultsTarget.innerHTML = ""
+    event.preventDefault()
   }
 
   fillToken(item) {
-    this.tokenTextTarget.textContent = item.title;
-    this.tokenIconTarget.innerHTML = "";
+    this.tokenTextTarget.textContent = item.title
+    this.tokenIconTarget.innerHTML = ""
     if ("icon" in item) {
-      this.tokenIconTarget.append(item.icon.cloneNode(true));
+      this.tokenIconTarget.append(item.icon.cloneNode(true))
     }
-    this.tokenVisibleValue = true;
-    this.queryTarget.value = "";
-    this.queryExtraTarget.value = item.queryFilter;
+    this.tokenVisibleValue = true
+    this.queryTarget.value = ""
+    this.queryExtraTarget.value = item.queryFilter
   }
 
   updateToken(event) {
-    const detail = event.detail;
+    const detail = event.detail
     if (detail.jumpable) {
-      let item = this.buildItem(detail, event.target);
+      let item = this.buildItem(detail, event.target)
       setTimeout(() => {
-        this.fillToken(item);
-      }, 150);
+        this.fillToken(item)
+      }, 150)
     } else {
-      this.deleteToken(false);
+      this.deleteToken(false)
     }
   }
 
   buildAutocomplete() {
     if (this.tokenVisibleValue) {
-      return;
+      return
     }
 
-    const resultTemplate = this.resultTemplateTarget.content;
-    const headerTemplate = this.headerTemplateTarget.content;
+    const resultTemplate = this.resultTemplateTarget.content
+    const headerTemplate = this.headerTemplateTarget.content
 
     let items = this.jumpableItems.filter((item) => {
-      const titleFolded = item.title.foldToASCII();
-      const queryFolded = this.queryTarget.value.foldToASCII();
-      item.score = titleFolded.score(queryFolded);
-      return item.score > 0;
-    });
+      const titleFolded = item.title.foldToASCII()
+      const queryFolded = this.queryTarget.value.foldToASCII()
+      item.score = titleFolded.score(queryFolded)
+      return item.score > 0
+    })
     items = window._.sortBy(items, function (item) {
-      return -item.score;
-    });
+      return -item.score
+    })
     items = window._.groupBy(items, function (item) {
-      return item.section;
-    });
+      return item.section
+    })
 
-    let elements = [];
-    const sections = Object.keys(items);
-    sections.sort();
+    let elements = []
+    const sections = Object.keys(items)
+    sections.sort()
     sections.forEach((section) => {
-      let header = headerTemplate.cloneNode(true);
+      let header = headerTemplate.cloneNode(true)
       let element = hydrate(header, [
         {
           type: "text",
           name: "text",
           value: section,
         },
-      ]);
-      elements.push(element);
+      ])
+      elements.push(element)
       items[section].slice(0, 5).forEach((item) => {
-        let element = resultTemplate.cloneNode(true);
+        let element = resultTemplate.cloneNode(true)
         let updates = [
           {
             type: "text",
@@ -158,125 +158,125 @@ export default class extends Controller {
             name: `data-${this.identifier}-index-param`,
             value: item.index,
           },
-        ];
+        ]
 
         if ("icon" in item) {
           updates.push({
             type: "html",
             name: "icon",
             value: item.icon.cloneNode(true),
-          });
+          })
         }
 
-        elements.push(hydrate(element, updates));
-      });
-    });
+        elements.push(hydrate(element, updates))
+      })
+    })
 
-    this.resultsTarget.innerHTML = "";
-    this.resultsTarget.append(...elements);
+    this.resultsTarget.innerHTML = ""
+    this.resultsTarget.append(...elements)
   }
 
   updatePreview() {
-    this.previewTarget.textContent = this.queryTarget.value;
+    this.previewTarget.textContent = this.queryTarget.value
 
-    let sourceText = "";
+    let sourceText = ""
     if (this.tokenTextTarget.textContent != "") {
-      sourceText = this.tokenTextTarget.textContent;
+      sourceText = this.tokenTextTarget.textContent
     }
-    this.previewSourceTarget.textContent = sourceText;
+    this.previewSourceTarget.textContent = sourceText
   }
 
   keyup() {
     if (!this.skipAfterFocus && this.queryTarget.value.length > 0) {
-      this.autocompleteVisibleValue = true;
+      this.autocompleteVisibleValue = true
     } else {
-      this.autocompleteVisibleValue = false;
+      this.autocompleteVisibleValue = false
     }
 
-    this.skipAfterFocus = false;
-    this.updatePreview();
-    this.buildAutocomplete();
+    this.skipAfterFocus = false
+    this.updatePreview()
+    this.buildAutocomplete()
   }
 
   checkToken(event) {
-    this.updatePreview();
+    this.updatePreview()
     if (event.key !== "Backspace") {
-      return;
+      return
     }
 
     // command + delete
     if (event.metaKey) {
-      this.deleteToken();
+      this.deleteToken()
     } else if (this.queryTarget.value.length === 0) {
-      this.deleteToken();
+      this.deleteToken()
     }
   }
 
   focused() {
-    this.currentFocusable = this.focusableTargets[0];
+    this.currentFocusable = this.focusableTargets[0]
     if (this.tokenVisibleValue) {
-      return;
+      return
     }
     if (this.queryTarget.value.length > 0) {
-      this.autocompleteVisibleValue = true;
+      this.autocompleteVisibleValue = true
     }
   }
 
   navigate(event) {
-    const count = this.focusableTargets.length;
+    const count = this.focusableTargets.length
     if (!this.autocompleteVisibleValue || count == 0) {
-      return;
+      return
     }
 
-    const currentIndex = this.focusableTargets.indexOf(this.currentFocusable);
+    const currentIndex = this.focusableTargets.indexOf(this.currentFocusable)
 
-    let nextIndex = (currentIndex + 1) % count;
+    let nextIndex = (currentIndex + 1) % count
     if (event.key === "ArrowUp") {
-      nextIndex = (currentIndex + count - 1) % count;
+      nextIndex = (currentIndex + count - 1) % count
     }
 
-    this.currentFocusable = this.focusableTargets[nextIndex];
-    this.currentFocusable.focus();
+    this.currentFocusable = this.focusableTargets[nextIndex]
+    this.currentFocusable.focus()
 
     if ("setSelectionRange" in this.currentFocusable) {
       this.currentFocusable.setSelectionRange(
         this.currentFocusable.value.length,
         this.currentFocusable.value.length
-      );
+      )
     }
 
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault()
+    event.stopPropagation()
   }
 
   buildItem(data, element) {
-    const tagIconTemplate = this.tagIconTemplateTarget.content;
+    const tagIconTemplate = this.tagIconTemplateTarget.content
     if (data.type === "feed") {
-      data["title"] = userTitle(data.id, data.title);
+      data["title"] = userTitle(data.id, data.title)
     }
     const icon =
-      element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true);
-    data["icon"] = icon.cloneNode(true);
-    data["element"] = element;
-    data["queryFilter"] = `${data.type}_id:${data.id}`;
+      element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true)
+    data["icon"] = icon.cloneNode(true)
+    data["element"] = element
+    data["queryFilter"] = `${data.type}_id:${data.id}`
 
-    return data;
+    return data
   }
 
   buildJumpable() {
-    let uniqueSources = new Set();
+    let uniqueSources = new Set()
     this.jumpableItems = this.sourceableOutlets
       .reduce((filtered, source) => {
-        let item = this.buildItem(source.paramsValue, source.element);
+        let item = this.buildItem(source.paramsValue, source.element)
         if (item.jumpable && !uniqueSources.has(item.queryFilter)) {
-          filtered.push(item);
-          uniqueSources.add(item.queryFilter);
+          filtered.push(item)
+          uniqueSources.add(item.queryFilter)
         }
-        return filtered;
+        return filtered
       }, [])
       .map((item, index) => {
-        item.index = index;
-        return item;
-      });
+        item.index = index
+        return item
+      })
   }
 }

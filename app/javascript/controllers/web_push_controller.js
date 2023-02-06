@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="web-push"
 export default class extends Controller {
@@ -6,33 +6,33 @@ export default class extends Controller {
     vapid: Array,
     permission: String,
     url: String,
-  };
+  }
 
   connect() {
-    this.checkPermissions();
+    this.checkPermissions()
   }
 
   checkPermissions() {
-    let checkWebPush = true;
+    let checkWebPush = true
     if ("safari" in window && "pushNotification" in window.safari) {
-      const data = window.$("#push-data").data();
+      const data = window.$("#push-data").data()
       let permissionData = window.safari.pushNotification.permission(
         data.websiteId
-      );
+      )
 
       if (permissionData.permission == "granted") {
-        this.permissionValue = permissionData.permission;
-        checkWebPush = false;
+        this.permissionValue = permissionData.permission
+        checkWebPush = false
       }
     }
 
     if (checkWebPush && "Notification" in window) {
-      this.permissionValue = Notification.permission;
+      this.permissionValue = Notification.permission
     }
   }
 
   activate(event) {
-    const key = new Uint8Array(this.vapidValue);
+    const key = new Uint8Array(this.vapidValue)
     navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
       serviceWorkerRegistration.pushManager
         .subscribe({
@@ -43,15 +43,15 @@ export default class extends Controller {
           (pushSubscription) => {
             window.$.post(this.urlValue, {
               device: { data: pushSubscription.toJSON() },
-            });
-            this.checkPermissions();
+            })
+            this.checkPermissions()
           },
           (error) => {
-            console.log(error);
-            this.checkPermissions();
+            console.log(error)
+            this.checkPermissions()
           }
-        );
-    });
-    event.preventDefault();
+        )
+    })
+    event.preventDefault()
   }
 }
