@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import { hydrate } from "helpers";
+import { hydrate, userTitle } from "helpers";
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -16,10 +16,13 @@ export default class extends Controller {
     "tokenText",
     "tokenIcon",
   ];
+
   static values = {
     tokenVisible: Boolean,
     autocompleteVisible: Boolean,
   };
+
+  static outlets = ["sourceable"];
 
   search() {
     this.autocompleteVisibleValue = false;
@@ -28,7 +31,6 @@ export default class extends Controller {
 
   hideSearch() {
     this.queryTarget.value = "";
-    this.deleteToken(false);
     this.autocompleteVisibleValue = false;
     this.focusableTargets.forEach((element) => element.blur());
   }
@@ -57,22 +59,38 @@ export default class extends Controller {
       let form = this.queryTarget.closest("form");
       window.$(form).submit();
     } else {
-      let item = this.jumpableItems[event.params.index];
+      let item = this.jumpableItems[index];
       window.feedbin.jumpTo(window.$(item.element));
-      this.tokenTextTarget.textContent = item.title;
-      this.tokenIconTarget.innerHTML = "";
-      if ("icon" in item) {
-        this.tokenIconTarget.append(item.icon.cloneNode(true));
-      }
-      this.tokenVisibleValue = true;
-      this.queryTarget.value = "";
-      this.queryTarget.focus();
-      this.queryExtraTarget.value = `${item.type}_id:${item.id}`;
       window.feedbin.retainSearch = true;
+      this.fillToken(item)
+      this.queryTarget.focus();
     }
     this.autocompleteVisibleValue = false;
     this.resultsTarget.innerHTML = "";
     event.preventDefault();
+  }
+
+  fillToken(item) {
+    this.tokenTextTarget.textContent = item.title;
+    this.tokenIconTarget.innerHTML = "";
+    if ("icon" in item) {
+      this.tokenIconTarget.append(item.icon.cloneNode(true));
+    }
+    this.tokenVisibleValue = true;
+    this.queryTarget.value = "";
+    this.queryExtraTarget.value = `${item.type}_id:${item.id}`;
+  }
+
+  updateToken(event) {
+    const detail = event.detail
+    if (detail.jumpable) {
+      let item = this.buildItem(detail, event.target, null)
+      setTimeout(() => {
+        this.fillToken(item)
+      }, 150)
+    } else {
+      this.deleteToken(false)
+    }
   }
 
   buildAutocomplete() {
@@ -213,27 +231,35 @@ export default class extends Controller {
     event.stopPropagation();
   }
 
-  buildJumpable() {
-    const jumpable = document.querySelectorAll("[data-jumpable]");
+  buildItem(data, element, index) {
     const tagIconTemplate = this.tagIconTemplateTarget.content;
-    let items = Array.from(jumpable).map((element, index) => {
-      let data = JSON.parse(element.dataset.jumpable);
-      let title = window.feedbin.data.user_titles[data.id];
-      if (data.type == "feed" && title) {
-        data["title"] = title;
-      }
-      const icon =
-        element.querySelector(".favicon-wrap") ||
-        tagIconTemplate.cloneNode(true);
-      data["icon"] = icon.cloneNode(true);
-      data["element"] = element;
-      data["index"] = index;
+    if (data.type === "feed") {
+      data["title"] = userTitle(data.id, data.title);
+    }
+    const icon = element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true);
+    data["icon"] = icon.cloneNode(true);
+    data["element"] = element;
+    data["index"] = index;
 
-      return data;
-    });
+    return data;
+  }
+
+  buildJumpable() {
+    let items = this.sourceableOutlets.map((source, index) => {
+      const element = source.element;
+      let data = source.paramsValue;
+      return this.buildItem(data, element, null);
+    })
+
     items = window._.uniq(items, (item) => {
       return `${item.type}${item.id}`;
     });
+
+    items = items.map((source, index) => {
+      source.index = index
+      return source
+    });
+
     this.jumpableItems = items;
   }
 }

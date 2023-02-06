@@ -13,9 +13,10 @@
       remote: true,
       behavior: "search_form",
       controller: "search-token",
-      action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate search-token#search",
+      action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate search-token#search sourceable:selected@window->search-token#updateToken",
       search_token_token_visible_value: "false",
-      search_token_autocomplete_visible_value: "false"
+      search_token_autocomplete_visible_value: "false",
+      search_token_sourceable_outlet: "[data-controller=sourceable]"
     } do
   %>
     <%= hidden_field_tag :query_extra, "", data: {search_token_target: "queryExtra"} %>
@@ -24,6 +25,7 @@
       <div class="border-b bg-base z-10">
         <div class="flex flex-row-reverse items-stretch rounded pl-2 border border-transparent [&:has(input:focus)]:border-transparent transition-[border]">
           <%= component "app/spinner" %>
+
           <%=
             search_field_tag :query,
               params[:query],
@@ -43,6 +45,10 @@
               }
           %>
 
+          <div class="shrink-0 flex group items-center w-[17px] group-data-[search-token-token-visible-value=true]:tw-hidden">
+            <%= svg_tag "icon-search", class: "fill-400 pg-focus:fill-blue-600" %>
+          </div>
+
           <div class="grid items-center min-h-0 min-w-0 max-w-[40%] [grid-template-columns:0fr] group-data-[search-token-token-visible-value=true]:[grid-template-columns:1fr] transition-[grid-template-columns] overflow-hidden">
             <button class="flex min-w-0 items-center text-left gap-2 rounded-full bg-100 group/token opacity-0 group-data-[search-token-token-visible-value=true]:px-3 group-data-[search-token-token-visible-value=true]:py-2 group-data-[search-token-token-visible-value=true]:opacity-100 transition duration-200" data-action="search-token#deleteToken:prevent" title="Remove filter">
               <div class="shrink-0 w-[20px] h-[20px] rounded-[1px] flex items-center justify-center" data-search-token-target="tokenIcon"></div>
@@ -50,12 +56,7 @@
               <%= svg_tag "icon-close-small", class: "shrink-0 transition ml-1 fill-400 group-hover/token:fill-600 " %>
             </button>
           </div>
-
-          <div class="shrink-0 flex group items-center w-[17px] group-data-[search-token-token-visible-value=true]:tw-hidden">
-            <%= svg_tag "icon-search", class: "fill-400 pg-focus:fill-blue-600" %>
-          </div>
         </div>
-
       </div>
 
       <div class="absolute z-50 inset-x-0 top-full w-full origin-top-left p-1 rounded-b bg-base shadow-two focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">

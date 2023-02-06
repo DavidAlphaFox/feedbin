@@ -174,7 +174,18 @@ class ApplicationController < ActionController::Base
         clear: {path: destroy_all_recently_played_entries_path, message: "Clear all recently played?"}
       }
     end
-    collections
+    collections.map do |collection|
+      collection[:data].merge!({
+        controller: "sourceable",
+        action: "sourceable#selected",
+        sourceable_params_value: Sourceable.new(
+          type: "collection",
+          id: collection[:id],
+          title: collection[:title]
+        ).to_h
+      })
+      collection
+    end
   end
 
   def get_feeds_list

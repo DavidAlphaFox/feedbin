@@ -7,6 +7,9 @@
                 behavior: 'selectable show_entries open_item feed_link renamable has_settings',
                 mark_read: {type: 'tag', data: tag.id, message: "Mark #{tag.name} as read?"}.to_json,
                 jumpable: {title: tag.name, type: "tag", id: tag.id, section: "Tags"},
+                controller: "sourceable",
+                action: "sourceable#selected",
+                sourceable_params_value: tag.sourceable.to_h,
                 settings_path: edit_tag_path(tag)
             } do
         %>
