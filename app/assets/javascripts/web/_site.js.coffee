@@ -26,7 +26,6 @@ $.extend feedbin,
   scrollStarted: false
   loadingMore: false
   remoteContentIntervals: {}
-  retainSearch: false
 
   hideFormatMenu: (event) ->
     menu = $('.format-palette')

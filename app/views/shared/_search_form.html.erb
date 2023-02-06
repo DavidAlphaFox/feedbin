@@ -2,7 +2,7 @@
   content_tag :div, class: "search-wrap grid overflow-hidden min-h-0 group opacity-0 [grid-template-rows:0fr] data-[search-form-visible-value=true]:[grid-template-rows:1fr] data-[search-form-visible-value=true]:opacity-100 data-[search-form-foreground-value=true]:overflow-visible transition-[grid-template-rows]",
     data: {
       controller: "search-form",
-      action: "toggle-search@window->search-form#toggle show-search@window->search-form#show hide-search@window->search-form#hide hide-search-controls@window->search-form#hideSearchControls show-search-controls@window->search-form#showSearchControls ajax:error->search-form#error",
+      action: "toggle-search@window->search-form#toggle show-search@window->search-form#show hide-search@window->search-form#hide show-search-controls@window->search-form#showSearchControls sourceable:selected@window->search-form#hide",
       search_form_visible_value: "false",
       search_form_foreground_value: "false",
       search_form_options_visible_value: "false",

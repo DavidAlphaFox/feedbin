@@ -26,6 +26,7 @@ export default class extends Controller {
 
   initialize() {
     this.sourceableOutletConnected = debounce(this.sourceableOutletConnected.bind(this))
+    this.sourceableOutletDisconnected = debounce(this.sourceableOutletDisconnected.bind(this))
   }
 
   sourceableOutletConnected(outlet, element) {
@@ -39,7 +40,7 @@ export default class extends Controller {
 
   search() {
     this.autocompleteVisibleValue = false;
-    this.skipFocus = true;
+    this.skipAfterFocus = true;
   }
 
   hideSearch() {
@@ -70,11 +71,11 @@ export default class extends Controller {
     let index = event.params.index;
     if (index === "") {
       let form = this.queryTarget.closest("form");
+      this.skipAfterFocus = true;
       window.$(form).submit();
+      this.queryTarget.focus();
     } else {
       let item = this.jumpableItems[index];
-      window.feedbin.jumpTo(window.$(item.element));
-      window.feedbin.retainSearch = true;
       this.fillToken(item)
       this.queryTarget.focus();
     }
@@ -182,22 +183,22 @@ export default class extends Controller {
   }
 
   keyup() {
-    if (!this.skipFocus && this.queryTarget.value.length > 0) {
+    if (!this.skipAfterFocus && this.queryTarget.value.length > 0) {
       this.autocompleteVisibleValue = true;
     } else {
       this.autocompleteVisibleValue = false;
     }
 
-    this.skipFocus = false;
+    this.skipAfterFocus = false;
     this.updatePreview();
     this.buildAutocomplete();
   }
 
   checkToken(event) {
+    this.updatePreview();
     if (event.key !== "Backspace") {
       return;
     }
-    this.updatePreview();
 
     // command + delete
     if (event.metaKey) {

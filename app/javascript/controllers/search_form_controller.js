@@ -27,7 +27,7 @@ export default class extends Controller {
     visible = typeof visible === "undefined" ? !this.visibleValue : visible;
     this.visibleValue = visible;
     if (!this.visibleValue) {
-      this.hideSearchControls();
+      this.optionsVisibleValue = false;
     } else {
       this.queryTarget.focus();
     }
@@ -39,10 +39,6 @@ export default class extends Controller {
     afterTransition(this.element, this.visibleValue, () => {
       this.foregroundValue = this.visibleValue;
     });
-  }
-
-  hideSearchControls() {
-    this.optionsVisibleValue = false;
   }
 
   showSearchControls(event) {
