@@ -77,7 +77,7 @@
 .theme-dusk, .theme-midnight, .theme-auto.prefers-dark {
   --color-light-100:  var(--color-600);
   --color-sidebar:    var(--color-base);
-  --color-shadow-100: rgba(0,0,0,1);
+  --color-shadow-100: rgba(0,0,0,0.5);
   --color-link:       #ffffff;
 
   --color-blue-600:  #0974FF;

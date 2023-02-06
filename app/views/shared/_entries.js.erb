@@ -21,6 +21,7 @@ var callback = function() {
         feedbin.updatePager("");
     <% end %>
 
+    <%# Remove showSearchControls and hideSearch after a week or so  %>
     <% if @search %>
         const custom = new CustomEvent("show-search-controls", {detail: {
           sort: "<%= params[:sort] %>",
@@ -32,6 +33,10 @@ var callback = function() {
 
         if ("showSearchControls" in feedbin) {
           feedbin.showSearchControls("<%= params[:sort] %>", "<%= @escaped_query %>", "<%= @saved_search_path %>", "<%= @search_message %>");
+        }
+    <% else %>
+        if ("hideSearch" in feedbin) {
+          feedbin.hideSearch()
         }
     <% end %>
 
