@@ -39,6 +39,7 @@ var callback = function() {
         } else {
           window.dispatchEvent(new CustomEvent("hide-search"))
         }
+        window.dispatchEvent(new CustomEvent("hide-search-controls"))
     <% end %>
 
     <% if @all_unread %>

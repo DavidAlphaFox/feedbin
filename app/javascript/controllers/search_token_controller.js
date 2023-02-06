@@ -110,7 +110,7 @@ export default class extends Controller {
     if (this.tokenVisibleValue) {
       return;
     }
-    this.currentFocusable = this.focusableTargets[0];
+
     const resultTemplate = this.resultTemplateTarget.content;
     const headerTemplate = this.headerTemplateTarget.content;
 
@@ -208,6 +208,7 @@ export default class extends Controller {
   }
 
   focused() {
+    this.currentFocusable = this.focusableTargets[0];
     if (this.tokenVisibleValue) {
       return;
     }
