@@ -42,23 +42,16 @@ export default class extends Controller {
   }
 
   showSearchControls(event) {
-    let { sort, query, savedSearchPath, message } = event.detail
-    sort = sort === "" ? "desc" : sort
-    let selected = this.sortOptionTargets.find((element) => {
-      return element.dataset.sortOption === sort
-    })
-
-    this.sortLabelTarget.textContent = selected.textContent
     this.optionsVisibleValue = true
-    this.saveSearchTarget.setAttribute("href", savedSearchPath)
+    this.saveSearchTarget.setAttribute("href", event.detail.savedSearchPath)
 
     document.body.classList.remove("nothing-selected", "entry-selected")
     document.body.classList.add("feed-selected")
 
     window.feedbin.markReadData = {
       type: "search",
-      data: query,
-      message: message,
+      data: event.detail.query,
+      message: event.detail.message,
     }
   }
 
@@ -69,8 +62,13 @@ export default class extends Controller {
       /\s*?(sort:\s*?asc|sort:\s*?desc|sort:\s*?relevance)\s*?/,
       ""
     )
-    value = `${value} sort:${sortOption}`
+
+    if (sortOption !== "desc") {
+      value = `${value} sort:${sortOption}`
+    }
+
     this.queryTarget.value = value
+    this.sortLabelTarget.textContent = event.target.textContent
 
     let form = this.queryTarget.closest("form")
 

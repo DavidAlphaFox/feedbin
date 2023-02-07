@@ -24,7 +24,6 @@ var callback = function() {
     <%# Remove showSearchControls and hideSearch after a week or so  %>
     <% if @search %>
         const custom = new CustomEvent("show-search-controls", {detail: {
-          sort: "<%= params[:sort] %>",
           query: "<%= @escaped_query %>",
           savedSearchPath: "<%= @saved_search_path %>",
           message: "<%= @search_message %>"
