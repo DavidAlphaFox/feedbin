@@ -254,7 +254,7 @@ export default class extends Controller {
     return data
   }
 
-  buildJumpable(e) {
+  buildJumpable() {
     let sourceableTargets = this.sourceableOutlet.sourceTargets
     if (this.sourceableTargetCount === sourceableTargets.length) {
       return

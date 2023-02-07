@@ -6,9 +6,7 @@ export default class extends Controller {
   static targets = ["source"]
 
   initialize() {
-    this.sourceTargetConnected = debounce(
-      this.sourceTargetConnected.bind(this)
-    )
+    this.sourceTargetConnected = debounce(this.sourceTargetConnected.bind(this))
     this.sourceTargetDisconnected = debounce(
       this.sourceTargetDisconnected.bind(this)
     )
@@ -23,6 +21,9 @@ export default class extends Controller {
   }
 
   selected(event) {
-    this.dispatch("selected", { detail: event.params.payload, target: event.currentTarget })
+    this.dispatch("selected", {
+      detail: event.params.payload,
+      target: event.currentTarget,
+    })
   }
 }
