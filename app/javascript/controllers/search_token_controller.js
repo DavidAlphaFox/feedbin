@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { hydrate, userTitle, debounce } from "helpers"
+import { hydrate, userTitle } from "helpers"
 
 // Connects to data-controller="search-token"
 export default class extends Controller {
@@ -25,21 +25,11 @@ export default class extends Controller {
   static outlets = ["sourceable"]
 
   initialize() {
-    this.sourceableOutletConnected = debounce(
-      this.sourceableOutletConnected.bind(this)
-    )
-    this.sourceableOutletDisconnected = debounce(
-      this.sourceableOutletDisconnected.bind(this)
-    )
+    this.sourceableTargetCount = 0
   }
 
   sourceableOutletConnected() {
     this.buildJumpable()
-  }
-
-  sourceableOutletDisconnected() {
-    this.buildJumpable()
-    this.deleteToken()
   }
 
   search() {
@@ -102,6 +92,7 @@ export default class extends Controller {
   updateToken(event) {
     const detail = event.detail
     if (detail.jumpable) {
+      this.deleteToken(false)
       let item = this.buildItem(detail, event.target)
       setTimeout(() => {
         this.fillToken(item)
@@ -120,6 +111,9 @@ export default class extends Controller {
     const headerTemplate = this.headerTemplateTarget.content
 
     let items = this.jumpableItems.filter((item) => {
+      if (item.type === "feed") {
+        item["title"] = userTitle(item.id, item.title)
+      }
       const titleFolded = item.title.foldToASCII()
       const queryFolded = this.queryTarget.value.foldToASCII()
       item.score = titleFolded.score(queryFolded)
@@ -251,9 +245,6 @@ export default class extends Controller {
 
   buildItem(data, element) {
     const tagIconTemplate = this.tagIconTemplateTarget.content
-    if (data.type === "feed") {
-      data["title"] = userTitle(data.id, data.title)
-    }
     const icon =
       element.querySelector(".favicon-wrap") || tagIconTemplate.cloneNode(true)
     data["icon"] = icon.cloneNode(true)
@@ -263,11 +254,18 @@ export default class extends Controller {
     return data
   }
 
-  buildJumpable() {
+  buildJumpable(e) {
+    let sourceableTargets = this.sourceableOutlet.sourceTargets
+    if (this.sourceableTargetCount === sourceableTargets.length) {
+      return
+    }
+    this.sourceableTargetCount = sourceableTargets.length
+
     let uniqueSources = new Set()
-    this.jumpableItems = this.sourceableOutlets
-      .reduce((filtered, source) => {
-        let item = this.buildItem(source.paramsValue, source.element)
+    this.jumpableItems = sourceableTargets
+      .reduce((filtered, element) => {
+        let data = JSON.parse(element.dataset.sourceablePayloadParam)
+        let item = this.buildItem(data, element)
         if (item.jumpable && !uniqueSources.has(item.queryFilter)) {
           filtered.push(item)
           uniqueSources.add(item.queryFilter)

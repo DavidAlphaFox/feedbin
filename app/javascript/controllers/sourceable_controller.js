@@ -1,15 +1,28 @@
 import { Controller } from "@hotwired/stimulus"
+import { debounce } from "helpers"
 
 // Connects to data-controller="sourceable"
 export default class extends Controller {
-  static values = {
-    params: Object,
+  static targets = ["source"]
+
+  initialize() {
+    this.sourceTargetConnected = debounce(
+      this.sourceTargetConnected.bind(this)
+    )
+    this.sourceTargetDisconnected = debounce(
+      this.sourceTargetDisconnected.bind(this)
+    )
   }
 
-  selected() {
-    // const custom = new CustomEvent(`${this.identifier}-selected`, {detail: this.paramsValue});
-    // window.dispatchEvent(custom);
+  sourceTargetConnected() {
+    this.dispatch("source-target-connected")
+  }
 
-    this.dispatch("selected", { detail: this.paramsValue })
+  sourceTargetDisconnected() {
+    this.dispatch("source-target-disconnected")
+  }
+
+  selected(event) {
+    this.dispatch("selected", { detail: event.params.payload, target: event.currentTarget })
   }
 }

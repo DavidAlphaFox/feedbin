@@ -176,9 +176,9 @@ class ApplicationController < ActionController::Base
     end
     collections.map do |collection|
       collection[:data].merge!({
-        controller: "sourceable",
+        sourceable_target: "source",
         action: "sourceable#selected",
-        sourceable_params_value: Sourceable.new(
+        sourceable_payload_param: Sourceable.new(
           type: "collection",
           id: collection[:id],
           title: collection[:title]

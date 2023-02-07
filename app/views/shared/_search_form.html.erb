@@ -13,7 +13,7 @@
       remote: true,
       behavior: "search_form",
       controller: "search-token",
-      action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate search-token#search sourceable:selected@window->search-token#updateToken",
+      action: "click@window->search-token#clickOff keydown.up->search-token#navigate keydown.down->search-token#navigate search-token#search sourceable:selected@window->search-token#updateToken sourceable:source-target-connected@window->search-token#buildJumpable sourceable:source-target-disconnected@window->search-token#buildJumpable",
       search_token_token_visible_value: "false",
       search_token_autocomplete_visible_value: "false",
       search_token_sourceable_outlet: "[data-controller=sourceable]"
