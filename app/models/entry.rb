@@ -29,7 +29,7 @@ class Entry < ApplicationRecord
   after_commit :harvest_embeds, on: [:create, :update]
   after_commit :cache_views, on: [:create, :update]
   after_commit :save_twitter_users, on: [:create]
-  after_commit :search_index_store_update, on: [:update]
+  # after_commit :search_index_store_update, on: [:update]
 
   validate :has_content
   validates :feed, :public_id, presence: true
@@ -111,7 +111,7 @@ class Entry < ApplicationRecord
     Rails.logger.error("Invalid uri original_url=#{original_url} fully_qualified_url=#{fully_qualified_url}")
     nil
   end
-  
+
   def base_url
     feed.pages? ? url : feed.site_url
   end
