@@ -20,6 +20,10 @@ class SiteController < ApplicationController
   def service_worker
   end
 
+  def p
+    render Views::Site::P.new
+  end
+
   def manifest
     @color = Colors.fetch(params[:theme])
     @icons = [

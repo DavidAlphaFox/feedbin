@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get :service_worker, to: "site#service_worker"
   get "manifest/:theme", to: "site#manifest", as: "manifest"
 
+  get :p, to: "site#p"
+
+
   post "/newsletters" => "newsletters#create"
   post "/newsletters/:token" => "newsletters#raw"
   get "bookmarklet/:cache_buster", to: "bookmarklet#script", as: "bookmarklet"
