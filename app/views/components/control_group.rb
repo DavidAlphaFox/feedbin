@@ -1,39 +1,34 @@
 module Views
   module Components
     class ControlGroup < Phlex::HTML
-      def initialize
+      include PhlexSlots
+      include Phlex::DeferredRender
+
+      slots :description
+
+      def initialize(options = {})
+        @options = options
         @items = []
       end
 
-      def template(&)
-        yield(self)
-        div do
-          if @header
-            render(@header)
-          end
+      def template
+        div(**@options) do
+          render(@header) if @header
           if @items
             div(class: "border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg", data: {item_container: true}) do
-              @items.each do |item|
-                render item
-              end
+              @items.each {render _1}
             end
           end
-          if @description
-            div class: "text-sm text-500 mt-2", &@description
-          end
+          div(class: "text-sm text-500 mt-2", &@description) if @description
         end
       end
 
-      def header(**args, &block)
-        @header = H2.new(**args, &block)
+      def header(...)
+        @header = H2.new(...)
       end
 
-      def description(&block)
-        @description = block
-      end
-
-      def with_item(**args, &content)
-        @items << Item.new(**args, &content)
+      def with_item(...)
+        @items << Item.new(...)
       end
 
       class Item < Phlex::HTML

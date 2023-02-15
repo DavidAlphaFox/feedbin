@@ -1,4 +1,9 @@
 module PhlexSlots
+  include Phlex::Rails::Helpers::FormWith
+  include Phlex::Rails::Helpers::FormFor
+  include Phlex::Rails::Helpers::RadioButton
+  include Phlex::Rails::Helpers::Label
+
   extend ActiveSupport::Concern
 
   class_methods do

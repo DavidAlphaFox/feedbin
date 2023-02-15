@@ -2,11 +2,11 @@ module Views
   module Components
     class ControlRow < Phlex::HTML
       include PhlexSlots
+      include Phlex::DeferredRender
 
       slots :icon, :title, :description, :control
 
-      def template(&)
-        yield(self)
+      def template
         div class: "py-4 flex items-center gap-4 group group-data-[capsule=true]:px-4" do
           if @icon
             div class: "inset-y-0 self-stretch shrink-0 flex items-center", &@icon
