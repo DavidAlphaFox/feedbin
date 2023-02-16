@@ -3,6 +3,7 @@ module PhlexHelper
   include Phlex::Rails::Helpers::FormFor
   include Phlex::Rails::Helpers::RadioButton
   include Phlex::Rails::Helpers::Label
+  include Phlex::Rails::Helpers::LinkTo
 
   extend ActiveSupport::Concern
 

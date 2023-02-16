@@ -1,7 +1,7 @@
 class SettingsController < ApplicationController
 
   def settings
-    @user = current_user
+    render Views::Settings::Index.new(user: current_user), layout: "settings"
   end
 
   def account
