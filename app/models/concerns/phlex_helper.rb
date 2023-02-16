@@ -14,9 +14,11 @@ module PhlexHelper
     end
   end
 
-  def component(name, *args, **kwargs, &block)
-    component = "views/#{name}".camelize.constantize
-    render(component.new(*args, **kwargs), &block)
+  def merge_attributes(defaults = {}, attributes = {})
+    {
+      class: [defaults.delete(:class), attributes.delete(:class)].reject(&:blank?).join(" "),
+      data: defaults.delete(:data).merge(attributes.delete(:data) || {})
+    }
+    .merge(attributes)
   end
-
 end
