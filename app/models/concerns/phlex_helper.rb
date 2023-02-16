@@ -2,8 +2,13 @@ module PhlexHelper
   include Phlex::Rails::Helpers::FormWith
   include Phlex::Rails::Helpers::FormFor
   include Phlex::Rails::Helpers::RadioButton
-  include Phlex::Rails::Helpers::Label
   include Phlex::Rails::Helpers::LinkTo
+  include Phlex::Rails::Helpers::FormTag
+  include Phlex::Rails::Helpers::OptionsForSelect
+  include Phlex::Rails::Helpers::SelectTag
+  include Phlex::Rails::Helpers::HiddenFieldTag
+  include Phlex::Rails::Helpers::CheckboxTag
+  include Phlex::Rails::Helpers::FieldsFor
 
   extend ActiveSupport::Concern
 
