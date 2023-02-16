@@ -21,7 +21,7 @@ class SiteController < ApplicationController
   end
 
   def p
-    render Views::Site::P.new, layout: "settings"
+    render Views::Site::P.new(user: User.first), layout: "settings"
   end
 
   def manifest

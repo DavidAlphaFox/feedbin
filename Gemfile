@@ -14,6 +14,7 @@ gem "html-pipeline",       github: "feedbin/html-pipeline",       branch: "feedb
 gem "html_diff",           github: "feedbin/html_diff",           ref: "013e1bb"
 gem "twitter",             github: "feedbin/twitter",             branch: "feedbin"
 gem "down",                github: "feedbin/down",                branch: "normalize"
+gem "phlex-rails",         github: "joeldrapper/phlex-rails",     branch: "main"
 
 # https://github.com/mikel/mail/issues/1521
 gem "mail", "< 2.8"
@@ -45,7 +46,6 @@ gem "net-http-persistent"
 gem "oauth"
 gem "oauth2"
 gem "pg"
-gem "phlex-rails"
 gem "postmark-rails"
 gem "premailer-rails"
 gem "raindrops"

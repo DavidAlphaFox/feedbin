@@ -1,7 +1,7 @@
 module Views
   module Components
     class ControlRow < Phlex::HTML
-      include PhlexSlots
+      include PhlexHelper
       include Phlex::DeferredRender
 
       slots :icon, :title, :description, :control

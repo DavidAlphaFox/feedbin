@@ -1,7 +1,7 @@
 module Views
   module Components
     class ControlGroup < Phlex::HTML
-      include PhlexSlots
+      include PhlexHelper
       include Phlex::DeferredRender
 
       slots :description
@@ -27,7 +27,7 @@ module Views
         @header = H2.new(...)
       end
 
-      def with_item(...)
+      def item(...)
         @items << Item.new(...)
       end
 

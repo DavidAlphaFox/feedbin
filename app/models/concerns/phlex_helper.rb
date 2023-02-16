@@ -1,4 +1,4 @@
-module PhlexSlots
+module PhlexHelper
   include Phlex::Rails::Helpers::FormWith
   include Phlex::Rails::Helpers::FormFor
   include Phlex::Rails::Helpers::RadioButton
@@ -13,4 +13,10 @@ module PhlexSlots
       end
     end
   end
+
+  def component(name, *args, **kwargs, &block)
+    component = "views/#{name}".camelize.constantize
+    render(component.new(*args, **kwargs), &block)
+  end
+
 end
