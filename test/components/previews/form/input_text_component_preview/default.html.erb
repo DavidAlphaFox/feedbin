@@ -1,0 +1,46 @@
+<%=
+demo = Class.new(Phlex::HTML) do
+
+  def initialize(leading_accessory:)
+    @leading_accessory = leading_accessory
+  end
+
+  def template(&)
+    div class: "flex gap-4" do
+      render Views::Components::Form::TextInput.new do |input|
+        input.input do
+          input(type: "search", class: "peer text-input", placeholder: "Placeholder")
+        end
+        if @leading_accessory
+          input.accessory_leading do
+            render Views::Components::Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
+          end
+        end
+      end
+
+      render Views::Components::Form::TextInput.new do |input|
+        input.input do
+          input(type: "search", class: "peer text-input", placeholder: "Placeholder", data: {focused: true})
+        end
+        if @leading_accessory
+          input.accessory_leading do
+            render Views::Components::Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
+          end
+        end
+      end
+
+      render Views::Components::Form::TextInput.new do |input|
+        input.input do
+          input(type: "search", class: "peer text-input", placeholder: "Placeholder", disabled: true)
+        end
+        if @leading_accessory
+          input.accessory_leading do
+            render Views::Components::Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
+          end
+        end
+      end
+    end
+  end
+end
+render demo.new(leading_accessory: leading_accessory)
+%>

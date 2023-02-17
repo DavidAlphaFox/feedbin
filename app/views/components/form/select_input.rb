@@ -11,7 +11,7 @@ module Views
           render Components::Form::TextInput.new do |input|
             input.input(&@input)
             input.accessory_trailing do
-              render Components::Svg.new "icon-caret", class: "fill-500 pg-focus:fill-blue-600 pg-disabled:fill-200"
+              render Components::Svg.new "icon-caret", class: "fill-500 pg-focus:fill-blue-600 pg-disabled:fill-300"
             end
           end
         end

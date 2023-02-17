@@ -63,7 +63,7 @@ module.exports = {
   plugins: [
     plugin(function ({ addVariant }) {
       let pseudoVariants = [
-        "checked", "focus", "active", "disabled"
+        "checked", "focus", "active", "disabled", "checked:disabled"
       ].map((variant) =>
         Array.isArray(variant) ? variant : [variant, `&:${variant}`],
       );
@@ -71,6 +71,10 @@ module.exports = {
       for (let [variantName, state] of pseudoVariants) {
         addVariant(`pg-${variantName}`, (ctx) => {
           let result = typeof state === "function" ? state(ctx) : state;
+          console.log(result);
+          result = result.replace(/&(\S+)/, ":merge(.peer)$1 ~ .group &")
+          console.log(result);
+          console.log();
           return result.replace(/&(\S+)/, ":merge(.peer)$1 ~ .group &");
         });
       }
