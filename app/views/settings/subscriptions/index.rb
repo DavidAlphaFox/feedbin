@@ -17,22 +17,33 @@ module Views
             end
             div class: "flex flex-col md:flex-row justify-between mb-6 gap-2" do
               div class: "md:max-w-[250px]" do
-                input(
-                  type: "search",
-                  class: "feed-search peer text-input",
-                  placeholder: "Search Feeds",
-                  data_behavior: "autosubmit",
-                  name: "q",
-                  value: @params[:q]
-                )
+                render Components::Form::TextInput.new do |input|
+                  input.input do
+                    input(
+                      type: "search",
+                      class: "feed-search peer text-input",
+                      placeholder: "Search Feeds",
+                      data_behavior: "autosubmit",
+                      name: "q",
+                      value: @params[:q]
+                    )
+                  end
+                  input.accessory_leading do
+                    render Components::Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
+                  end
+                end
               end
               div class: "md:max-w-[250px]" do
-                select_tag(
-                  :sort,
-                  helpers.options_for_select([["Sort by Name", "name"], ["Sort by Last Updated", "updated"], ["Sort by Volume", "volume"]], @params[:sort]),
-                  class: "peer",
-                  data: {behavior: "autosubmit"}
-                )
+                render Components::Form::SelectInput.new do |input|
+                  input.input do
+                    select_tag(
+                      :sort,
+                      helpers.options_for_select([["Sort by Name", "name"], ["Sort by Last Updated", "updated"], ["Sort by Volume", "volume"]], @params[:sort]),
+                      class: "peer",
+                      data: {behavior: "autosubmit"}
+                    )
+                  end
+                end
               end
             end
           end

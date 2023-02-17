@@ -16,6 +16,7 @@ module PhlexHelper
     def slots(*items)
       items.each do |item|
         define_method item.to_sym, -> (&block) { instance_variable_set("@#{item.to_s}", block) }
+        define_method "#{item}?".to_sym, -> (&block) { instance_variable_get("@#{item.to_s}").present? }
       end
     end
   end
