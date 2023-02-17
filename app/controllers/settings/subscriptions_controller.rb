@@ -1,17 +1,21 @@
 class Settings::SubscriptionsController < ApplicationController
   def index
+    @user = current_user
+    @subscriptions = subscriptions_with_sort_data.paginate(page: params[:page], per_page: 50)
     store_location
-    view = Views::Settings::Subscriptions::Index.new(
-      user: current_user,
-      subscriptions: subscriptions_with_sort_data.paginate(page: params[:page], per_page: 50),
-      params: params
-    )
-    render view, layout: "settings"
-    #
-    # @user = current_user
-    # @subscriptions = subscriptions_with_sort_data.paginate(page: params[:page], per_page: 50)
-    # store_location
-    # render layout: "settings"
+
+    respond_to do |format|
+      format.html do
+        view = Views::Settings::Subscriptions::Index.new(
+          user: @user,
+          subscriptions: @subscriptions,
+          params: params
+        )
+        render view, layout: "settings"
+      end
+      # default index.js.erb
+      format.js {}
+    end
   end
 
   def destroy

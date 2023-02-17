@@ -21,22 +21,29 @@ module Views
                     text " Select all "
                   end
                   div class: "max-w-[250px]" do
-                    select_tag(:operation,
-                      helpers.options_for_select([["Actions", nil], ["Unsubscribe", "unsubscribe"], ["Show edits on articles", "show_updates"], ["Hide edits on articles", "hide_updates"], ["Mute Feed", "mute"], ["Unmute Feed", "unmute"]]),
-                      class: "peer",
-                      disabled: true,
-                      data: {behavior: "feed_actions", toggle_checkboxes_target: "actions"})
+                    render Components::Form::SelectInput.new do |input|
+                      input.input do
+                        select_tag(:operation,
+                          helpers.options_for_select([["Actions", nil], ["Unsubscribe", "unsubscribe"], ["Show edits on articles", "show_updates"], ["Hide edits on articles", "hide_updates"], ["Mute Feed", "mute"], ["Unmute Feed", "unmute"]]),
+                          class: "peer",
+                          disabled: true,
+                          data: {behavior: "feed_actions", toggle_checkboxes_target: "actions"}
+                        )
+                      end
+                    end
                   end
                 end
 
-                div class: "border-b py-3 block group-data-[toggle-checkboxes-include-all-visible-value=false]:hidden" do
-                  check_box_tag "include_all", 1, false, data: {action: "toggle-checkboxes#includeAll", toggle_checkboxes_target: "includeAll"}, class: "peer", id: "include_all_feeds"
-                  label for: "include_all_feeds", class: "group flex gap-2 items-center" do
-                    render Components::Form::Checkbox.new
-                    if @params[:q]
-                      text "Include all #{helpers.number_with_delimiter(@subscriptions.total_entries)} #{"subscription".pluralize(@subscriptions.total_entries)} matching this search"
-                    else
-                      text "Include all #{helpers.number_with_delimiter(@subscriptions.total_entries)} #{"subscription".pluralize(@subscriptions.total_entries)}"
+                if @subscriptions.total_entries > @subscriptions.count
+                  div class: "border-b py-3 block group-data-[toggle-checkboxes-include-all-visible-value=false]:hidden" do
+                    check_box_tag "include_all", 1, false, data: {action: "toggle-checkboxes#includeAll", toggle_checkboxes_target: "includeAll"}, class: "peer", id: "include_all_feeds"
+                    label for: "include_all_feeds", class: "group flex gap-2 items-center" do
+                      render Components::Form::Checkbox.new
+                      if @params[:q]
+                        text "Include all #{helpers.number_with_delimiter(@subscriptions.total_entries)} #{"subscription".pluralize(@subscriptions.total_entries)} matching this search"
+                      else
+                        text "Include all #{helpers.number_with_delimiter(@subscriptions.total_entries)} #{"subscription".pluralize(@subscriptions.total_entries)}"
+                      end
                     end
                   end
                 end
