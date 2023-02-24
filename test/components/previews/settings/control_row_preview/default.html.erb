@@ -1,0 +1,14 @@
+<%=
+demo = Class.new(Phlex::HTML) do
+  def template(&)
+    render Views::Components::Settings::ControlRow.new do |row|
+      row.title { "Title" }
+      row.description { "Description" }
+      row.control { "Control" }
+    end
+  end
+end
+render demo.new
+%>
+
+
