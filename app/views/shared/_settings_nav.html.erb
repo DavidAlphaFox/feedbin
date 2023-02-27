@@ -1,5 +1,5 @@
 <div class="group-data-[nav=modal]:-mt-4">
-  <%= component "settings_nav/header" do %>
+  <%= render Views::Components::SettingsNav::Header.new do %>
     General
   <% end %>
 </div>
@@ -42,7 +42,7 @@
   %>
 </ul>
 
-<%= component "settings_nav/header" do %>
+<%= render Views::Components::SettingsNav::Header.new do %>
   Tools
 <% end %>
 
@@ -90,7 +90,7 @@
   <% end %>
 </ul>
 
-<%= component "settings_nav/header" do %>
+<%= render Views::Components::SettingsNav::Header.new do %>
   Admin
 <% end %>
 
@@ -164,31 +164,31 @@
   </div>
 
   <ul>
-    <%= component "settings_nav/nav_small", url: "/home" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "/home" do %>
       Home
     <% end %>
-    <%= component "settings_nav/nav_small", url: "/blog" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "/blog" do %>
       Blog
     <% end %>
-    <%= component "settings_nav/nav_small", url: "/apps" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "/apps" do %>
       Apps
     <% end %>
-    <%= component "settings_nav/nav_small", url: "/help" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "/help" do %>
       Help
     <% end %>
-    <%= component "settings_nav/nav_small", url: "https://github.com/feedbin/feedbin-api#readme" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "https://github.com/feedbin/feedbin-api#readme" do %>
       API
     <% end %>
-    <%= component "settings_nav/nav_small", url: "/privacy-policy" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "/privacy-policy" do %>
       Privacy Policy
     <% end %>
-    <%= component "settings_nav/nav_small", url: "mailto:support@feedbin.com" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "mailto:support@feedbin.com" do %>
       Email
     <% end %>
-    <%= component "settings_nav/nav_small", url: "https://twitter.com/feedbin" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: "https://twitter.com/feedbin" do %>
       Twitter
     <% end %>
-    <%= component "settings_nav/nav_small", url: logout_path, method: "delete" do %>
+    <%= render Views::Components::SettingsNav::NavSmall.new url: logout_path, method: "delete" do %>
       Log Out
     <% end %>
   </ul>
