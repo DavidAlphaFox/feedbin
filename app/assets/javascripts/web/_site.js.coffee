@@ -445,10 +445,11 @@ $.extend feedbin,
     $(".modal-body", modal).html(body);
 
   mobileView: ->
-    if $(window).width() <= 700
-      true
-    else
-      false
+    true
+    # if $(window).width() <= 700
+    #   true
+    # else
+    #   false
 
   scrollToPanel: (selector, animate = true) ->
     containerClass = ".app-wrap"

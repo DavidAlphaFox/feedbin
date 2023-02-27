@@ -150,31 +150,31 @@ module Views
           div(class: "p-4 group-data-[nav=modal]:py-0") { hr }
           ul do
             render Views::Components::SettingsNav::NavSmall.new url: "/home" do
-              text " Home "
+              "Home"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "/blog" do
-              text " Blog "
+              "Blog"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "/apps" do
-              text " Apps "
+              "Apps"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "/help" do
-              text " Help "
+              "Help"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "https://github.com/feedbin/feedbin-api#readme" do
-              text " API "
+              "API"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "/privacy-policy" do
-              text " Privacy Policy "
+              "Privacy Policy"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "mailto:support@feedbin.com" do
-              text " Email "
+              "Email"
             end
             render Views::Components::SettingsNav::NavSmall.new url: "https://twitter.com/feedbin" do
-              text " Twitter "
+              "Twitter"
             end
             render Views::Components::SettingsNav::NavSmall.new url: helpers.logout_path, method: "delete" do
-              text " Log Out "
+              "Log Out"
             end
           end
         end
