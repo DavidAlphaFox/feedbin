@@ -3,7 +3,7 @@
     Your Plan
   <% end %>
   <% group.item do %>
-    <%= component "settings/control_row" do |row| %>
+    <%= render Views::Components::Settings::ControlRow.new do |row| %>
       <% row.title do %>
         Free for life
       <% end %>

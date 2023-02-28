@@ -3,7 +3,7 @@
     Payment Information
   <% end %>
   <% group.item do %>
-    <%= component "settings/control_row" do |row| %>
+    <%= render Views::Components::Settings::ControlRow.new do |row| %>
       <% row.title do %>
         <span data-behavior="billing_details" class="text">Loading…</span>
       <% end %>
@@ -21,7 +21,7 @@
   <% end %>
   <% @plans.each do |plan| %>
     <% group.item do %>
-      <%= component "settings/control_row" do |row| %>
+      <%= render Views::Components::Settings::ControlRow.new do |row| %>
         <% row.title do %>
           <%= number_to_currency(plan.price, precision: 0) %>/<%= plan.period %>
         <% end %>
