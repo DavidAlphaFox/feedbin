@@ -1,5 +1,5 @@
 module Form
-  class Switch < Phlex::HTML
+  class SwitchComponent < ApplicationComponent
     def template(&)
       span class: "w-[34px] h-[20px] flex bg-400 rounded-full relative transition duration-200 pg-checked:bg-blue-600 pg-active:pg-checked:bg-blue-700" do
         span class: "absolute flex items-center justify-start -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 w-[40px] h-[26px] rounded-full border-2 border-transparent pg-focus:border-blue-400 group-data-[focused]:border-blue-400 transition duration-200" do

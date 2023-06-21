@@ -1,5 +1,5 @@
 module Form
-  class InputAccesssory < Phlex::HTML
+  class InputAccesssoryComponent < ApplicationComponent
     include PhlexHelper
 
     def initialize(position: nil)

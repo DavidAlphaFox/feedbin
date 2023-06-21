@@ -1,5 +1,5 @@
 module Form
-  class SelectInput < Phlex::HTML
+  class SelectInputComponent < ApplicationComponent
     include PhlexHelper
     include Phlex::DeferredRender
 

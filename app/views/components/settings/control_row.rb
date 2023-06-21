@@ -1,5 +1,5 @@
 module Settings
-  class ControlRow < Phlex::HTML
+  class ControlRowComponent < ApplicationComponent
     include PhlexHelper
     include Phlex::DeferredRender
 

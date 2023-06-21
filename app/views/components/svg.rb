@@ -1,4 +1,4 @@
-class Svg < Phlex::HTML
+class SvgComponent < ApplicationComponent
   # register_element :use
 
   def initialize(name, options = {})

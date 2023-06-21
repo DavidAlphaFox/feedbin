@@ -1,5 +1,5 @@
 module Settings
-  class Expandable < Phlex::HTML
+  class ExpandableComponent < ApplicationComponent
     include PhlexHelper
     include Phlex::DeferredRender
 
@@ -34,7 +34,7 @@ module Settings
       merge_attributes({class: "group [&_[data-item]]:border-0", data: { controller: "expandable", expandable_open_value: "false" }}, @attributes)
     end
 
-    class Item < Phlex::HTML
+    class ItemComponent < ApplicationComponent
       def template(&)
         li(class: "border-b last:border-b-0", &)
       end

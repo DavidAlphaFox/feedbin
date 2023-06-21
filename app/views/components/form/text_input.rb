@@ -1,5 +1,5 @@
 module Form
-  class TextInput < Phlex::HTML
+  class TextInputComponent < ApplicationComponent
     include PhlexHelper
     include Phlex::DeferredRender
 

@@ -1,5 +1,5 @@
 module Settings
-  class ControlGroup < Phlex::HTML
+  class ControlGroupComponent < ApplicationComponent
     include PhlexHelper
     include Phlex::DeferredRender
 
@@ -30,7 +30,7 @@ module Settings
       @items << Item.new(...)
     end
 
-    class Item < Phlex::HTML
+    class ItemComponent < ApplicationComponent
       include PhlexHelper
 
       def initialize(attributes = {})

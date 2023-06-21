@@ -1,5 +1,5 @@
 module Form
-  class InputCap < Phlex::HTML
+  class InputCapComponent < ApplicationComponent
     include PhlexHelper
 
     def initialize(position: nil)

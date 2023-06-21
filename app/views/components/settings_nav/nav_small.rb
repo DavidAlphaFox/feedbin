@@ -1,5 +1,5 @@
 module SettingsNav
-  class NavSmall < Phlex::HTML
+  class NavSmallComponent < ApplicationComponent
     def initialize(url:, method: nil)
       @url = url
       @method = method
