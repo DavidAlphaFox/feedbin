@@ -8,7 +8,7 @@
       Import
     <% end %>
     <% group.item do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title do %>
           <%= f.file_field :upload, accept: ".xml, .opml, text/xml, application/xml, text/x-opml, text/x-opml+xml", class: "file:appearance-none file:border-solid file:text-sm file:font-medium file:relative file:inline-flex file:items-center file:justify-center file:gap-2 file:p-0 file:border file:border-500 file:whitespace-nowrap file:leading-[42px] file:px-6 file:rounded-md file:text-700 file:bg-transparent file:transition file:transition-[box_shadow] file:cursor-pointer file:hover:shadow-one file:active:bg-100 file:active:hover:shadow-none" %>
         <% end %>
@@ -29,7 +29,7 @@
   <% end %>
   <% group.item do %>
     <%= form_tag subscriptions_path(format: :xml), method: :get do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Subscriptions" } %>
         <% row.control do %>
           <%= component "form/select_input" do |input| %>
@@ -44,7 +44,7 @@
   <% end %>
   <% if @user.starred_entries.exists? %>
     <% group.item do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Starred Articles" } %>
         <% row.description { "A link will be emailed to you." } %>
         <% row.control do %>
@@ -63,7 +63,7 @@
 
     <% @imports.each do |import| %>
       <% group.item do %>
-        <%= render Views::Components::Settings::ControlRow.new do |row| %>
+        <%= render Settings::ControlRow.new do |row| %>
           <% row.title { import.created_at.to_formatted_s(:date) } %>
           <% row.description { import.filename } %>
           <% row.control do %>

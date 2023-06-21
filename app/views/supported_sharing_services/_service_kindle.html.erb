@@ -1,7 +1,7 @@
 <% record = (status == :active) ? sharing_service : record %>
 <%= component "settings/expandable", class: "mb-4", data: {capsule: true} do |expandable| %>
   <% expandable.description do %>
-    <%= render Views::Components::Settings::ControlRow.new do |row| %>
+    <%= render Settings::ControlRow.new do |row| %>
       <% row.icon do %>
         <%= render "icon", sharing_service: sharing_service %>
       <% end %>

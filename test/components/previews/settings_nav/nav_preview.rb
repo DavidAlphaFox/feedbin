@@ -3,6 +3,6 @@
 class SettingsNav::NavPreview < Lookbook::Preview
   # @param selected toggle
   def default(selected: false)
-    render(Views::Components::SettingsNav::Nav.new(title: "Title", subtitle: "Subtitle", url: "#", icon: "menu-icon-settings", selected: selected))
+    render(SettingsNav::Nav.new(title: "Title", subtitle: "Subtitle", url: "#", icon: "menu-icon-settings", selected: selected))
   end
 end

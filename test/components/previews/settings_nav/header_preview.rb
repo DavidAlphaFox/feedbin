@@ -2,7 +2,7 @@
 
 class SettingsNav::HeaderPreview < Lookbook::Preview
   def default
-    render(Views::Components::SettingsNav::Header.new) do
+    render(SettingsNav::HeaderComponent.new) do
       "Header"
     end
   end

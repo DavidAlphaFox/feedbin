@@ -1,55 +1,53 @@
-module Views
-  module Settings
-    module Subscriptions
-      class Index < Phlex::HTML
-        include PhlexHelper
+module Settings
+  module Subscriptions
+    class Index < Phlex::HTML
+      include PhlexHelper
 
-        def initialize(user:, subscriptions:, params:)
-          @user = user
-          @subscriptions = subscriptions
-          @params = params
-        end
+      def initialize(user:, subscriptions:, params:)
+        @user = user
+        @subscriptions = subscriptions
+        @params = params
+      end
 
-        def template
-          form_tag helpers.settings_subscriptions_path, method: :get, remote: true, class: "feed-settings", data: {behavior: "spinner"} do
-            render Components::Settings::H1.new do
-              "Settings"
-            end
-            div class: "flex flex-col md:flex-row justify-between mb-6 gap-2" do
-              div class: "md:max-w-[250px]" do
-                render Components::Form::TextInput.new do |input|
-                  input.input do
-                    input(
-                      type: "search",
-                      class: "feed-search peer text-input",
-                      placeholder: "Search Feeds",
-                      data_behavior: "autosubmit",
-                      name: "q",
-                      value: @params[:q]
-                    )
-                  end
-                  input.accessory_leading do
-                    render Components::Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
-                  end
+      def template
+        form_tag helpers.settings_subscriptions_path, method: :get, remote: true, class: "feed-settings", data: {behavior: "spinner"} do
+          render Settings::H1.new do
+            "Settings"
+          end
+          div class: "flex flex-col md:flex-row justify-between mb-6 gap-2" do
+            div class: "md:max-w-[250px]" do
+              render Form::TextInput.new do |input|
+                input.input do
+                  input(
+                    type: "search",
+                    class: "feed-search peer text-input",
+                    placeholder: "Search Feeds",
+                    data_behavior: "autosubmit",
+                    name: "q",
+                    value: @params[:q]
+                  )
+                end
+                input.accessory_leading do
+                  render Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
                 end
               end
-              div class: "md:max-w-[250px]" do
-                render Components::Form::SelectInput.new do |input|
-                  input.input do
-                    select_tag(
-                      :sort,
-                      helpers.options_for_select([["Sort by Name", "name"], ["Sort by Last Updated", "updated"], ["Sort by Volume", "volume"]], @params[:sort]),
-                      class: "peer",
-                      data: {behavior: "autosubmit"}
-                    )
-                  end
+            end
+            div class: "md:max-w-[250px]" do
+              render Form::SelectInput.new do |input|
+                input.input do
+                  select_tag(
+                    :sort,
+                    helpers.options_for_select([["Sort by Name", "name"], ["Sort by Last Updated", "updated"], ["Sort by Volume", "volume"]], @params[:sort]),
+                    class: "peer",
+                    data: {behavior: "autosubmit"}
+                  )
                 end
               end
             end
           end
-
-          render Shared::List.new(subscriptions: @subscriptions, params: @params)
         end
+
+        render Shared::List.new(subscriptions: @subscriptions, params: @params)
       end
     end
   end

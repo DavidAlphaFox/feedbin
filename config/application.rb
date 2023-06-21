@@ -10,7 +10,13 @@ Bundler.require(*Rails.groups)
 
 module Feedbin
   class Application < Rails::Application
+    config.autoload_paths << "#{root}/app/views"
+    config.autoload_paths << "#{root}/app/components"
+    config.autoload_paths << "#{root}/app/layouts"
     config.autoload_paths << "#{root}/app"
+
+    config.eager_load_paths += %W(#{root}/app #{root}/app/views #{root}/app/views/components #{root}/app/views/layouts)
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 

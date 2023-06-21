@@ -13,7 +13,7 @@ class CacheEntryViewsTest < ActiveSupport::TestCase
   test "enqueues ids" do
     cache = CacheEntryViews.new
     cache.perform(@entry.id)
-    assert_equal([@entry.id.to_s], cache.dequeue_ids(CacheEntryViews::SET_NAME))
+    assert_equal([@entry.id.to_s], cache.dequeue_ids(CacheEntrySET_NAME))
   end
 
   test "caches entries" do

@@ -7,7 +7,7 @@
   <% end %>
   <% if @user.twitter_enabled? %>
     <% group.item do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Account" } %>
         <% row.description do %>
           You are logged in to Twitter as <strong>@<%= @user.twitter_screen_name %></strong>.
@@ -21,7 +21,7 @@
     <% end %>
   <% else %>
     <% group.item do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Account" } %>
         <% row.description do %>
           Sign in to enable <a href="/blog/2018/01/11/feedbin-is-the-best-way-to-read-twitter/">Twitter subscriptions</a>.
@@ -63,7 +63,7 @@
       </div>
     <% end %>
     <% group.item do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Default Tag" } %>
         <% row.description do %>
           Automatically put incoming newsletters in this tag.
@@ -87,7 +87,7 @@
     Pages
   <% end %>
   <% group.item do %>
-    <%= render Views::Components::Settings::ControlRow.new do |row| %>
+    <%= render Settings::ControlRow.new do |row| %>
       <% row.title { "Bookmarklet" } %>
       <% row.description do %>
         Drag this to your bookmarks bar. Use it to <a href="/blog/2019/08/20/save-webpages-to-read-later/">save articles from the web</a> to Feedbin.
@@ -108,7 +108,7 @@
       Advanced
     <% end %>
     <% expandable.description do %>
-      <%= render Views::Components::Settings::ControlRow.new do |row| %>
+      <%= render Settings::ControlRow.new do |row| %>
         <% row.title { "Newsletter Senders" } %>
         <% row.description do %>
           These are the senders of newsletters you have received. Feedbin blocks messages from senders that have been deactivated. Reactivate a sender to resubscribe.

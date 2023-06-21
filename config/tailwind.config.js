@@ -3,6 +3,8 @@ const plugin = require("tailwindcss/plugin")
 
 module.exports = {
   content: [
+    './app/views/**/*.rb',
+    './app/components/**/*rb',
     "./app/helpers/**/*.rb",
     "./app/javascript/**/*.js",
     "./app/views/**/*.{erb,html,rb}",

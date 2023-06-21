@@ -2,7 +2,7 @@
 
 class Settings::H1Preview < Lookbook::Preview
   def default
-    render(Views::Components::Settings::H1.new) do
+    render(Settings::H1.new) do
       "Header One"
     end
   end

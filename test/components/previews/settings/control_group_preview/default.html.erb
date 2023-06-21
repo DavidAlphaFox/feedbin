@@ -1,7 +1,7 @@
 <%=
 demo = Class.new(Phlex::HTML) do
   def template(&)
-    render Views::Components::Settings::ControlGroup.new(class: "mb-14") do |group|
+    render Settings::ControlGroup.new(class: "mb-14") do |group|
       group.header do
         "Header"
       end
