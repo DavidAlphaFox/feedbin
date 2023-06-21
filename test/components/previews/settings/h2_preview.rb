@@ -2,7 +2,7 @@
 
 class Settings::H2Preview < Lookbook::Preview
   def default
-    render(Settings::H2.new) do
+    render(Settings::H2Component.new) do
       "Header Two"
     end
   end

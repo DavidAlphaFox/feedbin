@@ -1,6 +1,5 @@
 module Settings
   class ControlGroupComponent < ApplicationComponent
-    include PhlexHelper
     include Phlex::DeferredRender
 
     slots :description
@@ -13,7 +12,7 @@ module Settings
     def template
       div(**@options) do
         render(@header) if @header
-        if @items
+        if @items.present?
           div(class: "border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg", data: {item_container: true}) do
             @items.each {render _1}
           end
@@ -23,16 +22,14 @@ module Settings
     end
 
     def header(...)
-      @header = H2.new(...)
+      @header = H2Component.new(...)
     end
 
-    def item(...)
-      @items << Item.new(...)
-    end
+    # def item(...)
+    #   @items << ItemComponent.new(...)
+    # end
 
     class ItemComponent < ApplicationComponent
-      include PhlexHelper
-
       def initialize(attributes = {})
         @attributes = attributes
       end

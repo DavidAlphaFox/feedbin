@@ -16,11 +16,11 @@ module Settings
               div class: "py-4 flex border-y items-center justify-between" do
                 input type: "checkbox", class: "peer", data_action: "toggle-checkboxes#toggle", id: "select_all_feeds"
                 label for: "select_all_feeds", class: "group flex gap-2 items-center" do
-                  render Form::Checkbox.new
+                  render Form::CheckboxComponent.new
                   plain " Select all "
                 end
                 div class: "max-w-[250px]" do
-                  render Form::SelectInput.new do |input|
+                  render Form::SelectInputComponent.new do |input|
                     input.input do
                       select_tag(:operation,
                         helpers.options_for_select([["Actions", nil], ["Unsubscribe", "unsubscribe"], ["Show edits on articles", "show_updates"], ["Hide edits on articles", "hide_updates"], ["Mute Feed", "mute"], ["Unmute Feed", "unmute"]]),
@@ -37,7 +37,7 @@ module Settings
                 div class: "border-b py-3 block group-data-[toggle-checkboxes-include-all-visible-value=false]:hidden" do
                   check_box_tag "include_all", 1, false, data: {action: "toggle-checkboxes#includeAll", toggle_checkboxes_target: "includeAll"}, class: "peer", id: "include_all_feeds"
                   label for: "include_all_feeds", class: "group flex gap-2 items-center" do
-                    render Form::Checkbox.new
+                    render Form::CheckboxComponent.new
                     if @params[:q]
                       plain "Include all #{helpers.number_with_delimiter(@subscriptions.total_entries)} #{"subscription".pluralize(@subscriptions.total_entries)} matching this search"
                     else

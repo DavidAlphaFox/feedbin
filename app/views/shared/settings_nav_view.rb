@@ -13,28 +13,28 @@ module Shared
       end
 
       ul do
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Feedbin",
           subtitle: "Back to the app",
           url: helpers.root_path,
           icon: "menu-icon-app",
           classes: "md:hidden"
         ))
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Settings",
           subtitle: "General preferences",
           url: helpers.settings_path,
           icon: "menu-icon-settings",
           selected: helpers.is_active?("settings", "settings")
         ))
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Subscriptions",
           subtitle: "Manage feeds",
           url: helpers.settings_subscriptions_path,
           icon: "menu-icon-subscriptions",
           selected: helpers.is_active?(["settings/subscriptions"], %w[index edit])
         ))
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Sources",
           subtitle: "Twitter, newsletters & pages",
           url: helpers.settings_newsletters_pages_path,
@@ -52,21 +52,21 @@ module Shared
       end
 
       ul do
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Actions",
           subtitle: "Filters & more",
           url: helpers.actions_path,
           selected: helpers.is_active?(["actions"], %w[index new edit]),
           icon: "menu-icon-actions"
         ))
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Share & Save",
           subtitle: "Social plugins",
           url: helpers.sharing_services_path,
           selected: helpers.is_active?("sharing_services", "index"),
           icon: "menu-icon-share-save"
         ))
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Import & Export",
           subtitle: "Bring your OPML",
           url: helpers.settings_import_export_path,
@@ -74,7 +74,7 @@ module Shared
           icon: "menu-icon-import-export"
         ))
         if @user.try(:account_migrations)&.exists?
-          render(::SettingsNav::Nav.new(
+          render(::SettingsNav::NavComponent.new(
             title: "Account Migration",
             subtitle: "Howdy, Feed Wrangler",
             url: helpers.account_migrations_path,
@@ -93,7 +93,7 @@ module Shared
       end
 
       ul do
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Account",
           subtitle: "Update email & password",
           url: helpers.settings_account_path,
@@ -101,7 +101,7 @@ module Shared
           icon: "menu-icon-account"
         ))
         if ENV["STRIPE_API_KEY"]
-          render(::SettingsNav::Nav.new(
+          render(::SettingsNav::NavComponent.new(
             title: "Billing",
             subtitle: "Payment method & plan",
             url: helpers.settings_billing_path,
@@ -110,20 +110,20 @@ module Shared
           ))
         end
         if @user.try(:admin?)
-          render(::SettingsNav::Nav.new(
+          render(::SettingsNav::NavComponent.new(
             title: "Customers",
             subtitle: "Manage customers",
             url: helpers.admin_users_path,
             selected: helpers.is_active?("admin/users", "index"),
             icon: "menu-icon-customers"
           ))
-          render(::SettingsNav::Nav.new(
+          render(::SettingsNav::NavComponent.new(
             title: "Sidekiq",
             subtitle: "Background jobs",
             url: helpers.sidekiq_web_path,
             icon: "menu-icon-sidekiq"
           ))
-          render(::SettingsNav::Nav.new(
+          render(::SettingsNav::NavComponent.new(
             title: "Lookbook",
             subtitle: "Feedkit components",
             url: "/lookbook",
@@ -137,7 +137,7 @@ module Shared
       end
 
       ul(class: "tw-hidden group-data-[nav=dropdown]:block") do
-        render(::SettingsNav::Nav.new(
+        render(::SettingsNav::NavComponent.new(
           title: "Log Out",
           url: [helpers.logout_path, { method: :delete }],
           icon: "menu-icon-log-out"
@@ -147,31 +147,31 @@ module Shared
       div(class: "group-data-[nav=dropdown]:hidden") do
         div(class: "p-4 group-data-[nav=modal]:py-0") { hr }
         ul do
-          render ::SettingsNav::NavSmall.new url: "/home" do
+          render ::SettingsNav::NavSmallComponent.new url: "/home" do
             "Home"
           end
-          render ::SettingsNav::NavSmall.new url: "/blog" do
+          render ::SettingsNav::NavSmallComponent.new url: "/blog" do
             "Blog"
           end
-          render ::SettingsNav::NavSmall.new url: "/apps" do
+          render ::SettingsNav::NavSmallComponent.new url: "/apps" do
             "Apps"
           end
-          render ::SettingsNav::NavSmall.new url: "/help" do
+          render ::SettingsNav::NavSmallComponent.new url: "/help" do
             "Help"
           end
-          render ::SettingsNav::NavSmall.new url: "https://github.com/feedbin/feedbin-api#readme" do
+          render ::SettingsNav::NavSmallComponent.new url: "https://github.com/feedbin/feedbin-api#readme" do
             "API"
           end
-          render ::SettingsNav::NavSmall.new url: "/privacy-policy" do
+          render ::SettingsNav::NavSmallComponent.new url: "/privacy-policy" do
             "Privacy Policy"
           end
-          render ::SettingsNav::NavSmall.new url: "mailto:support@feedbin.com" do
+          render ::SettingsNav::NavSmallComponent.new url: "mailto:support@feedbin.com" do
             "Email"
           end
-          render ::SettingsNav::NavSmall.new url: "https://twitter.com/feedbin" do
+          render ::SettingsNav::NavSmallComponent.new url: "https://twitter.com/feedbin" do
             "Twitter"
           end
-          render ::SettingsNav::NavSmall.new url: helpers.logout_path, method: "delete" do
+          render ::SettingsNav::NavSmallComponent.new url: helpers.logout_path, method: "delete" do
             "Log Out"
           end
         end

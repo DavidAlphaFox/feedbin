@@ -2,7 +2,7 @@
 
 class SettingsNav::NavSmallPreview < Lookbook::Preview
   def default
-    render(SettingsNav::NavSmall.new(url: "#")) do
+    render(SettingsNav::NavSmallComponent.new(url: "#")) do
       "Home"
     end
   end

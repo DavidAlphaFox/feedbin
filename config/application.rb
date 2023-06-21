@@ -46,8 +46,8 @@ module Feedbin
     config.action_view.default_enforce_utf8 = true
     config.active_record.yaml_column_permitted_classes = [Symbol]
     config.assets.css_compressor = ConditionalSassCompressor.new
-    config.view_component.default_preview_layout = "component_preview"
 
+    config.view_component.default_preview_layout = "component_preview"
     config.lookbook.project_name = "Feedkit"
     config.lookbook.ui_theme_overrides = {
       header_bg: "#000000"

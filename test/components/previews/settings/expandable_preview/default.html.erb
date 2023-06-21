@@ -1,12 +1,12 @@
 <%=
 demo = Class.new(Phlex::HTML) do
   def template(&)
-    render Settings::Expandable.new(class: "mb-14") do |expandable|
+    render Settings::ExpandableComponent.new(class: "mb-14") do |expandable|
       expandable.header do
         "Header"
       end
       expandable.description do
-        render Settings::ControlRow.new do |row|
+        render Settings::ControlRowComponent.new do |row|
           row.title { "Title" }
           row.description { "Description" }
           row.control do

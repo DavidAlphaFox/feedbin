@@ -11,7 +11,7 @@ module Settings
     end
 
     def template
-      render Settings::ControlGroup.new(**attributes) do |group|
+      render Settings::ControlGroupComponent.new(**attributes) do |group|
         group.header(&@header)
         group.item(&@description)
         group.item do

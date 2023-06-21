@@ -11,12 +11,12 @@ module Settings
 
       def template
         form_tag helpers.settings_subscriptions_path, method: :get, remote: true, class: "feed-settings", data: {behavior: "spinner"} do
-          render Settings::H1.new do
+          render Settings::H1Component.new do
             "Settings"
           end
           div class: "flex flex-col md:flex-row justify-between mb-6 gap-2" do
             div class: "md:max-w-[250px]" do
-              render Form::TextInput.new do |input|
+              render Form::TextInputComponent.new do |input|
                 input.input do
                   input(
                     type: "search",
@@ -28,12 +28,12 @@ module Settings
                   )
                 end
                 input.accessory_leading do
-                  render Svg.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
+                  render SvgComponent.new "icon-search", class: "fill-400 pg-focus:fill-blue-600"
                 end
               end
             end
             div class: "md:max-w-[250px]" do
-              render Form::SelectInput.new do |input|
+              render Form::SelectInputComponent.new do |input|
                 input.input do
                   select_tag(
                     :sort,

@@ -1,4 +1,4 @@
-class Form::CheckboxPreview < Lookbook::Preview
+class Form::CheckboxComponentPreview < Lookbook::Preview
   def default
   end
 end

@@ -32,7 +32,7 @@
       <% end %>
 
       <% group.item do %>
-        <%= render Settings::ControlRow.new do |row| %>
+        <%= render Settings::ControlRowComponent.new do |row| %>
           <% row.title { "Subscriptions" } %>
           <% row.control do %>
             <span class="text-500">
@@ -43,7 +43,7 @@
       <% end %>
 
       <% group.item do %>
-        <%= render Settings::ControlRow.new do |row| %>
+        <%= render Settings::ControlRowComponent.new do |row| %>
           <% row.title { "Starred Articles" } %>
           <% row.control do %>
             <span class="text-500">
@@ -54,7 +54,7 @@
       <% end %>
 
       <% group.item do %>
-        <%= render Settings::ControlRow.new do |row| %>
+        <%= render Settings::ControlRowComponent.new do |row| %>
           <% row.title { "Unread Articles" } %>
           <% row.control do %>
             <span class="text-500">
@@ -83,7 +83,7 @@
       <% @migration.account_migration_items.failed.order(updated_at: :asc).each do |item| %>
         <%= component "settings/expandable", class: "mb-4", data: {capsule: true} do |expandable| %>
           <% expandable.description do %>
-            <%= render Settings::ControlRow.new do |row| %>
+            <%= render Settings::ControlRowComponent.new do |row| %>
               <% row.title { item.fw_feed.safe_dig("title") } %>
                 <% row.description do %>
                   <%= link_to item.fw_feed.safe_dig("feed_url"), target: :_blank, rel: "noopener noreferrer", class: "extra-muted" do  %>
