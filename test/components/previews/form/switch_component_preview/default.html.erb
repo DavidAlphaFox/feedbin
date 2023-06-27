@@ -7,7 +7,7 @@ demo = Class.new(Phlex::HTML) do
         input type: "checkbox", class: "peer", id: "checkbox"
         label for: "checkbox", class: "group flex gap-2 items-center" do
           render Form::SwitchComponent.new
-          text "::SwitchComponent"
+          plain "Switch"
         end
       end
 
@@ -15,7 +15,7 @@ demo = Class.new(Phlex::HTML) do
         input type: "checkbox", class: "peer", id: "checkbox", checked: true
         label for: "checkbox", class: "group flex gap-2 items-center" do
           render Form::SwitchComponent.new
-          text "::SwitchComponent"
+          plain "Switch"
         end
       end
 
@@ -23,7 +23,7 @@ demo = Class.new(Phlex::HTML) do
         input type: "checkbox", class: "peer", id: "checkbox"
         label for: "checkbox", class: "group flex gap-2 items-center", data: {focused: true} do
           render Form::SwitchComponent.new
-          text "::SwitchComponent"
+          plain "Switch"
         end
       end
     end
