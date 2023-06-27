@@ -81,7 +81,7 @@
     </div>
 
       <% @migration.account_migration_items.failed.order(updated_at: :asc).each do |item| %>
-        <%= component "settings/expandable", class: "mb-4", data: {capsule: true} do |expandable| %>
+        <%= component "settings/expandable", class: "mb-4", data: {capsule: "true"} do |expandable| %>
           <% expandable.description do %>
             <%= render Settings::ControlRowComponent.new do |row| %>
               <% row.title { item.fw_feed.safe_dig("title") } %>

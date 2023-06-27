@@ -1,7 +1,6 @@
 module Settings
   class ExpandableComponent < ApplicationComponent
     include PhlexHelper
-    include Phlex::DeferredRender
 
     slots :header, :description
 
@@ -25,13 +24,13 @@ module Settings
     end
 
     def item(...)
-      @items << Item.new(...)
+      @items << ItemComponent.new(...)
     end
 
     private
 
     def attributes
-      merge_attributes({class: "group [&_[data-item]]:border-0", data: { controller: "expandable", expandable_open_value: "false" }}, @attributes)
+      mix({class: "group [&_[data-item]]:border-0", data: { controller: "expandable", expandable_open_value: "false" }}, @attributes)
     end
 
     class ItemComponent < ApplicationComponent

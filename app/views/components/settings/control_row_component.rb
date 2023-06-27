@@ -1,7 +1,6 @@
 module Settings
   class ControlRowComponent < ApplicationComponent
     include PhlexHelper
-    include Phlex::DeferredRender
 
     slots :icon, :title, :description, :control
 

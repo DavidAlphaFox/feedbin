@@ -4,7 +4,7 @@
     <div class="py-4 flex border-y items-center justify-between">
       <input type="checkbox" class="peer" data-action="toggle-checkboxes#toggle" id="select_all_feeds" />
       <label for="select_all_feeds" class="group flex gap-2 items-center">
-        <%= component "form/check_box" %>
+        <%= component "form/checkbox" %>
         Select all
       </label>
 
@@ -20,7 +20,7 @@
       <div class="border-b py-3 block group-data-[toggle-checkboxes-include-all-visible-value=false]:hidden">
         <%= check_box_tag "include_all", 1, false, data: {action: "toggle-checkboxes#includeAll", toggle_checkboxes_target: "includeAll"}, class: "peer", id: "include_all_feeds" %>
         <label for="include_all_feeds" class="group flex gap-2 items-center">
-          <%= component "form/check_box" %>
+          <%= component "form/checkbox" %>
           <% if params[:q] %>
             Include all <%= number_with_delimiter(@subscriptions.total_entries) %> <%= "subscription".pluralize(@subscriptions.total_entries) %> matching this search
           <% else %>
@@ -39,7 +39,7 @@
               <div class="shrink-0 w-[32px] self-stretch flex">
                 <%= check_box_tag "subscription_ids[]", subscription.id, false, id: "subscription_checkbox_#{subscription.id}", class: "peer", data: {action: "toggle-checkboxes#toggleActions", toggle_checkboxes_target: "checkbox"} %>
                 <label class="group w-full h-full flex items-center" for="<%= "subscription_checkbox_#{subscription.id}" %>">
-                  <%= component "form/check_box" %>
+                  <%= component "form/checkbox" %>
                 </label>
               </div>
 

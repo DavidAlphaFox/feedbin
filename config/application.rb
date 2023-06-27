@@ -11,7 +11,6 @@ Bundler.require(*Rails.groups)
 module Feedbin
   class Application < Rails::Application
     config.autoload_paths << "#{root}/app/views"
-    config.autoload_paths << "#{root}/app/components"
     config.autoload_paths << "#{root}/app/layouts"
     config.autoload_paths << "#{root}/app"
 

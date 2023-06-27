@@ -34,8 +34,9 @@
             <% group.item do %>
               <%= pf.check_box :media_only, checked: false, class: "peer" %>
               <%= pf.label :media_only, class: "group text-right" do %>
-                <%= component "settings/control_row_switch" do |row| %>
-                  <% row.title { "Tweets with media and links only" } %>
+                <%= render Settings::ControlRowComponent.new do |row| %>
+                  <% row.title { "Tweets with media and links only"} %>
+                  <% row.control { render Form::SwitchComponent.new } %>
                 <% end %>
               <% end %>
             <% end %>

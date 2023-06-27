@@ -5,9 +5,14 @@ class ApplicationComponent < Phlex::HTML
   include PhlexHelper
 
 	if Rails.env.development?
-		def before_template
-			comment { "Before #{self.class.name}" }
-			super
-		end
+    def before_template
+      comment { "Start: #{self.class.name}" }
+      super
+    end
+
+    def after_template
+      comment { "End: #{self.class.name}" }
+      super
+    end
 	end
 end

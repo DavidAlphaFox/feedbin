@@ -31,7 +31,7 @@
           <li class="group">
             <%= builder.check_box class: "peer" %>
             <%= builder.label class: "group flex gap-2 items-center py-3 border-b group-last:border-b-0" do %>
-              <%= component "form/check_box" %>
+              <%= component "form/checkbox" %>
               <%= builder.text %>
             <% end %>
           </li>
@@ -48,7 +48,7 @@
     <div class="flex py-3 border-y border-b-0">
       <%= form.check_box :all_feeds, id: "include_all_feeds", class: "peer", data: {behavior: 'check_feeds'} %>
       <label class="group flex items-center gap-2" for="include_all_feeds">
-        <%= component "form/check_box" %> Include all
+        <%= component "form/checkbox" %> Include all
       </label>
 
       <%= render "shared/input", class: "ml-auto" do %>
@@ -60,13 +60,14 @@
         <li class="group" data-sort-name="<%= builder.text.downcase %>">
           <%= builder.check_box feed_checkbox_options(form).merge(class: "peer") %>
           <%= builder.label title: builder.object.feed_url, class: "group flex gap-2 items-center py-3 border-b group-last:border-b-0" do %>
-            <%= component "form/check_box" %>
+            <%= component "form/checkbox" %>
             <%= builder.text %>
           <% end %>
         </li>
       <% end %>
     </ul>
   </div>
+
 
   <%= component "settings/control_group", class: "mb-14" do |group| %>
     <% group.header do %>
@@ -77,8 +78,9 @@
       <% group.item data: {behavior: "action_#{builder.value}"} do %>
         <%= builder.check_box class: "peer" %>
         <%= builder.label class: "group" do %>
-          <%= component "settings/control_row_switch" do |row| %>
+          <%= render Settings::ControlRowComponent.new do |row| %>
             <% row.title { builder.text } %>
+            <% row.control { render Form::SwitchComponent.new } %>
           <% end %>
         <% end %>
       <% end %>
@@ -97,9 +99,11 @@
     <% group.item do %>
       <%= form.check_box :apply_action, class: "peer" %>
       <%= form.label :apply_action, class: "group" do %>
-        <%= component "settings/control_row_switch" do |row| %>
-          <% row.title { "Mark existing matches as read" } %>
-        <% end %>
+
+      <%= render Settings::ControlRowComponent.new do |row| %>
+        <% row.title { "Mark existing matches as read" } %>
+        <% row.control { render Form::SwitchComponent.new } %>
+      <% end %>
       <% end %>
     <% end %>
   <% end %>

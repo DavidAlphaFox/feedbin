@@ -15,7 +15,7 @@ module Settings
           group.header do
             "Unread Sort"
           end
-          group.with_item do
+          group.item do
             f.radio_button(:entry_sort, "DESC", checked: @user.entry_sort.nil? || @user.entry_sort === "DESC", class: "peer", data: {behavior: "auto_submit"})
             f.label :entry_sort_desc, class: "group" do
               render Settings::ControlRowComponent.new do |row|

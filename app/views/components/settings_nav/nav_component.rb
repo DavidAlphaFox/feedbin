@@ -42,7 +42,7 @@ module SettingsNav
 
       link_args = [*@url]
       if link_args.length == 2
-        defaults = merge_attributes(defaults, link_args.last)
+        defaults = mix(defaults, link_args.last)
       end
       link_args[1] = defaults
       link_args

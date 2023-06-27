@@ -1,6 +1,5 @@
 module Settings
   class ControlGroupComponent < ApplicationComponent
-    include Phlex::DeferredRender
 
     slots :description
 
@@ -13,7 +12,7 @@ module Settings
       div(**@options) do
         render(@header) if @header
         if @items.present?
-          div(class: "border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg", data: {item_container: true}) do
+          div(class: "border-y group-data-[capsule=true]:border group-data-[capsule=true]:rounded-lg", data: {item_container: "true"}) do
             @items.each {render _1}
           end
         end
@@ -25,9 +24,9 @@ module Settings
       @header = H2Component.new(...)
     end
 
-    # def item(...)
-    #   @items << ItemComponent.new(...)
-    # end
+    def item(...)
+      @items << ItemComponent.new(...)
+    end
 
     class ItemComponent < ApplicationComponent
       def initialize(attributes = {})
@@ -41,7 +40,7 @@ module Settings
       private
 
       def attributes
-        merge_attributes({class: "border-b last:border-b-0", data: {item: true}}, @attributes)
+        mix({class: "border-b last:border-b-0", data: {item: "true"}}, @attributes)
       end
     end
   end
