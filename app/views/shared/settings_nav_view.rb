@@ -36,7 +36,7 @@ module Shared
         ))
         render(::SettingsNav::NavComponent.new(
           title: "Sources",
-          subtitle: "Twitter, newsletters & pages",
+          subtitle: "Newsletters & pages",
           url: helpers.settings_newsletters_pages_path,
           icon: "menu-icon-newsletters",
           selected: helpers.is_active?("settings", "newsletters_pages")
@@ -168,8 +168,8 @@ module Shared
           render ::SettingsNav::NavSmallComponent.new url: "mailto:support@feedbin.com" do
             "Email"
           end
-          render ::SettingsNav::NavSmallComponent.new url: "https://twitter.com/feedbin" do
-            "Twitter"
+          render ::SettingsNav::NavSmallComponent.new url: "https://feedbin.social/@feedbin" do
+            "Mastodon"
           end
           render ::SettingsNav::NavSmallComponent.new url: helpers.logout_path, method: "delete" do
             "Log Out"
