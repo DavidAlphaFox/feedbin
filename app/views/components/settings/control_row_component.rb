@@ -11,7 +11,7 @@ module Settings
         div class: "grow overflow-hidden" do
           div class: "text-600", &@title
           if @description
-            div class: "text-500 text-sm", &@description
+            div class: "text-500 text-sm max-w-[500px]", &@description
           end
         end
         div class: "items-center flex gap-4", &@control

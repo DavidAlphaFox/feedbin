@@ -59,6 +59,9 @@ module Settings
                   input.input do
                     f.select :newsletter_tag, helpers.tag_options, {}, { class: "peer", data: { behavior: "auto_submit" } }
                   end
+                  input.accessory_leading do
+                    render SvgComponent.new "favicon-tag", class: "fill-500"
+                  end
                 end
               end
             end
