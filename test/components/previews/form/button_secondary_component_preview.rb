@@ -1,4 +1,4 @@
-class Form::ButtonSecondaryComponentPreview < ViewComponent::Preview
+class Form::ButtonSecondaryComponentPreview < Lookbook::Preview
   def default
   end
 end

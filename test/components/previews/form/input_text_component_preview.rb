@@ -1,4 +1,4 @@
-class Form::InputTextComponentPreview < ViewComponent::Preview
+class Form::InputTextComponentPreview < Lookbook::Preview
   # @param leading_accessory toggle
   def default(leading_accessory: false)
     render_with_template(locals: {
