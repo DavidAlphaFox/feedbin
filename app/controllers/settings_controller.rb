@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
 
-  def settings
+  def index
     render Settings::IndexView.new(user: current_user), layout: "settings"
   end
 

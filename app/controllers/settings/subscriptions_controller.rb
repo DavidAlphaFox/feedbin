@@ -6,7 +6,7 @@ class Settings::SubscriptionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        view = Settings::Subscriptions::Index.new(
+        view = Settings::Subscriptions::IndexView.new(
           user: @user,
           subscriptions: @subscriptions,
           params: params

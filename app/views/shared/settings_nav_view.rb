@@ -25,7 +25,7 @@ module Shared
           subtitle: "General preferences",
           url: helpers.settings_path,
           icon: "menu-icon-settings",
-          selected: helpers.is_active?("settings", "settings")
+          selected: helpers.is_active?("settings", "index")
         ))
         render(::SettingsNav::NavComponent.new(
           title: "Subscriptions",

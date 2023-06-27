@@ -1,6 +1,6 @@
 module Settings
   module Subscriptions
-    class Index < ApplicationView
+    class IndexView < ApplicationView
 
       def initialize(user:, subscriptions:, params:)
         @user = user
