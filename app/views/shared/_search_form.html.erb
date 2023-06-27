@@ -64,7 +64,7 @@
       <div class="absolute z-50 inset-x-0 top-full w-full origin-top-left p-1 rounded-b bg-0 shadow-two focus:outline-none group-data-[search-token-autocomplete-visible-value=false]:tw-hidden">
         <%= render App::SearchTokenResultComponent.new do |item| %>
           <% item.icon do %>
-            <%= svg_tag "icon-search", class: "fill-400" %>
+            <%= render SvgComponent.new "icon-search", class: "fill-400" %>
           <% end %>
           <% item.text do %>
             Search for <span class="font-bold" data-search-token-target="preview"></span> <span class="font-bold before:content-['_in_'] before:font-normal empty:before:tw-hidden" data-search-token-target="previewSource"></span>
@@ -77,7 +77,7 @@
       <template data-search-token-target="resultTemplate">
         <%= render App::SearchTokenResultComponent.new do |item| %>
           <% item.icon do %>
-            <%= svg_tag "favicon-tag", class: "fill-400" %>
+            <%= render SvgComponent.new "favicon-tag", class: "fill-400" %>
           <% end %>
         <% end %>
       </template>
