@@ -27,7 +27,7 @@
                         <div class="option">
                             <%= b.radio_button class: "peer", data: {behavior: "auto_submit change_font"} %>
                             <%= b.label class: "group flex !flex-row gap-2 items-center leading-[40px]" do %>
-                                <%= component "form/radio" %>
+                                <%= render Form::RadioComponent.new %>
                                 <%= b.text %>
                             <% end %>
                         </div>
@@ -45,7 +45,7 @@
             <div class="mobile-hide">
               <h3>Display</h3>
               <div class="control">
-                <%= component "settings/control_group", class: "mb-4" do |group| %>
+                <%= render Settings::ControlGroupComponent.new class: "mb-4" do |group| %>
                   <% group.item do %>
                     <input type="checkbox" id="toggle_full_screen" data-behavior="toggle_full_screen" class="peer">
                     <label for="toggle_full_screen" class="group">

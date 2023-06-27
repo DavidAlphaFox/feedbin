@@ -1,7 +1,6 @@
 module Settings
   module Subscriptions
-    class Index < Phlex::HTML
-      include PhlexHelper
+    class Index < ApplicationView
 
       def initialize(user:, subscriptions:, params:)
         @user = user
@@ -53,7 +52,7 @@ module Settings
   end
 end
 
-# component "settings/h1" do
+# render Settings::H1Component.new do
 #   Subscriptions
 # end
 #
@@ -61,7 +60,7 @@ end
 #
 #   <div class="flex flex-col md:flex-row justify-between mb-6 gap-2">
 #     <div class="md:max-w-[250px]">
-#       component "form/text_input" do |input|
+#       render Form::TextInputComponent.new do |input|
 #         input.input do
 #           <input type="search" class="feed-search peer text-input" placeholder="Search Feeds" data-behavior="autosubmit" name="q" value="params[:q]" />
 #         end
@@ -72,7 +71,7 @@ end
 #     </div>
 #
 #     <div class="md:max-w-[250px]">
-#       component "form/select_input" do |input|
+#       render Form::SelectInputComponent.new do |input|
 #         input.input do
 #           select_tag :sort, options_for_select([["Sort by Name", "name"], ["Sort by Last Updated", "updated"], ["Sort by Volume", "volume"]], params[:sort]), class: "peer", data: {behavior: "autosubmit"}
 #         end

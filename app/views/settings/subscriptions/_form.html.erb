@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <%= component "settings/control_group", class: "mb-14" do |group| %>
+        <%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
           <% group.header do %>
             Stats
           <% end %>
@@ -117,7 +117,7 @@
         <% end %>
 
 
-        <%= component "settings/control_group", class: "mb-14" do |group| %>
+        <%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
           <% group.header do %>
             Options
           <% end %>

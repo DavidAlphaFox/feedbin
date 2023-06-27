@@ -1,8 +1,6 @@
 module Settings
   module Shared
-    class StarredFeedUrl < Phlex::HTML
-      include PhlexHelper
-
+    class StarredFeedUrl < ApplicationComponent
       def initialize(user:)
         @user = user
       end

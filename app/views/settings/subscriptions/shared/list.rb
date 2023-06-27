@@ -1,8 +1,7 @@
 module Settings
   module Subscriptions
     module Shared
-      class List < Phlex::HTML
-        include PhlexHelper
+      class List < ApplicationComponent
 
         def initialize(subscriptions:, params:)
           @subscriptions = subscriptions

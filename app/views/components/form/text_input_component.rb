@@ -1,6 +1,5 @@
 module Form
   class TextInputComponent < ApplicationComponent
-    include PhlexHelper
 
     slots :input, :label, :accessory_leading, :accessory_trailing, :accessory_leading_cap, :accessory_trailing_cap
 

@@ -1,9 +1,9 @@
-<%= component "settings/h1" do %>
+<%= render Settings::H1Component.new do %>
   Import & Export
 <% end %>
 
 <%= form_with model: Import.new, url: settings_imports_path do |f| %>
-  <%= component "settings/control_group", class: "mb-14" do |group| %>
+  <%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
     <% group.header do %>
       Import
     <% end %>
@@ -23,7 +23,7 @@
   <% end %>
 <% end %>
 
-<%= component "settings/control_group", class: "mb-14" do |group| %>
+<%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
   <% group.header do %>
     Export
   <% end %>
@@ -32,7 +32,7 @@
       <%= render Settings::ControlRowComponent.new do |row| %>
         <% row.title { "Subscriptions" } %>
         <% row.control do %>
-          <%= component "form/select_input" do |input| %>
+          <%= render Form::SelectInputComponent.new do |input| %>
             <% input.input do %>
               <%= select_tag :tag, options_for_select(@download_options), class: "peer" %>
             <% end %>
@@ -56,7 +56,7 @@
 <% end %>
 
 <% if @imports.present? %>
-  <%= component "settings/control_group", class: "mb-14" do |group| %>
+  <%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
     <% group.header do %>
       Import History
     <% end %>

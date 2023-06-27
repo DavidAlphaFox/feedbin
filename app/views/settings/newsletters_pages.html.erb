@@ -1,9 +1,9 @@
-<%= component "settings/h1" do %>
+<%= render Settings::H1Component.new do %>
   Sources
 <% end %>
 
 <%= form_for @user, remote: true, url: settings_update_user_path(@user) do |f| %>
-  <%= component "settings/control_group", class: "mb-14" do |group| %>
+  <%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
     <% group.header do %>
       Newsletters
     <% end %>
@@ -16,7 +16,7 @@
           Use this address to <a href="/blog/2016/02/03/subscribe-to-email-newsletters-in-feedbin/">receive emails</a> in Feedbin.
         </div>
 
-        <%= component "form/text_input" do |text| %>
+        <%= render Form::TextInputComponent.new do |text| %>
           <% text.input do %>
             <input type="text" value="<%= @user.newsletter_address %>" readonly class="text-input" />
           <% end %>
@@ -46,7 +46,7 @@
     <% end %>
   <% end %>
 <% end %>
-<%= component "settings/control_group", class: "mb-14" do |group| %>
+<%= render Settings::ControlGroupComponent.new class: "mb-14" do |group| %>
   <% group.header do %>
     Pages
   <% end %>
@@ -67,7 +67,7 @@
   <% end %>
 <% end %>
 <% if @user.newsletter_senders.exists? %>
-  <%= component "settings/expandable" do |expandable| %>
+  <%= render Settings::ExpandableComponent.new do |expandable| %>
     <% expandable.header do %>
       Advanced
     <% end %>

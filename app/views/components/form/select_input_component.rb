@@ -1,6 +1,5 @@
 module Form
   class SelectInputComponent < ApplicationComponent
-    include PhlexHelper
 
     slots :input, :label
 

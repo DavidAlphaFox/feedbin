@@ -1,6 +1,5 @@
 module SettingsNav
   class NavComponent < ApplicationComponent
-    include PhlexHelper
 
     def initialize(title:, subtitle: nil, url:, icon:, selected: false, classes: nil)
       @title = title

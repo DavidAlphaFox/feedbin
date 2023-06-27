@@ -1,6 +1,5 @@
 module App
   class SearchButtonComponent < ApplicationComponent
-    include PhlexHelper
 
     def template(&)
       button class: "w-full h-full flex flex-center", data: {

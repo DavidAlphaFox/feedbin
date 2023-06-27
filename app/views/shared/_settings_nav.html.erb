@@ -185,7 +185,7 @@
     <%= render SettingsNav::NavSmallComponent.new url: "mailto:support@feedbin.com" do %>
       Email
     <% end %>
-    <%= component "settings_nav/nav_small", url: "https://feedbin.social/@feedbin" do %>
+    <%= render SettingsNav::NavSmallComponent.new url: "https://feedbin.social/@feedbin" do %>
       Mastodon
     <% end %>
     <%= render SettingsNav::NavSmallComponent.new url: logout_path, method: "delete" do %>

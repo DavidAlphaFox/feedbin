@@ -1,6 +1,5 @@
 module Settings
   class ExpandableComponent < ApplicationComponent
-    include PhlexHelper
 
     slots :header, :description
 

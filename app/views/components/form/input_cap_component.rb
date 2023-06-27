@@ -1,6 +1,5 @@
 module Form
   class InputCapComponent < ApplicationComponent
-    include PhlexHelper
 
     def initialize(position: nil)
       @position = position || "leading"

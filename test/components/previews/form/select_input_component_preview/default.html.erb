@@ -1,6 +1,5 @@
 <%=
-demo = Class.new(Phlex::HTML) do
-  include PhlexHelper
+demo = Class.new(ApplicationComponent) do
   def template(&)
     div class: "flex gap-4" do
       render Form::SelectInputComponent.new do |input|

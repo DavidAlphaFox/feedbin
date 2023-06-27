@@ -1,6 +1,5 @@
 module Settings
   class ControlRowComponent < ApplicationComponent
-    include PhlexHelper
 
     slots :icon, :title, :description, :control
 
