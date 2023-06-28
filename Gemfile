@@ -65,7 +65,6 @@ gem "tailwindcss-rails"
 gem "twitter-text"
 gem "uglifier"
 gem "unicorn"
-gem "view_component"
 gem "web-push"
 
 group :development do

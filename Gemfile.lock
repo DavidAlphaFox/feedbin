@@ -715,7 +715,6 @@ DEPENDENCIES
   twitter-text
   uglifier
   unicorn
-  view_component
   web-push
   webmock (= 3.8.0)
   will_paginate
