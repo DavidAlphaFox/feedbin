@@ -51,6 +51,8 @@ module Settings
                   render Subscription.new(subscription: subscription)
                 end
               end
+
+              unsafe_raw helpers.will_paginate @subscriptions, previous_label: "Previous", next_label: "Next", inner_window: 1
             end
           end
         end
