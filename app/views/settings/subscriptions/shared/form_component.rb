@@ -30,6 +30,8 @@ module Settings
             end
             if subscription.feed.twitter_feed?
               twitter_notice
+            elsif subscription.feed.crawl_error?
+              error_notice
             end
           end
         end
@@ -45,6 +47,27 @@ module Settings
                 plain "Feedbin "
                 a( href: "https://feedbin.com/blog/2023/03/30/twitter-access-revoked/" ) { "no longer has access" }
                 plain " to the Twitter API."
+              end
+            end
+          end
+        end
+
+        def error_notice
+          div(class: "border-t flex gap-2 p-4") do
+            div(class: "pt-1") do
+              render SvgComponent.new "icon-error-message-small", class: "fill-red-600"
+            end
+            div do
+              p(class: "text-red-600") do
+                span(title: @subscription.feed.crawl_error_message, data: {toggle: "tooltip"}) { "Crawl Error" }
+              end
+              p(class: "text-500 text-sm") do
+                plain "Feedbin is unable to download this feed."
+              end
+            end
+            div(class: "ml-auto") do
+              button(class: "button-secondary", data: { behavior: "open_modal auto_subscribe", modal_target: "subscribe", modal_data: subscription.feed.site_url }) do
+                "Find Alternatives"
               end
             end
           end

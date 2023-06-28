@@ -260,6 +260,42 @@ class Feed < ApplicationRecord
     )
   end
 
+  def crawl_error?
+    crawl_data.error_count > 23
+  end
+
+  def crawl_error_message
+    message = case crawl_data.last_error.safe_dig("class")
+    when "Feedkit::ClientError"
+      crawl_data.last_error.safe_dig("message") || "unknown"
+    when "Feedkit::ConnectionError"
+      "unable to connect to host."
+    when "Feedkit::NotFeed"
+      "response is not a feed."
+    when "Feedkit::NotFound"
+      "404 not found."
+    when "Feedkit::SSLError"
+      "unable to connect to host."
+    when "Feedkit::ServerError"
+      "invalid response."
+    when "Feedkit::TimeoutError"
+      "unable to connect to host."
+    when "Feedkit::TooManyRedirects"
+      "unable to connect to host."
+    when "Feedkit::Unauthorized"
+      "unauthorized."
+    end
+
+    date = Time.at(crawl_data.downloaded_at) rescue nil
+    if date.present? && date != Time.at(0)
+      message = "#{date.to_formatted_s(:date)}: #{message}"
+    else
+      message = "Error: #{message}"
+    end
+
+    message
+  end
+
   private
 
   def update_youtube_videos

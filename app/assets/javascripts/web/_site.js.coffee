@@ -41,6 +41,11 @@ $.extend feedbin,
     else
       hide()
 
+  autoSubscribe: (subscription) ->
+    field = $('.modal-purpose-subscribe [data-behavior~=feeds_search_field]')
+    field.val(subscription)
+    field.closest("form").submit()
+
   prepareShareMenu: (data) ->
     buildLink = (item, data, index) ->
       href = item.url
@@ -744,7 +749,7 @@ $.extend feedbin,
     $(selector).each ->
       element = $(@)
       feed = element.data('feed-id')
-      if (feed of feedbin.data.user_titles)
+      if (data of feedbin && feed of feedbin.data.user_titles)
         newTitle = feedbin.data.user_titles[feed]
         if element.prop('tagName') == "INPUT"
           textarea.innerHTML = newTitle
@@ -2414,6 +2419,7 @@ $.extend feedbin,
         target = $(@).data("modal-target")
         title = $(@).data("modal-title")
         feedbin.showModal(target, title)
+        event.preventDefault()
 
     settingsModal: ->
       $(document).on 'click', '[data-behavior~=open_settings_modal]', (event) ->
@@ -2555,6 +2561,15 @@ $.extend feedbin,
       $('.loading-app').addClass('hide')
       $('.feeds').addClass('show')
 
+    autoSubscribeInit: ->
+      $(document).on 'click', '[data-behavior~=auto_subscribe]', (event) ->
+        target = $(event.target)
+        subscription = target.data('modalData')
+        callback = ->
+          feedbin.autoSubscribe(subscription)
+        setTimeout callback, 200
+
+
     subscribe: ->
       $(document).on 'shown.bs.modal', (event) ->
         className = "modal-purpose-subscribe"
@@ -2567,9 +2582,7 @@ $.extend feedbin,
       subscription = feedbin.queryString('subscribe')
       if subscription?
         $('[data-behavior~=show_subscribe]')[0]?.click()
-        field = $('.modal-purpose-subscribe [data-behavior~=feeds_search_field]')
-        field.val(subscription)
-        field.closest("form").submit()
+        autoSubscribe(subscription)
 
     tooltips: ->
       feedbin.tooltips()

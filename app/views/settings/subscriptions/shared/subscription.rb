@@ -36,10 +36,14 @@ module Settings
                     end
                   end
                   span class: "ml-auto flex items-center gap-4" do
-                    render SvgComponent.new "menu-icon-mute", class: helpers.class_names(["fill-600", {"tw-hidden" => !@subscription.muted?}]), title: "Muted", data: {toggle: "tooltip"}
-                    span class: (@subscription.muted? ? "tw-hidden" : "") do
+                    if @subscription.feed.crawl_error?
+                      render SvgComponent.new "icon-error-message-small", class: "fill-red-600", title: "Error crawling feed", data: {toggle: "tooltip"}
+                    elsif @subscription.muted?
+                      render SvgComponent.new "menu-icon-mute", class: "fill-600", title: "Muted", data: {toggle: "tooltip"}
+                    else
                       helpers.render partial: "shared/sparkline", locals: {sparkline: subscription_presenter.sparkline}
                     end
+
                     render SvgComponent.new "icon-caret", class: "fill-300 -rotate-90"
                   end
                 end
