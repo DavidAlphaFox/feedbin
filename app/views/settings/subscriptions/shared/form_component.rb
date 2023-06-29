@@ -23,7 +23,7 @@ module Settings
           div(class: "border rounded-lg mb-14") do
             div(class: "flex items-center gap-2 p-4") do
               plain subscription_presenter.favicon(subscription.feed)
-              span(data_behavior: "user_title", class: "truncate text-lg") do
+              span(data_behavior: "user_title", class: "truncate text-lg mr-6") do
                 subscription.title
               end
               link_to "Edit", edit_subscription_path(subscription.feed), remote: true, class: "button button-secondary !ml-auto", data: { behavior: "open_settings_modal feed_settings", modal_target: "edit" }
