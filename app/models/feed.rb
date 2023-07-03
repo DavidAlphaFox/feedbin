@@ -124,8 +124,8 @@ class Feed < ApplicationRecord
   end
 
   def set_host
-    self.host = URI.parse(site_url).host
-  rescue Exception
+    self.host = Addressable::URI.heuristic_parse(site_url)&.host&.downcase
+  rescue
     Rails.logger.info { "Failed to set host for feed: %s" % site_url }
   end
 
