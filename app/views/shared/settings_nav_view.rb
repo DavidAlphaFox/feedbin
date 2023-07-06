@@ -73,12 +73,12 @@ module Shared
           selected: helpers.is_active?(["settings/imports"], %w[index show]),
           icon: "menu-icon-import-export"
         ))
-        if @user.try(:account_migrations)&.exists?
+        if @user.setting_on?(:fix_feeds_flag)
           render(::SettingsNav::NavComponent.new(
-            title: "Account Migration",
-            subtitle: "Howdy, Feed Wrangler",
-            url: helpers.account_migrations_path,
-            selected: helpers.is_active?("account_migrations", "index"),
+            title: "Fix Feeds",
+            subtitle: "Find & Repair broken feeds",
+            url: helpers.fix_feeds_path,
+            selected: helpers.is_active?("fix_feeds", "index"),
             icon: "menu-icon-migration"
           ))
         end

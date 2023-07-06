@@ -49,7 +49,8 @@ class User < ApplicationRecord
     :entries_width,
     :billing_issue,
     :podcast_sort_order,
-    :playlist_migration
+    :playlist_migration,
+    :fix_feeds_flag
 
   has_one :coupon
   has_many :subscriptions, dependent: :delete_all

@@ -60,6 +60,11 @@ Rails.application.routes.draw do
       patch :start
     end
   end
+  resources :fix_feeds, path: "settings/fix_feeds" do
+    member do
+      patch :start
+    end
+  end
   resources :saved_searches, only: [:show, :update, :destroy, :create, :edit, :new] do
     collection do
       get :count
