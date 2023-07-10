@@ -18,7 +18,7 @@ class FixFeedsControllerTest < ActionController::TestCase
 
     old_feed = @subscription.feed
 
-    patch :update, params: {id: @subscription, discovered_feed: {id: @discovered_feed.id} }
+    patch :update, params: {id: @subscription, subscription: {redirect_to: fix_feeds_url}, discovered_feed: {id: @discovered_feed.id} }
 
     @subscription.reload
     @action.reload
@@ -42,6 +42,19 @@ class FixFeedsControllerTest < ActionController::TestCase
     assert @subscription.fix_suggestion_none?
     patch :destroy, params: {id: @subscription }
     assert @subscription.reload.fix_suggestion_ignored?
+    assert_response :found
+  end
+
+  test "replace all" do
+    login_as @user
+    @subscription = @user.subscriptions.first
+    @subscription.fix_suggestion_present!
+
+    assert_difference -> { FeedReplacer.jobs.size }, +1 do
+      post :replace_all
+    end
+
+    assert @subscription.reload.fix_suggestion_none?
     assert_response :found
   end
 

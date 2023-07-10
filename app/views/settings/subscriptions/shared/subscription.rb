@@ -36,8 +36,8 @@ module Settings
                     end
                   end
                   span class: "ml-auto flex items-center gap-4" do
-                    if @subscription.feed.crawl_error?
-                      render SvgComponent.new "icon-error-message-small", class: "fill-red-600", title: "Error crawling feed", data: {toggle: "tooltip"}
+                    if @subscription.user.setting_on?(:fix_feeds_flag) && @subscription.feed.crawl_error? && @subscription.feed.discovered_feeds.present? && @subscription.fix_suggestion_present?
+                      render SvgComponent.new "menu-icon-fix-feeds", class: "fill-600", title: "Error crawling feed", data: {toggle: "tooltip"}
                     elsif @subscription.muted?
                       render SvgComponent.new "menu-icon-mute", class: "fill-600", title: "Muted", data: {toggle: "tooltip"}
                     else

@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   end
   resources :fix_feeds, path: "settings/fix_feeds" do
     collection do
-      patch :edit_all
+      post :replace_all
     end
   end
   resources :saved_searches, only: [:show, :update, :destroy, :create, :edit, :new] do

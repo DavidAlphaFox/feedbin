@@ -76,10 +76,10 @@ module Shared
         if @user.setting_on?(:fix_feeds_flag)
           render(::SettingsNav::NavComponent.new(
             title: "Fix Feeds",
-            subtitle: "Find & Repair broken feeds",
+            subtitle: "Find & repair broken feeds",
             url: helpers.fix_feeds_path,
             selected: helpers.is_active?("fix_feeds", "index"),
-            icon: "menu-icon-migration"
+            icon: "menu-icon-fix-feeds"
           ))
         end
       end
