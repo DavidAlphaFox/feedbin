@@ -21,7 +21,7 @@ module FixFeeds
 
       if @subscriptions.present?
         div(class: "flex gap-4 justify-between items-center mb-8") do
-          p(class: "font-bold") do
+          p(class: "text-sm text-500") do
             plain helpers.number_with_delimiter(@subscriptions.count)
             plain " repairable"
             plain " feed".pluralize(@subscriptions.count)
