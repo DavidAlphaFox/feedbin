@@ -20,7 +20,7 @@ module FixFeeds
                       div class: "h-full w-[1px] bg-200 #{index != 0 ? "invisible" : ""}" do
                       end
                       div class: "flex w-[20px] h-[20px] items-start justify-center shrink-0 #{index != 0 ? "invisible" : ""}" do
-                        render SvgComponent.new("icon-caret", class: "fill-200")
+                        render SvgComponent.new("icon-down-arrow", class: "fill-200")
                       end
                       div class: "h-[8px] w-[8px] relative top-[-5px] bg-green-600 rounded-full shrink-0"
                     end
