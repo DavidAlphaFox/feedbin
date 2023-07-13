@@ -36,7 +36,9 @@ module FixFeeds
       end
 
       @subscriptions.each do |subscription|
-        render SuggestionComponent.new(subscription: subscription)
+        div class: "border rounded-lg mb-4 p-4" do
+          render SuggestionComponent.new(subscription: subscription, redirect: helpers.fix_feeds_url)
+        end
       end
     end
   end

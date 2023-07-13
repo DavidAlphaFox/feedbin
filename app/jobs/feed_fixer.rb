@@ -21,6 +21,8 @@ class FeedFixer
       FeedFinder.new(@feed.site_url).find_options
     end
 
+    hosts = Set.new
+
     urls.each do |url|
       next unless option = validate_option(url)
 
@@ -40,7 +42,11 @@ class FeedFixer
           fix_status: Subscription.fix_statuses[:present],
           updated_at: Time.now
         )
+
+      hosts.add(discovery.host)
     end
+
+    hosts.each { FaviconCrawler::Finder.perform_async(_1) }
   end
 
   def clear_discoveries

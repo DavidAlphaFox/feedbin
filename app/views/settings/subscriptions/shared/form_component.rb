@@ -74,11 +74,11 @@ module Settings
                     plain " However, it looks like there may be a working alternative available."
                   end
                 end
-              end
-            end
 
-            div(class: "mt-4") do
-              render FixFeeds::SuggestionFormComponent.new(subscription: @subscription, redirect: helpers.edit_settings_subscription_url(@subscription), include_ignore: false)
+                div(class: "mt-4") do
+                  render FixFeeds::SuggestionComponent.new(subscription: @subscription, redirect: helpers.edit_settings_subscription_url(@subscription), include_ignore: false)
+                end
+              end
             end
           end
         end

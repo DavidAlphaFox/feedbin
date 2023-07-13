@@ -11,11 +11,18 @@ class FeedFixerTest < ActiveSupport::TestCase
       .to_return(body: %(<link rel="alternate" type="application/atom+xml" href="#{feed_url}"/>))
 
     stub_request_file("atom.xml", feed_url)
+
+    24.times do
+      @subscription.feed.crawl_data.download_error(Exception.new)
+    end
+    @subscription.feed.save
   end
 
   test "should create options" do
     assert_difference -> { DiscoveredFeed.count }, +1 do
-      FeedFixer.new.perform(@subscription.feed.id)
+      assert_difference -> { FaviconCrawler::Finder.jobs.count }, +1 do
+        FeedFixer.new.perform(@subscription.feed.id)
+      end
     end
 
     discovered_feed = DiscoveredFeed.first
