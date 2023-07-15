@@ -17,14 +17,23 @@ class FixFeedsController < ApplicationController
 
   def update
     @user = current_user
-    FeedReplacer.new.perform(@user.id, params[:id].to_i, params[:discovered_feed][:id].to_i)
-    redirect_to params[:subscription][:redirect_to], notice: "Subscription successully replaced."
+    @subscription = @user.subscriptions.find(params[:id])
+    @subscription.fix_suggestion_ignored!
+    args = [@user.id, @subscription.id, params[:discovered_feed][:id].to_i]
+    respond_to do |format|
+      format.html do
+        replaced = FeedReplacer.new.perform(*args)
+        redirect_to edit_settings_subscription_url(replaced), notice: "Subscription successfully replaced."
+      end
+      format.js do
+        FeedReplacer.perform_async(*args)
+      end
+    end
   end
 
   def destroy
-    subscription = @user.subscriptions.find(params[:id])
-    subscription.fix_suggestion_ignored!
-    redirect_to fix_feeds_url
+    @subscription = @user.subscriptions.find(params[:id])
+    @subscription.fix_suggestion_ignored!
   end
 
   def replace_all

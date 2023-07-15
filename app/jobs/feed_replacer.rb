@@ -21,6 +21,7 @@ class FeedReplacer
 
     if existing = user.subscriptions.where(feed: new_feed).take
       subscription.destroy
+      subscription = existing
     else
       subscription.update(feed: new_feed, fix_status: Subscription.fix_statuses[:none])
     end
@@ -32,5 +33,7 @@ class FeedReplacer
       new_feeds.push(new_feed.id.to_s)
       action.update(feed_ids: new_feeds)
     end
+
+    subscription
   end
 end

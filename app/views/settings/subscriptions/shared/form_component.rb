@@ -51,7 +51,7 @@ module Settings
         end
 
         def error_notice
-          div(class: "border-t p-4") do
+          div(class: "border-t p-4", id: helpers.dom_id(@subscription, :fixable)) do
             div(class: "flex gap-2") do
               div(class: "pt-1") do
                 render SvgComponent.new "icon-error-message-small", class: "fill-red-600"
@@ -76,7 +76,7 @@ module Settings
                 end
 
                 div(class: "mt-4") do
-                  render FixFeeds::SuggestionComponent.new(subscription: @subscription, redirect: helpers.edit_settings_subscription_url(@subscription), include_ignore: false)
+                  render FixFeeds::SuggestionComponent.new(subscription: @subscription, redirect: helpers.edit_settings_subscription_url(@subscription), behavior: :redirect)
                 end
               end
             end

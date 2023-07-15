@@ -1,9 +1,9 @@
 module FixFeeds
   class SuggestionComponent < ApplicationComponent
 
-    def initialize(subscription:, redirect:, include_ignore: true)
+    def initialize(subscription:, redirect:, behavior: :remote)
       @subscription = subscription
-      @include_ignore = include_ignore
+      @behavior = behavior
       @redirect = redirect
     end
 
@@ -45,7 +45,7 @@ module FixFeeds
     end
 
     def form
-      form_with(model: @subscription, url: fix_feed_path(@subscription)) do |form|
+      form_with(model: @subscription, url: fix_feed_path(@subscription), data: @behavior == :remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
         form.hidden_field :redirect_to, value: @redirect
         render Settings::ControlGroupComponent.new class: "group", data: {item_capsule: "true"} do |group|
           div do
@@ -63,11 +63,11 @@ module FixFeeds
         end
 
         div(class: "flex gap-4 pt-4 justify-end") do
-          if @include_ignore
-            link_to "Ignore", fix_feed_path(@subscription), method: :delete, class: "button-tertiary"
+          if @behavior == :remote
+            link_to "Ignore", fix_feed_path(@subscription), method: :delete, remote: true, class: "button-tertiary"
           end
 
-          button(class: "button-secondary") { "Replace" }
+          button(class: "button-secondary", type: "submit") { "Replace" }
         end
       end
     end
