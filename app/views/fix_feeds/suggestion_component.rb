@@ -48,14 +48,12 @@ module FixFeeds
       form_with(model: @subscription, url: fix_feed_path(@subscription), data: @behavior == :remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
         form.hidden_field :redirect_to, value: @redirect
         render Settings::ControlGroupComponent.new class: "group", data: {item_capsule: "true"} do |group|
-          div do
-            @subscription.feed.discovered_feeds.order(created_at: :asc).each_with_index do |discovered_feed, index|
-              group.item do
-                div class: "flex gap-4" do
-                  timeline_item(index)
-                  div class: "grow" do
-                    suggestion(discovered_feed: discovered_feed, checked: index == 0, show_radio: @subscription.feed.discovered_feeds.count > 1)
-                  end
+          @subscription.feed.discovered_feeds.order(created_at: :asc).each_with_index do |discovered_feed, index|
+            group.item do
+              div class: "flex gap-4" do
+                timeline_item(index)
+                div class: "grow" do
+                  suggestion(discovered_feed: discovered_feed, checked: index == 0, show_radio: @subscription.feed.discovered_feeds.count > 1)
                 end
               end
             end

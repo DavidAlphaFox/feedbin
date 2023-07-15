@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       patch :start
     end
   end
-  resources :fix_feeds, path: "settings/fix_feeds" do
+  resources :fix_feeds, path: "settings/subscriptions/fix" do
     collection do
       post :replace_all
     end

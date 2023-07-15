@@ -13,6 +13,9 @@ module Settings
           render Settings::H1Component.new do
             "Subscriptions"
           end
+
+          fix_feeds_notice
+
           div class: "flex flex-col md:flex-row justify-between mb-6 gap-2" do
             div class: "md:max-w-[250px]" do
               render Form::TextInputComponent.new do |input|
@@ -47,6 +50,27 @@ module Settings
         end
 
         render Shared::List.new(subscriptions: @subscriptions, params: @params)
+      end
+
+      def fix_feeds_notice
+        if @user.setting_on?(:fix_feeds_flag) && @subscriptions.any? { _1.fix_suggestion_present? }
+          div(class: "border rounded-lg flex gap-2 p-4 items-center mb-8") do
+            div(class: "flex gap-2") do
+              div class: "pt-1" do
+                render SvgComponent.new "icon-fixable", class: "fill-orange-600"
+              end
+              div do
+                p do
+                  "Fixable Feeds"
+                end
+                p class: "text-sm text-500" do
+                  "Feedbin is unable to update some feeds. However there are working alternatives available."
+                end
+              end
+            end
+            link_to "Review Feeds", helpers.fix_feeds_path, class: "whitespace-nowrap shrink-0"
+          end
+        end
       end
     end
   end

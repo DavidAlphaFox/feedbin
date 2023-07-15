@@ -18,7 +18,10 @@ class FixFeedsController < ApplicationController
   def update
     @user = current_user
     @subscription = @user.subscriptions.find(params[:id])
-    @subscription.fix_suggestion_ignored!
+    @subscription.fix_suggestion_none!
+    @subscriptions = @user
+      .subscriptions
+      .fix_suggestion_present
     args = [@user.id, @subscription.id, params[:discovered_feed][:id].to_i]
     respond_to do |format|
       format.html do
@@ -34,6 +37,9 @@ class FixFeedsController < ApplicationController
   def destroy
     @subscription = @user.subscriptions.find(params[:id])
     @subscription.fix_suggestion_ignored!
+    @subscriptions = @user
+      .subscriptions
+      .fix_suggestion_present
   end
 
   def replace_all

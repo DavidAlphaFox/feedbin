@@ -32,7 +32,7 @@ module Shared
           subtitle: "Manage feeds",
           url: helpers.settings_subscriptions_path,
           icon: "menu-icon-subscriptions",
-          selected: helpers.is_active?(["settings/subscriptions"], %w[index edit])
+          selected: helpers.is_active?(["settings/subscriptions", "fix_feeds"], %w[index edit])
         ))
         render(::SettingsNav::NavComponent.new(
           title: "Sources",
@@ -73,15 +73,6 @@ module Shared
           selected: helpers.is_active?(["settings/imports"], %w[index show]),
           icon: "menu-icon-import-export"
         ))
-        if @user.setting_on?(:fix_feeds_flag)
-          render(::SettingsNav::NavComponent.new(
-            title: "Fix Feeds",
-            subtitle: "Find & repair broken feeds",
-            url: helpers.fix_feeds_path,
-            selected: helpers.is_active?("fix_feeds", "index"),
-            icon: "menu-icon-fix-feeds"
-          ))
-        end
       end
 
       render ::SettingsNav::HeaderComponent.new do

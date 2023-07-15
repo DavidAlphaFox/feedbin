@@ -54,7 +54,11 @@ module Settings
           div(class: "border-t p-4", id: helpers.dom_id(@subscription, :fixable)) do
             div(class: "flex gap-2") do
               div(class: "pt-1") do
-                render SvgComponent.new "icon-error-message-small", class: "fill-red-600"
+                if @subscription.feed.discovered_feeds.present?
+                  render SvgComponent.new "icon-fixable", class: "fill-orange-600"
+                else
+                  render SvgComponent.new "icon-error-message-small", class: "fill-red-600"
+                end
               end
               div do
                 p do
