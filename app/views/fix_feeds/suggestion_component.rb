@@ -1,59 +1,61 @@
 module FixFeeds
   class SuggestionComponent < ApplicationComponent
 
-    def initialize(subscription:, redirect:, behavior: :remote)
-      @subscription = subscription
+    def initialize(replaceable:, source:, redirect:, behavior: :remote)
+      @replaceable = replaceable
+      @source = source
       @behavior = behavior
       @redirect = redirect
     end
 
     def template
-      helpers.present @subscription do |subscription_presenter|
-        div(class: "items-start") do
-          div class: "flex gap-4" do
-            timeline_header
-            header(subscription_presenter)
-          end
-
-          form
+      div(class: "items-start") do
+        div class: "flex gap-4" do
+          timeline_header
+          header
         end
+
+        form
       end
     end
 
-    def header(subscription_presenter)
+    def header
       div class: "p-4 pt-0 grow" do
         render App::FeedComponent do |feed|
           feed.icon do
-            subscription_presenter.favicon(@subscription.feed)
+            helpers.favicon_with_record(@source.favicon, host: @source.host, generated: true)
           end
           feed.title do
             div(data_behavior: "user_title", class: "truncate") do
-              @subscription.title
+              @replaceable.title
             end
           end
           feed.subhead do
-            a(href: @subscription.feed.feed_url, class: "!text-500 truncate" ) do
-              helpers.short_url(@subscription.feed.feed_url)
+            a(href: @source.feed_url, class: "!text-500 truncate" ) do
+              helpers.short_url(@source.feed_url)
             end
           end
-          feed.accessory do
-            plain "Last worked: "
-            plain @subscription.feed.last_published_entry.to_formatted_s(:month_year)
+
+          if @source.last_published_entry.respond_to?(:to_formatted_s)
+            feed.accessory do
+              plain "Last worked: "
+              plain @source.last_published_entry&.to_formatted_s(:month_year)
+            end
           end
         end
       end
     end
 
     def form
-      form_with(model: @subscription, url: fix_feed_path(@subscription), data: @behavior == :remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
+      form_with(model: @replaceable, url: fix_feed_path(@replaceable), data: @behavior == :remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
         form.hidden_field :redirect_to, value: @redirect
         render Settings::ControlGroupComponent.new class: "group", data: {item_capsule: "true"} do |group|
-          @subscription.feed.discovered_feeds.order(created_at: :asc).each_with_index do |discovered_feed, index|
+          @source.discovered_feeds.order(created_at: :asc).each_with_index do |discovered_feed, index|
             group.item do
               div class: "flex gap-4" do
                 timeline_item(index)
                 div class: "grow" do
-                  suggestion(discovered_feed: discovered_feed, checked: index == 0, show_radio: @subscription.feed.discovered_feeds.count > 1)
+                  suggestion(discovered_feed: discovered_feed, checked: index == 0, show_radio: @source.discovered_feeds.count > 1)
                 end
               end
             end
@@ -62,7 +64,7 @@ module FixFeeds
 
         div(class: "flex gap-4 pt-4 justify-end") do
           if @behavior == :remote
-            link_to "Ignore", fix_feed_path(@subscription), method: :delete, remote: true, class: "button-tertiary"
+            link_to "Ignore", fix_feed_path(@replaceable), method: :delete, remote: true, class: "button-tertiary"
           end
 
           button(class: "button-secondary", type: "submit") { "Replace" }

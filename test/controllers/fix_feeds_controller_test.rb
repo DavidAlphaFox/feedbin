@@ -40,9 +40,9 @@ class FixFeedsControllerTest < ActionController::TestCase
     login_as @user
     @subscription = @user.subscriptions.first
     assert @subscription.fix_suggestion_none?
-    patch :destroy, params: {id: @subscription }
+    patch :destroy, params: {id: @subscription }, xhr: true
     assert @subscription.reload.fix_suggestion_ignored?
-    assert_response :found
+    assert_response :ok
   end
 
   test "replace all" do

@@ -13,7 +13,7 @@ class Settings::ImportsController < ApplicationController
 
   def show
     @import = @user.imports.find(params[:id])
-    @failed_items = @import.import_items.failed.order(updated_at: :asc)
+    @failed_items = @import.import_items.failed.order(updated_at: :asc).includes(:discovered_feeds, :favicon)
     respond_to do |format|
       format.js
       format.html do

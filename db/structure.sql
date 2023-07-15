@@ -677,7 +677,9 @@ CREATE TABLE public.import_items (
     updated_at timestamp without time zone NOT NULL,
     item_type character varying(255),
     status bigint DEFAULT 0 NOT NULL,
-    error jsonb
+    error jsonb,
+    site_url text,
+    host text
 );
 
 
@@ -3208,6 +3210,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230130211416'),
 ('20230510215256'),
 ('20230706165756'),
-('20230706174643');
+('20230706174643'),
+('20230715134526');
 
 

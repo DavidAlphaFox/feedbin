@@ -80,7 +80,7 @@ module Settings
                 end
 
                 div(class: "mt-4") do
-                  render FixFeeds::SuggestionComponent.new(subscription: @subscription, redirect: helpers.edit_settings_subscription_url(@subscription), behavior: :redirect)
+                  render FixFeeds::SuggestionComponent.new(replaceable: @subscription, source: @subscription.feed, redirect: helpers.edit_settings_subscription_url(@subscription), behavior: :redirect)
                 end
               end
             end

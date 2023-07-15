@@ -6,12 +6,12 @@ class Feed < ApplicationRecord
   has_many :unread_entries
   has_many :starred_entries
   has_many :feed_stats
-  has_many :discovered_feeds, foreign_key: "site_url", primary_key: "site_url"
+  has_many :discovered_feeds, foreign_key: :site_url, primary_key: :site_url
 
   has_many :taggings
   has_many :tags, through: :taggings
 
-  has_one :favicon, foreign_key: "host", primary_key: "host"
+  has_one :favicon, foreign_key: :host, primary_key: :host
   has_one :newsletter_sender
 
   before_create :set_host
