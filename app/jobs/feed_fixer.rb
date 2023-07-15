@@ -21,8 +21,8 @@ class FeedFixer
       FeedFinder.new(@feed.site_url).find_options
     end
 
+    existing = @feed.subscriptions.where.not(fix_status: Subscription.fix_statuses[:none])
     hosts = Set.new
-
     urls.each do |url|
       next unless option = validate_option(url)
 
@@ -36,12 +36,15 @@ class FeedFixer
         verified_at: Time.now
       )
 
-      @feed.subscriptions
-        .where(fix_status: Subscription.fix_statuses[:none])
-        .update_all(
-          fix_status: Subscription.fix_statuses[:present],
-          updated_at: Time.now
-        )
+      subscriptions = @feed.subscriptions.fix_suggestion_none
+
+      new_subscriptions = subscriptions - existing
+      new_subscriptions.map { _1.user.setting_on!(:fix_feeds_available) }
+
+      subscriptions.update_all(
+        fix_status: Subscription.fix_statuses[:present],
+        updated_at: Time.now
+      )
 
       hosts.add(discovery.host)
     end

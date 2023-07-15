@@ -1,4 +1,6 @@
 class FixFeedsController < ApplicationController
+  before_action :set_subscription, only: [:update, :destroy]
+
   def index
     @user = current_user
     @subscriptions = @user
@@ -16,13 +18,11 @@ class FixFeedsController < ApplicationController
   end
 
   def update
-    @user = current_user
-    @subscription = @user.subscriptions.find(params[:id])
     @subscription.fix_suggestion_none!
-    @subscriptions = @user
-      .subscriptions
-      .fix_suggestion_present
-    args = [@user.id, @subscription.id, params[:discovered_feed][:id].to_i]
+    @subscriptions = current_user.subscriptions.fix_suggestion_present
+
+    args = [current_user.id, @subscription.id, params[:discovered_feed][:id].to_i]
+
     respond_to do |format|
       format.html do
         replaced = FeedReplacer.new.perform(*args)
@@ -35,11 +35,8 @@ class FixFeedsController < ApplicationController
   end
 
   def destroy
-    @subscription = @user.subscriptions.find(params[:id])
     @subscription.fix_suggestion_ignored!
-    @subscriptions = @user
-      .subscriptions
-      .fix_suggestion_present
+    @subscriptions = current_user.subscriptions.fix_suggestion_present
   end
 
   def replace_all
@@ -55,6 +52,13 @@ class FixFeedsController < ApplicationController
 
     subscriptions.map(&:fix_suggestion_none!)
 
-    redirect_to fix_feeds_url
+    redirect_to settings_subscriptions_url, notice: "Subscriptions successfully replaced."
   end
+
+  private
+
+  def set_subscription
+    @subscription = current_user.subscriptions.find(params[:id])
+  end
+
 end

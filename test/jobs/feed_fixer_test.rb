@@ -29,6 +29,7 @@ class FeedFixerTest < ActiveSupport::TestCase
     assert_equal(@subscription.feed.site_url, discovered_feed.site_url)
 
     assert(@subscription.reload.fix_suggestion_present?, "Subscription should have a fix suggestion")
+    assert(@user.reload.setting_on?(:fix_feeds_available))
   end
 
   test "should not change status of ignored subscription" do
@@ -36,5 +37,6 @@ class FeedFixerTest < ActiveSupport::TestCase
     FeedFixer.new.perform(@subscription.feed.id)
     FeedFixer.new.perform(@subscription.feed.id)
     assert(@subscription.reload.fix_suggestion_ignored?, "Subscription should not have a fix suggestion")
+    refute(@user.reload.setting_on?(:fix_feeds_available))
   end
 end

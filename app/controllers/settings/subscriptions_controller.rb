@@ -1,6 +1,7 @@
 class Settings::SubscriptionsController < ApplicationController
   def index
     @user = current_user
+    @user.setting_off!(:fix_feeds_available)
     @subscriptions = subscriptions_with_sort_data.paginate(page: params[:page], per_page: 50)
     store_location
 
