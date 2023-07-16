@@ -1,16 +1,17 @@
 module FixFeeds
   class SuggestionComponent < ApplicationComponent
 
-    def initialize(replaceable:, source:, redirect:, behavior: :remote)
+    def initialize(replaceable:, source:, redirect:, remote: true, include_ignore: false)
       @replaceable = replaceable
       @source = source
-      @behavior = behavior
       @redirect = redirect
+      @remote = remote
+      @include_ignore = include_ignore
     end
 
     def template
       div(class: "items-start") do
-        div class: "flex gap-4" do
+        div class: "flex gap-6" do
           timeline_header
           header
         end
@@ -20,7 +21,7 @@ module FixFeeds
     end
 
     def header
-      div class: "p-4 pt-0 grow" do
+      div class: "pl-4 pb-4 grow" do
         render App::FeedComponent do |feed|
           feed.icon do
             helpers.favicon_with_record(@source.favicon, host: @source.host, generated: true)
@@ -47,12 +48,12 @@ module FixFeeds
     end
 
     def form
-      form_with(model: @replaceable, url: fix_feed_path(@replaceable), data: @behavior == :remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
+      form_with(model: @replaceable, url: @replaceable.replaceable_path, data: @remote ? {remote: true, behavior: "disable_on_submit"} : {}) do |form|
         form.hidden_field :redirect_to, value: @redirect
         render Settings::ControlGroupComponent.new class: "group", data: {item_capsule: "true"} do |group|
           @source.discovered_feeds.order(created_at: :asc).each_with_index do |discovered_feed, index|
             group.item do
-              div class: "flex gap-4" do
+              div class: "flex gap-6" do
                 timeline_item(index)
                 div class: "grow" do
                   suggestion(discovered_feed: discovered_feed, checked: index == 0, show_radio: @source.discovered_feeds.count > 1)
@@ -63,8 +64,8 @@ module FixFeeds
         end
 
         div(class: "flex gap-4 pt-4 justify-end") do
-          if @behavior == :remote
-            link_to "Ignore", fix_feed_path(@replaceable), method: :delete, remote: true, class: "button-tertiary"
+          if @include_ignore
+            link_to "Ignore", @replaceable.replaceable_path, method: :delete, remote: true, class: "button-tertiary"
           end
 
           button(class: "button-secondary", type: "submit") { "Replace" }
@@ -104,21 +105,21 @@ module FixFeeds
     end
 
     def timeline_item(index)
-      div class: "flex flex-col w-[20px] inset-y-0 self-stretch shrink-0" do
-        div class: "h-1/2 flex flex-col items-center w-[20px] " do
+      div class: "flex flex-col w-[8px] inset-y-0 self-stretch shrink-0" do
+        div class: "h-1/2 flex flex-col items-center w-[8px] " do
           div class: "h-full w-[1px] bg-200 #{index != 0 ? "invisible" : ""}" do
           end
-          div class: "flex w-[20px] h-[20px] items-start justify-center shrink-0 #{index != 0 ? "invisible" : ""}" do
+          div class: "flex w-[8px] h-[8px] items-start justify-center shrink-0 #{index != 0 ? "invisible" : ""}" do
             render SvgComponent.new("icon-down-arrow", class: "fill-200")
           end
-          div class: "h-[8px] w-[8px] relative top-[-5px] bg-green-600 rounded-full shrink-0"
+          div class: "h-[8px] w-[8px] relative top-[-7px] mt-[8px] bg-green-600 rounded-full shrink-0"
         end
       end
     end
 
     def timeline_header
-      div class: "flex flex-col items-center w-[20px] inset-y-0 self-stretch shrink-0" do
-        div class: "flex w-[20px] h-[20px] flex-center mt-[2px] shrink-0" do
+      div class: "flex flex-col items-center w-[8px] inset-y-0 self-stretch shrink-0" do
+        div class: "flex w-[8px] h-[8px] flex-center mt-[8px] mb-[4px] shrink-0" do
           div class: "h-[8px] w-[8px] bg-200 rounded-full"
         end
         div class: "h-full w-[1px] bg-200" do

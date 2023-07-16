@@ -167,6 +167,7 @@ Rails.application.routes.draw do
     end
 
     resources :imports, only: [:create, :show]
+    resources :import_items, only: [:update]
     get :import_export, to: "imports#index"
 
     get :billing, to: "billings#index"

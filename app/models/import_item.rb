@@ -53,4 +53,8 @@ class ImportItem < ApplicationRecord
     return unless failed?
     ERRORS[error_class] || "Connection error"
   end
+
+  def replaceable_path
+    Rails.application.routes.url_helpers.settings_import_item_path(self)
+  end
 end

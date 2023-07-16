@@ -46,7 +46,11 @@ module Settings
             div(class: "text-500") { helpers.number_with_delimiter(@failed_items.count) }
           end
 
-          @failed_items.each { |import_item| render ImportItems::ImportItemComponent.new(import_item: import_item) }
+          @failed_items.each do |import_item|
+            div id: helpers.dom_id(import_item, :fixable) do
+              render ImportItems::ImportItemComponent.new(import_item: import_item)
+            end
+          end
         end
       end
 

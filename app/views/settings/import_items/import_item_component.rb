@@ -19,7 +19,7 @@ module Settings
                 end
                 feed.subhead do
                   a(href: @import_item.details[:xml_url], class: "!text-500 truncate" ) do
-                    @import_item.details[:xml_url]
+                    helpers.short_url(@import_item.details[:xml_url])
                   end
                 end
                 feed.accessory do
@@ -39,10 +39,10 @@ module Settings
                       "Fixable Feed"
                     end
                     p(class: "text-500 text-sm") do
-                      plain "Feedbin is unable to download this feed. However, it looks like there may be a working alternative available."
+                      plain "Feedbin was unable to import this feed. However, it looks like there may be a working alternative available."
                     end
                     div(class: "mt-4") do
-                      render FixFeeds::SuggestionComponent.new(replaceable: @import_item, source: @import_item, redirect: helpers.fix_feeds_url)
+                      render FixFeeds::SuggestionComponent.new(replaceable: @import_item, source: @import_item, redirect: helpers.fix_feeds_url, include_ignore: false)
                     end
                   end
                 end

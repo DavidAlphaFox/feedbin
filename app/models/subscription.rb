@@ -92,6 +92,10 @@ class Subscription < ApplicationRecord
   def protected?
     generated?
   end
+  
+  def replaceable_path
+    Rails.application.routes.url_helpers.fix_feed_path(self)
+  end
 
   private
 

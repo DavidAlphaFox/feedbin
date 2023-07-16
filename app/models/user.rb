@@ -59,6 +59,7 @@ class User < ApplicationRecord
   has_many :feeds, through: :subscriptions
   has_many :entries, through: :feeds
   has_many :imports, dependent: :destroy
+  has_many :import_items, through: :imports
   has_many :billing_events, as: :billable, dependent: :delete_all
   has_many :taggings, dependent: :delete_all
   has_many :tags, through: :taggings
