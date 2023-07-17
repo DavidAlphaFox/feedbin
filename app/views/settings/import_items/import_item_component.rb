@@ -32,7 +32,7 @@ module Settings
               div class: "border-t p-4" do
                 div(class: "flex gap-2") do
                   div(class: "pt-1") do
-                    render SvgComponent.new "icon-fixable", class: "fill-orange-600"
+                    render SvgComponent.new "menu-icon-fix-feeds", class: "fill-700"
                   end
                   div do
                     p do

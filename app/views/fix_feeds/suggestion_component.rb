@@ -68,7 +68,7 @@ module FixFeeds
             link_to "Ignore", @replaceable.replaceable_path, method: :delete, remote: true, class: "button-tertiary"
           end
 
-          button(class: "button-secondary", type: "submit") { "Replace" }
+          button(class: "button-secondary", type: "submit") { "Replace Feed" }
         end
       end
     end

@@ -55,20 +55,29 @@ module Settings
             div(class: "flex gap-2") do
               div(class: "pt-1") do
                 if @subscription.feed.discovered_feeds.present?
-                  render SvgComponent.new "icon-fixable", class: "fill-orange-600"
+                  render SvgComponent.new "menu-icon-fix-feeds", class: "fill-700 mt-0.5"
                 else
-                  render SvgComponent.new "icon-error-message-small", class: "fill-red-600"
+                  render SvgComponent.new "menu-icon-skull", class: "fill-700"
                 end
               end
-              div do
-                p do
-                  span(title: @subscription.feed.crawl_error_message, data: {toggle: "tooltip"}) do
-                    if @subscription.feed.discovered_feeds.present?
-                      "Fixable Feed"
-                    else
-                      span(class: "text-red-600") do
-                        "Crawl Error"
+              div(class: "grow") do
+                p(class: "flex gap-2 items-baseline") do
+                  span class: "block grow" do
+                    span(title: @subscription.feed.crawl_error_message, data: {toggle: "tooltip"}) do
+                      if @subscription.feed.discovered_feeds.present?
+                        "Fixable Feed"
+                      else
+                        span(class: "text-red-600") do
+                          "Crawl Error"
+                        end
                       end
+                    end
+                  end
+
+                  if @subscription.feed.last_published_entry.respond_to?(:to_formatted_s)
+                    span(class: "text-500 text-sm") do
+                      plain "Last worked: "
+                      plain @subscription.feed.last_published_entry&.to_formatted_s(:month_year)
                     end
                   end
                 end
@@ -79,8 +88,10 @@ module Settings
                   end
                 end
 
-                div(class: "mt-4") do
-                  render FixFeeds::SuggestionComponent.new(replaceable: @subscription, source: @subscription.feed, redirect: helpers.edit_settings_subscription_url(@subscription), remote: false, include_ignore: false)
+                if @subscription.feed.discovered_feeds.present?
+                  div(class: "mt-4") do
+                    render FixFeeds::SuggestionComponent.new(replaceable: @subscription, source: @subscription.feed, redirect: helpers.edit_settings_subscription_url(@subscription), remote: false, include_ignore: false)
+                  end
                 end
               end
             end
