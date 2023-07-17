@@ -36,16 +36,7 @@ module Settings
                     end
                   end
                   span class: "ml-auto flex items-center gap-4" do
-                    if @subscription.user.setting_on?(:fix_feeds_flag) && @subscription.feed.crawl_error? && @subscription.feed.discovered_feeds.present? && @subscription.fix_suggestion_present?
-                      render SvgComponent.new "menu-icon-fix-feeds", class: "fill-400", title: "Fixable feeed", data: {toggle: "tooltip"}
-                    elsif @subscription.user.setting_on?(:fix_feeds_flag) && @subscription.feed.crawl_error? && !@subscription.fix_suggestion_present?
-                      render SvgComponent.new "menu-icon-skull", class: "fill-400", title: "Error crawling feed", data: {toggle: "tooltip"}
-                    elsif @subscription.muted?
-                      render SvgComponent.new "menu-icon-mute", class: "fill-400", title: "Muted", data: {toggle: "tooltip"}
-                    else
-                      helpers.render partial: "shared/sparkline", locals: {sparkline: subscription_presenter.sparkline}
-                    end
-
+                    status_icon(subscription_presenter)
                     render SvgComponent.new "icon-caret", class: "fill-300 -rotate-90"
                   end
                 end
@@ -53,6 +44,37 @@ module Settings
             end
           end
         end
+
+        def status_icon(subscription_presenter)
+          if fixable?
+            span class: "w-[16px] h-[16px] flex flex-center" do
+              render SvgComponent.new "menu-icon-fix-feeds", class: "fill-600", title: "Fixable feeed", data: {toggle: "tooltip"}
+            end
+          elsif dead?
+            span class: "w-[16px] h-[16px] flex flex-center" do
+              render SvgComponent.new "menu-icon-skull", class: "fill-600", title: "Error crawling feed", data: {toggle: "tooltip"}
+            end
+          elsif muted?
+            span class: "w-[16px] h-[16px] flex flex-center" do
+              render SvgComponent.new "menu-icon-mute", class: "fill-600", title: "Muted", data: {toggle: "tooltip"}
+            end
+          else
+            plain helpers.render partial: "shared/sparkline", locals: {sparkline: subscription_presenter.sparkline}
+          end
+        end
+
+        def fixable?
+          @subscription.user.setting_on?(:fix_feeds_flag) && @subscription.feed.crawl_error? && @subscription.feed.discovered_feeds.present?
+        end
+
+        def dead?
+          @subscription.user.setting_on?(:fix_feeds_flag) && @subscription.feed.crawl_error? && !@subscription.feed.discovered_feeds.present?
+        end
+
+        def muted?
+          @subscription.muted?
+        end
+
       end
     end
   end

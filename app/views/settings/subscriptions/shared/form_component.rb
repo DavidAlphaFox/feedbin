@@ -55,9 +55,9 @@ module Settings
             div(class: "flex gap-2") do
               div(class: "pt-1") do
                 if @subscription.feed.discovered_feeds.present?
-                  render SvgComponent.new "menu-icon-fix-feeds", class: "fill-700 mt-0.5"
+                  render SvgComponent.new "menu-icon-fix-feeds", class: "fill-600 mt-0.5"
                 else
-                  render SvgComponent.new "menu-icon-skull", class: "fill-700"
+                  render SvgComponent.new "menu-icon-skull", class: "fill-600"
                 end
               end
               div(class: "grow") do
@@ -74,7 +74,7 @@ module Settings
                     end
                   end
 
-                  if @subscription.feed.last_published_entry.respond_to?(:to_formatted_s)
+                  if !@subscription.feed.discovered_feeds.present? && @subscription.feed.last_published_entry.respond_to?(:to_formatted_s)
                     span(class: "text-500 text-sm") do
                       plain "Last worked: "
                       plain @subscription.feed.last_published_entry&.to_formatted_s(:month_year)
