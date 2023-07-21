@@ -21,8 +21,12 @@ class FeedImporter
       @import_item.complete!
     else
       FaviconCrawler::Finder.perform_async(@import_item.host)
-      discover_feeds
-      @import_item.failed!
+      discovered_feeds = discover_feeds
+      if discovered_feeds.present?
+        @import_item.fixable!
+      else
+        @import_item.failed!
+      end
     end
 
     import.with_lock do
@@ -42,10 +46,11 @@ class FeedImporter
 
     urls = begin
       FeedFinder.new(@import_item.site_url).find_options
+    rescue
+      []
     end
 
-    hosts = Set.new
-    urls.each do |url|
+    discovered_feeds = urls.each_with_object([]) do |url, array|
       next unless option = FeedFixer.new.validate_option(url)
 
       discovery = DiscoveredFeed.find_or_create_by(
@@ -58,9 +63,15 @@ class FeedImporter
         verified_at: Time.now
       )
 
-      hosts.add(discovery.host)
+      array.push(discovery)
     end
 
-    hosts.each { FaviconCrawler::Finder.perform_async(_1) }
+
+    discovered_feeds
+      .map(&:host)
+      .uniq
+      .each { FaviconCrawler::Finder.perform_async(_1) }
+
+    discovered_feeds
   end
 end

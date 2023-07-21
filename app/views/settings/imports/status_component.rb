@@ -20,8 +20,21 @@ module Settings
                 end
               end
               div(class: "flex mt-4 mb-2 bg-100 rounded-full w-full overflow-hidden") do
-                div(class: "h-[12px] bg-green-600", style: "width: #{helpers.number_to_percentage(@import.percentage_complete)};", title: "#{helpers.number_with_delimiter(@import.import_items.complete.count)} imported", data: { toggle: "tooltip" }) {}
-                div(class: "h-[12px] bg-red-600", style: "width: #{helpers.number_to_percentage(@import.percentage_failed)};", title: "#{helpers.number_with_delimiter(@failed_items.count)} missing", data: { toggle: "tooltip" }) {}
+                bar_segment(
+                  title: "#{helpers.number_with_delimiter(@import.import_items.complete.count)} imported",
+                  percent_complete: @import.percentage_complete,
+                  color_class: "bg-green-600"
+                )
+                bar_segment(
+                  title: "#{helpers.number_with_delimiter(@import.import_items.fixable.count)} fixable",
+                  percent_complete: @import.percentage_fixable,
+                  color_class: "bg-orange-600"
+                )
+                bar_segment(
+                  title: "#{helpers.number_with_delimiter(@failed_items.count)} missing",
+                  percent_complete: @import.percentage_failed,
+                  color_class: "bg-red-600"
+                )
               end
               div(class: "flex justify-between gap-4") do
                 div(class: "text-500 truncate") { plain @import.filename }
@@ -39,21 +52,31 @@ module Settings
         end
 
         if @failed_items.present?
-          div(class: "flex justify-between items-baseline") do
+          div class: "flex gap-2 border-b border-400 items-baseline" do
+            button class: "tab", data: {ui: "selected"} do
+              "Fixable"
+            end
+            button class: "tab", data: {ui: ""} do
+              "Missing"
+            end
+          end
+          div(class: "flex justify-between items-baseline mt-4") do
             render Settings::H2Component.new do
-              plain " Missing Feeds "
+              "Missing Feeds "
             end
             div(class: "text-500") { helpers.number_with_delimiter(@failed_items.count) }
-          end
-
-          @failed_items.each do |import_item|
-            div id: helpers.dom_id(import_item, :fixable) do
-              render ImportItems::ImportItemComponent.new(import_item: import_item)
-            end
           end
         end
       end
 
+      def bar_segment(title:, percent_complete:, color_class:)
+        div(
+          class: "h-[12px] #{color_class}",
+          style: "width: #{helpers.number_to_percentage(percent_complete)};",
+          title: "#{title}",
+          data: { toggle: "tooltip" }
+        )
+      end
     end
   end
 end
