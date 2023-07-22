@@ -52,11 +52,11 @@ module Settings
         end
 
         if @failed_items.present?
-          div class: "flex gap-2 border-b border-400 items-baseline" do
-            button class: "tab", data: {ui: "selected"} do
+          render TabsComponent.new do |tabs|
+            tabs.tab(title: "Fixable") do
               "Fixable"
             end
-            button class: "tab", data: {ui: ""} do
+            tabs.tab(title: "Missing") do
               "Missing"
             end
           end

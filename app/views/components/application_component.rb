@@ -10,7 +10,7 @@ class ApplicationComponent < Phlex::HTML
   include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::OptionsForSelect
   include Phlex::Rails::Helpers::RadioButton
-	include Phlex::Rails::Helpers::Routes
+  include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::SelectTag
 
   def self.slots(*items)
@@ -21,7 +21,50 @@ class ApplicationComponent < Phlex::HTML
     end
   end
 
-	if Rails.env.development?
+  def stimulus(controller, actions: {}, values: {}, outlets: {}, classes: {})
+    stimulus_controller = controller.to_s.dasherize
+
+    action = actions.map do |event, function|
+      "#{event}->#{stimulus_controller}##{function.camelize(:lower)}"
+    end.join(" ").presence
+
+    values.transform_keys! do |key|
+      :"#{key}_value"
+    end
+
+    outlets.transform_keys! do |key|
+      :"#{key}_outlet"
+    end
+
+    classes.transform_keys! do |key|
+      :"#{key}_class"
+    end
+
+    { controller: stimulus_controller, action:, controller => { **values, **outlets, **classes } }
+  end
+
+  def stimulus_item(target: nil, actions: {}, params: {}, data: {}, for:)
+    action = actions.map do |event, function|
+      "#{event}->#{binding.local_variable_get(:for)}##{function.to_s.camelize(:lower)}"
+    end.join(" ").presence
+
+    params.transform_keys! do |key|
+      :"#{key}_param"
+    end
+
+    defaults = {
+      action: action,
+      binding.local_variable_get(:for) => { **params }
+    }
+
+    if target
+      defaults[:"#{binding.local_variable_get(:for)}_target"] = target.to_s.camelize(:lower)
+    end
+
+    defaults.merge(data)
+  end
+
+  if Rails.env.development?
     def before_template
       comment { "Start: #{self.class.name}" }
       super
@@ -31,5 +74,5 @@ class ApplicationComponent < Phlex::HTML
       comment { "End: #{self.class.name}" }
       super
     end
-	end
+  end
 end
