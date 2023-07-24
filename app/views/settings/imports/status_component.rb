@@ -2,13 +2,23 @@ module Settings
   module Imports
     class StatusComponent < ApplicationComponent
 
-      def initialize(failed_items:, import:)
-        @failed_items = failed_items
+      def initialize(import:)
         @import = import
+        @failed_items = @import
+          .import_items
+          .failed
+          .includes(:discovered_feeds, :favicon)
+          .sort_by { _1.title }
+
+        @fixable_items = @import
+          .import_items
+          .fixable
+          .includes(:discovered_feeds, :favicon)
+          .sort_by { _1.title }
       end
 
       def template
-        render Settings::ControlGroupComponent.new class: "group mb-14", data: { capsule: "true" } do |group|
+        render Settings::ControlGroupComponent.new class: "group mb-8", data: { capsule: "true" } do |group|
           group.item do
             div(class: "py-3 px-4") do
               div(class: "flex justify-between") do
@@ -51,20 +61,41 @@ module Settings
           end
         end
 
+        if @import.complete?
+          tabs
+        else
+          p(class: "text-500") do
+            "Import in progress. A detailed report will be available when the import completes."
+          end
+        end
+      end
+
+      def tabs
         if @failed_items.present?
           render TabsComponent.new do |tabs|
             tabs.tab(title: "Fixable") do
-              "Fixable"
+              div(class: "flex justify-between items-baseline mt-4") do
+                render Settings::H2Component.new do
+                  "Fixable Feeds "
+                end
+                div(class: "text-500") { helpers.number_with_delimiter(@fixable_items.count) }
+              end
+
+              @fixable_items.each do |import_item|
+                render ImportItems::ImportItemComponent.new(import_item: import_item)
+              end
             end
             tabs.tab(title: "Missing") do
-              "Missing"
+              div(class: "flex justify-between items-baseline mt-4") do
+                render Settings::H2Component.new do
+                  "Missing Feeds "
+                end
+                div(class: "text-500") { helpers.number_with_delimiter(@failed_items.count) }
+              end
+              @failed_items.each do |import_item|
+                render ImportItems::ImportItemComponent.new(import_item: import_item)
+              end
             end
-          end
-          div(class: "flex justify-between items-baseline mt-4") do
-            render Settings::H2Component.new do
-              "Missing Feeds "
-            end
-            div(class: "text-500") { helpers.number_with_delimiter(@failed_items.count) }
           end
         end
       end

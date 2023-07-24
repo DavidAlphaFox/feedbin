@@ -8,6 +8,8 @@ class Import < ApplicationRecord
   def parse
     feeds = Opml::Parser.parse(xml)
     create_tags(feeds)
+
+    feeds = flatten_feeds(feeds)
     feeds.each do |feed|
       import_items << ImportItem.new(details: feed)
     end
@@ -15,9 +17,24 @@ class Import < ApplicationRecord
   end
 
   def create_tags(feeds)
-    tags = Set.new
-    feeds.each { |feed| tags.add(feed[:tag]) unless feed[:tag].nil? }
+    tags = feeds.filter_map { _1[:tag] }.uniq
     tags.each { |tag| Tag.where(name: tag).first_or_create! }
+  end
+
+  def flatten_feeds(feeds)
+    feeds.each_with_object({}) do |feed, hash|
+      if hash[feed[:xml_url]] && feed[:tag]
+        hash[feed[:xml_url]][:tags].push(feed[:tag])
+      else
+        hash[feed[:xml_url]] = feed.merge({tags: []})
+      end
+    end.map do |_, feed|
+      tags = feed.delete(:tags)
+      if !tags.empty?
+        feed[:tag] = tags.join(",")
+      end
+      feed
+    end
   end
 
   def percentage

@@ -12,17 +12,12 @@ class Settings::ImportsController < ApplicationController
   end
 
   def show
+    @user = current_user
     @import = @user.imports.find(params[:id])
-    @failed_items = @import
-      .import_items
-      .where(status: [:failed, :fixable])
-      .order(updated_at: :asc)
-      .includes(:discovered_feeds, :favicon)
-      .uniq { _1.feed_url }
     respond_to do |format|
       format.js
       format.html do
-        render Settings::Imports::ShowView.new(import: @import, failed_items: @failed_items), layout: "settings"
+        render Settings::Imports::ShowView.new(import: @import), layout: "settings"
       end
     end
   end

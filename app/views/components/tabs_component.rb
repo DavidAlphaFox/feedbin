@@ -7,18 +7,16 @@ class TabsComponent < ApplicationComponent
 
   def template
     div data: stimulus(:tabs) do
-      div class: "flex gap-2 border-b border-400 items-baseline" do
+      div class: "flex gap-2 border-b border-400 items-baseline mb-4" do
         @tabs.each_with_index do |tab, index|
           button class: "tab", data: button_data(index) do
             tab[:title]
           end
         end
       end
-      div do
-        @tabs.each_with_index do |tab, index|
-          div class: "tw-hidden data-selected:block", data: tab_data(index) do
-            yield_content &tab[:block]
-          end
+      @tabs.each_with_index do |tab, index|
+        div class: "tw-hidden data-selected:block", data: tab_data(index) do
+          yield_content &tab[:block]
         end
       end
     end

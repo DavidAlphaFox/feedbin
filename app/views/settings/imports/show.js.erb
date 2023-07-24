@@ -1,10 +1,4 @@
-$("[data-content-src='<%= j settings_import_path(@import) %>']").html("<%= j render Settings::Imports::StatusComponent.new failed_items: @failed_items, import: @import %>");
-
-<% @failed_items.each do |import_item| %>
-if ($("#<%= dom_id(import_item, :fixable) %>").length == 0) {
-  $("[data-behavior~=import_items_target]").append("<%= j render Settings::ImportItems::ImportItemComponent.new(import_item: import_item) %>")
-}
-<% end %>
+$("[data-content-src='<%= j settings_import_path(@import) %>']").html("<%= j render Settings::Imports::StatusComponent.new(import: @import) %>");
 
 feedbin.faviconColors()
 <% if @import.complete? %>
