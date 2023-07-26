@@ -239,8 +239,8 @@ input[type="search"]::-webkit-search-cancel-button {
     @apply !no-underline;
   }
   .tab {
-    @apply rounded-none rounded-t-md border-200 border-b-0 !text-500 leading-[40px] relative top-[2px] px-8
-           data-selected:border-400 data-selected:border-b data-selected:border-b-base data-selected:!text-700
+    @apply rounded-none rounded-t-md border-200 border-b-0 !text-500 leading-[40px] relative top-[2px] px-8 border-400 !text-600
+           data-selected:border-b data-selected:border-b-base data-selected:!text-700
            data-selected:leading-[42px] data-selected:top-[1px];
   }
 }
