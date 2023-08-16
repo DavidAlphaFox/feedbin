@@ -22,7 +22,7 @@ class ApplicationComponent < Phlex::HTML
     end
   end
 
-  def stimulus(controller, actions: {}, values: {}, outlets: {}, classes: {})
+  def stimulus(controller:, actions: {}, values: {}, outlets: {}, classes: {}, data: {})
     stimulus_controller = controller.to_s.dasherize
 
     action = actions.map do |event, function|
@@ -30,39 +30,42 @@ class ApplicationComponent < Phlex::HTML
     end.join(" ").presence
 
     values.transform_keys! do |key|
-      :"#{key}_value"
+      [controller, key, "value"].join("_").to_sym
     end
 
     outlets.transform_keys! do |key|
-      :"#{key}_outlet"
+      [controller, key, "outlet"].join("_").to_sym
     end
 
     classes.transform_keys! do |key|
-      :"#{key}_class"
+      [controller, key, "class"].join("_").to_sym
     end
 
-    { controller: stimulus_controller, action:, controller => { **values, **outlets, **classes } }
+    { controller: stimulus_controller, action: }.merge!({ **values, **outlets, **classes, **data})
   end
 
   def stimulus_item(target: nil, actions: {}, params: {}, data: {}, for:)
+    stimulus_controller = binding.local_variable_get(:for).to_s.dasherize
+
     action = actions.map do |event, function|
-      "#{event}->#{binding.local_variable_get(:for)}##{function.to_s.camelize(:lower)}"
+      "#{event}->#{stimulus_controller}##{function.to_s.camelize(:lower)}"
     end.join(" ").presence
 
     params.transform_keys! do |key|
-      :"#{key}_param"
+      :"#{binding.local_variable_get(:for)}_#{key}_param"
     end
 
-    defaults = {
-      action: action,
-      binding.local_variable_get(:for) => { **params }
-    }
+    defaults = { **params, **data }
+
+    if action
+      defaults[:action] = action
+    end
 
     if target
       defaults[:"#{binding.local_variable_get(:for)}_target"] = target.to_s.camelize(:lower)
     end
 
-    defaults.merge(data)
+    defaults
   end
 
   if Rails.env.development?
