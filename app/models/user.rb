@@ -91,6 +91,8 @@ class User < ApplicationRecord
   before_save :activate_subscriptions
   before_save { reset_auth_token }
 
+  after_create :schedule_trial_jobs
+
   before_create :create_customer, unless: -> { !ENV["STRIPE_API_KEY"] }
   before_create { generate_tokens }
 
@@ -164,11 +166,12 @@ class User < ApplicationRecord
   end
 
   def schedule_trial_jobs
-    OnboardingMessage.perform_async(id, MarketingMailer.method(:onboarding_1_welcome).name.to_s)
-    OnboardingMessage.perform_in(3.days, id, MarketingMailer.method(:onboarding_2_mobile).name.to_s)
-    OnboardingMessage.perform_in(5.days, id, MarketingMailer.method(:onboarding_3_subscribe).name.to_s)
-    OnboardingMessage.perform_in(Feedbin::Application.config.trial_days.days - 1.days, id, MarketingMailer.method(:onboarding_4_expiring).name.to_s)
-    OnboardingMessage.perform_at(Feedbin::Application.config.trial_days.days.from_now + 1.days, id, MarketingMailer.method(:onboarding_5_expired).name.to_s)
+    # OnboardingMessage.perform_async(id, MarketingMailer.method(:onboarding_1_welcome).name.to_s)
+    # OnboardingMessage.perform_in(3.days, id, MarketingMailer.method(:onboarding_2_mobile).name.to_s)
+    # OnboardingMessage.perform_in(5.days, id, MarketingMailer.method(:onboarding_3_subscribe).name.to_s)
+    # OnboardingMessage.perform_in(Feedbin::Application.config.trial_days.days - 1.days, id, MarketingMailer.method(:onboarding_4_expiring).name.to_s)
+    # OnboardingMessage.perform_at(Feedbin::Application.config.trial_days.days.from_now + 1.days, id, MarketingMailer.method(:onboarding_5_expired).name.to_s)
+    TrialSendExpiration.perform_in(Feedbin::Application.config.trial_days.days - 1.days, id)
   end
 
   def setting_on?(setting_symbol)
