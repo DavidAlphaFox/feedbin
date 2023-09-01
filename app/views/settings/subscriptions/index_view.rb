@@ -55,11 +55,14 @@ module Settings
       def fix_feeds_notice
         if @user.setting_on?(:fix_feeds_flag) && @subscriptions.any? { _1.fix_suggestion_present? }
           div(class: "border rounded-lg flex gap-2 p-4 items-center mb-8") do
-            div(class: "flex gap-2") do
-              div class: "pt-1" do
-                render SvgComponent.new "icon-fixable", class: "fill-orange-600"
+            div(class: "flex gap-3") do
+              div class: "pt-1 flex flex-center shrink-0" do
+                div class: "h-[32px] w-[32px] flex flex-center rounded-full bg-orange-600" do
+                  render SvgComponent.new "menu-icon-fix-feeds", class: "fill-white"
+                end
               end
-              div do
+
+              div(class: "grow") do
                 p do
                   "Fixable Feeds"
                 end
