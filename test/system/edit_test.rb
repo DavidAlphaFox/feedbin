@@ -79,6 +79,8 @@ class EditTest < ApplicationSystemTestCase
 
     click_link new_search_name
 
+    wait_for_ajax
+
     assert_equal new_search_name, search.reload.name
   end
 end
