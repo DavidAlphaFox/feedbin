@@ -71,21 +71,18 @@ jobs:
           stack-version: 8.10.0
           security-enabled: false
 
-      - uses: actions/setup-node@v3
+      - name: node dependencies
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "npm"
-
-      - name: Install npm Dependencies
         run: npm install
 
-      - name: Set up Ruby
+      - name: Build and test
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-
-      - name: Build and test with Rake
         env:
           PGHOST: 127.0.0.1
           PGUSER: postgres
