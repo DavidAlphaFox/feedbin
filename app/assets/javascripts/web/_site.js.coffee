@@ -59,7 +59,7 @@ $.extend feedbin,
 
       li       = $('<li>').addClass('share-option')
       label    = $('<div>').addClass('label').text(item.label)
-      keyboard = $('<i>').addClass('share-keyboard').text(index)
+      keyboard = $('<i>').addClass('share-keyboard key small').text(index)
       link     = $('<a>').attr('href', href)
 
       if "html_options" of item
@@ -1870,6 +1870,7 @@ $.extend feedbin,
       $(document).on 'click', '[data-behavior~=toggle_dropdown]', (event) ->
         $(".dropdown-wrap li").removeClass('selected')
         parent = $(@).closest('.dropdown-wrap')
+        $('.dropdown-wrap.open').not(parent).removeClass('open')
         if parent.hasClass('open')
           parent.removeClass('open')
         else
