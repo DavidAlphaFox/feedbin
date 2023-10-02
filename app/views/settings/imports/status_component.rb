@@ -18,6 +18,7 @@ module Settings
             .includes(:discovered_feeds, :favicon)
             .sort_by { _1.title }
         else
+          @fixable_items = []
           @failed_items = @import
             .import_items
             .where(status: [:failed, :fixable])
