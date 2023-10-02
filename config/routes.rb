@@ -166,7 +166,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :imports, only: [:create, :show]
+    resources :imports, only: [:create, :show] do
+      member do
+        post :replace_all
+      end
+    end
+
     resources :import_items, only: [:update]
     get :import_export, to: "imports#index"
 

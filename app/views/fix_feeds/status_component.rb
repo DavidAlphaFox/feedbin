@@ -1,23 +1,24 @@
 module FixFeeds
   class StatusComponent < ApplicationComponent
 
-    def initialize(subscriptions:)
-      @subscriptions = subscriptions
+    def initialize(count:, replace_path:)
+      @count = count
+      @replace_path = replace_path
     end
 
     def template
       div(class: "flex gap-4 justify-between items-center mb-8", data: {behavior: "status_component"}) do
         div do
-          div class: "text-700 font-bold" do
-            "Feeds with Errors"
+          h3 class: "text-700 font-bold" do
+            "Fixable Feeds"
           end
           p(class: "text-sm text-500") do
-            plain helpers.number_with_delimiter(@subscriptions.count)
-            plain " repairable"
-            plain " feed".pluralize(@subscriptions.count)
+            plain helpers.number_with_delimiter(@count)
+            plain " alternative".pluralize(@count)
+            plain " available"
           end
         end
-        link_to "Replace All", helpers.replace_all_fix_feeds_path, class: "button", method: :post
+        link_to "Replace All", @replace_path, class: "button", method: :post
       end
     end
   end

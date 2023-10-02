@@ -7,7 +7,7 @@ class TabsComponent < ApplicationComponent
 
   def template
     div data: stimulus(controller: :tabs) do
-      div class: "flex gap-2 border-b border-400 items-baseline mb-4" do
+      div class: "flex gap-2 border-b border-400 items-baseline mb-8" do
         @tabs.each_with_index do |tab, index|
           button class: "tab", data: button_data(index) do
             tab[:title]

@@ -68,7 +68,7 @@ module Settings
                     "Fixable Feeds"
                   end
                   p class: "text-sm text-500" do
-                    "Feedbin is unable to update some feeds. However there are working alternatives available."
+                    "Feedbin is no longer able to download some feeds from their original source. However, there may be working alternatives available."
                   end
                 end
 

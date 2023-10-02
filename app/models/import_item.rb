@@ -50,7 +50,7 @@ class ImportItem < ApplicationRecord
   end
 
   def human_error
-    return unless failed?
+    return unless failed? || fixable?
     ERRORS[error_class] || "Connection error"
   end
 

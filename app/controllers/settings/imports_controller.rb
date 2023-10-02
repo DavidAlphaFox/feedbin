@@ -47,4 +47,14 @@ class Settings::ImportsController < ApplicationController
       redirect_to settings_import_export_url
     end
   end
+
+  def replace_all
+    @user = current_user
+    @import = @user.imports.find(params[:id])
+    @import.import_items.fixable.each do |import_item|
+      import_item.complete!
+      FeedImportFixer.perform_async(@user.id, import_item.id)
+    end
+    redirect_to settings_import_url(@import), notice: "Imports replaced."
+  end
 end

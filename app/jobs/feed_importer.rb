@@ -64,8 +64,9 @@ class FeedImporter
       )
 
       array.push(discovery)
+    rescue
+      nil
     end
-
 
     discovered_feeds
       .map(&:host)
