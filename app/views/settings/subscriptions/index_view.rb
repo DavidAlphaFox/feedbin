@@ -54,24 +54,28 @@ module Settings
 
       def fix_feeds_notice
         if @user.setting_on?(:fix_feeds_flag) && @subscriptions.any? { _1.fix_suggestion_present? }
-          div(class: "border rounded-lg flex gap-2 p-4 items-center mb-8") do
-            div(class: "flex gap-3") do
+          div(class: "border rounded-lg flex gap-6 p-4 mb-8 bg-100") do
+            div(class: "flex gap-4") do
               div class: "pt-1 flex flex-center shrink-0" do
                 div class: "h-[32px] w-[32px] flex flex-center rounded-full bg-orange-600" do
                   render SvgComponent.new "menu-icon-fix-feeds", class: "fill-white"
                 end
               end
 
-              div(class: "grow") do
-                p do
-                  "Fixable Feeds"
+              div(class: "grow flex gap-2 sm:gap-6 flex-col sm:flex-row sm:items-center") do
+                div(class: "grow") do
+                  p do
+                    "Fixable Feeds"
+                  end
+                  p class: "text-sm text-500" do
+                    "Feedbin is unable to update some feeds. However there are working alternatives available."
+                  end
                 end
-                p class: "text-sm text-500" do
-                  "Feedbin is unable to update some feeds. However there are working alternatives available."
-                end
+
+                link_to "Review Feeds", helpers.fix_feeds_path, class: "whitespace-nowrap shrink-0"
               end
             end
-            link_to "Review Feeds", helpers.fix_feeds_path, class: "whitespace-nowrap shrink-0"
+
           end
         end
       end

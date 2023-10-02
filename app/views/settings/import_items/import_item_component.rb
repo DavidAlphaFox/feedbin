@@ -32,7 +32,7 @@ module Settings
               if helpers.current_user.setting_on?(:fix_feeds_flag) && @import_item.discovered_feeds.present?
                 div class: "border-t p-4" do
                   div(class: "flex gap-2") do
-                    div(class: "pt-1") do
+                    div(class: "pt-1 shrink-0 flex flex-center w-[20px] h-[20px]") do
                       render SvgComponent.new "menu-icon-fix-feeds", class: "fill-700"
                     end
                     div do

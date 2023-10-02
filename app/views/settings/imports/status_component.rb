@@ -64,8 +64,16 @@ module Settings
         if @import.complete?
           tabs
         else
-          p(class: "text-500") do
-            "Import in progress. A detailed report will be available when the import completes."
+
+          div class: "flex flex-center w-full mb-2" do
+            div class: "spinner large"
+          end
+
+          h3(class: "text-700 text-center") do
+            "Import in progress"
+          end
+          p(class: "text-500 text-center") do
+            "A detailed report will be available when the import completes."
           end
         end
       end
