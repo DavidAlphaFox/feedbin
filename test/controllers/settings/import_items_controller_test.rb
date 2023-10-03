@@ -5,9 +5,26 @@ class Settings::ImportItemsControllerTest < ActionController::TestCase
     @user = users(:ben)
   end
 
-  test "fix import" do
+  test "replace feed" do
     login_as @user
-    get :index
-    assert_response :success
+
+    import = @user.imports.create!()
+    item = import.import_items.create!(
+      status: :fixable,
+      details: {
+        title: "Example",
+        xml_url: "http://example.com/feed",
+        html_url: "http://example.com/"
+      }
+    )
+    discovered_feed = DiscoveredFeed.create!(
+      site_url: item.site_url,
+      feed_url: item.feed_url
+    )
+
+    assert_difference -> { FeedImportFixer.jobs.size }, +1 do
+      post :update, params: {id: item.id, discovered_feed: {id: discovered_feed.id} }, xhr: true
+      assert_response :success
+    end
   end
 end
