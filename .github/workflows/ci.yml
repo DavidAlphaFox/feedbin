@@ -73,6 +73,8 @@ jobs:
         run: npm install
 
       - name: Set up Ruby
+        env:
+          BUNDLE_FORCE_RUBY_PLATFORM: "true"
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
