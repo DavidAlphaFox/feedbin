@@ -420,9 +420,6 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.6.0)
-    nokogiri (1.15.5)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.15.5-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.5-x86_64-darwin)
@@ -620,8 +617,6 @@ GEM
       stripe (>= 2.8, < 9)
     strong_migrations (1.6.4)
       activerecord (>= 5.2)
-    tailwindcss-rails (2.0.32)
-      railties (>= 6.0.0)
     tailwindcss-rails (2.0.32-arm64-darwin)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.32-x86_64-darwin)
@@ -672,7 +667,6 @@ GEM
 PLATFORMS
   arm64-darwin-20
   arm64-darwin-22
-  ruby
   x86_64-darwin-20
   x86_64-linux
 
